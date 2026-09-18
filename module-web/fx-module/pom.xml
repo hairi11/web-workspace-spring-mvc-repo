@@ -12,10 +12,21 @@
     <artifactId>fx-module</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <resources>
             <resource>
                 <directory>src</directory>
+                <excludes>
+                    <exclude>main/java/**</exclude>
+                </excludes>
             </resource>
         </resources>
     </build>

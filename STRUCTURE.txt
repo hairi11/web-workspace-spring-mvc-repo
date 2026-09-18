@@ -21,6 +21,8 @@ web-workspace/
     │       ├── action/
     │       ├── controller/
     │       ├── form/
+    │       ├── main/java/com/company/web/fx/controller/
+    │       │   └── FxPageController.java
     │       └── pages/
     │           ├── enquiry.jsp
     │           ├── master.jsp
@@ -38,8 +40,7 @@ web-workspace/
             │   │   │   ├── WebAppInitializer.java
             │   │   │   └── WebMvcConfig.java
             │   │   └── controller/
-            │   │       ├── HomeController.java
-            │   │       └── FxPageController.java
+            │   │       └── HomeController.java
             │   └── webapp/WEB-INF/views/
             │       └── home.jsp
             ├── js/

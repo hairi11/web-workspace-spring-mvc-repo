@@ -18,6 +18,8 @@ web-workspace/
     │       ├── action/
     │       ├── controller/
     │       ├── form/
+    │       ├── main/java/com/company/web/fx/controller/
+    │       │   └── FxPageController.java
     │       └── pages/
     │           ├── enquiry.jsp
     │           ├── master.jsp
@@ -33,6 +35,7 @@ web-workspace/
             │   ├── java/com/company/web/
             │   │   ├── config/
             │   │   └── controller/
+            │   │       └── HomeController.java
             │   └── webapp/WEB-INF/views/home.jsp
             ├── js/
             ├── styles/
