@@ -21,13 +21,59 @@
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src</directory>
-                <excludes>
-                    <exclude>main/java/**</exclude>
-                </excludes>
-            </resource>
-        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>${maven.antrun.version}</version>
+                <executions>
+                    <execution>
+                        <id>npm-install</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="${npm.executable}"
+                                      dir="${project.basedir}"
+                                      failonerror="true">
+                                    <env key="PATH" value="${node.home};${env.PATH}"/>
+                                    <arg value="install"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>npm-build</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="${npm.executable}"
+                                      dir="${project.basedir}"
+                                      failonerror="true">
+                                    <env key="PATH" value="${node.home};${env.PATH}"/>
+                                    <arg value="run"/>
+                                    <arg value="build"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>

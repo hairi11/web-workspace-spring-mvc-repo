@@ -14,19 +14,37 @@ web-workspace/
     ├── pom.xml
     ├── fx-module/
     │   ├── pom.xml
+    │   ├── package.json
+    │   ├── build.mjs
+    │   ├── dev.mjs
     │   └── src/
-    │       ├── FxPage.js
-    │       ├── FxApi.js
-    │       ├── FxService.js
-    │       ├── action/
-    │       ├── controller/
-    │       ├── form/
-    │       ├── main/java/com/company/web/fx/controller/
-    │       │   └── FxPageController.java
-    │       └── pages/
-    │           ├── enquiry.jsp
-    │           ├── master.jsp
-    │           └── transaction.jsp
+    │       └── main/
+    │           ├── java/
+    │           │   └── com/company/web/fx/controller/
+    │           │       └── FxPageController.java
+    │           ├── frontend/
+    │           │   ├── FxApi.js
+    │           │   ├── FxConstants.js
+    │           │   ├── FxPage.js
+    │           │   ├── FxRows.js
+    │           │   ├── FxService.js
+    │           │   ├── vendor.js
+    │           │   ├── action/
+    │           │   │   ├── EnquiryAction.js
+    │           │   │   ├── FxMasterAction.js
+    │           │   │   └── FxTransactionAction.js
+    │           │   ├── controller/
+    │           │   │   ├── FxMasterController.js
+    │           │   │   └── FxTransactionController.js
+    │           │   └── form/
+    │           │       ├── FxMasterForm.js
+    │           │       └── FxTransactionForm.js
+    │           └── resources/
+    │               └── META-INF/resources/
+    │                   └── WEB-INF/views/fx/
+    │                       ├── enquiry.jsp
+    │                       ├── master.jsp
+    │                       └── transaction.jsp
     └── webapp/
         ├── pom.xml
         ├── package.json
@@ -35,14 +53,15 @@ web-workspace/
         ├── dev.mjs
         └── src/
             ├── main/
-            │   ├── java/com/company/web/
-            │   │   ├── config/
-            │   │   │   ├── WebAppInitializer.java
-            │   │   │   └── WebMvcConfig.java
-            │   │   └── controller/
-            │   │       └── HomeController.java
-            │   └── webapp/WEB-INF/views/
-            │       └── home.jsp
-            ├── js/
-            ├── styles/
-            └── module-web.css
+            │   ├── java/
+            │   │   └── com/company/web/
+            │   │       ├── config/
+            │   │       │   ├── WebAppInitializer.java
+            │   │       │   └── WebMvcConfig.java
+            │   │       └── controller/
+            │   │           └── HomeController.java
+            │   └── webapp/
+            │       └── WEB-INF/views/
+            │           └── home.jsp
+            ├── module-web.css
+            └── styles/

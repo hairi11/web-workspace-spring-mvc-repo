@@ -1,29 +1,38 @@
-# Web Workspace - Spring MVC WAR + npm Frontend
+# Web Workspace - Modular Spring MVC WAR
 
-## Structure
+## Architecture
 
 ```text
 web-workspace/
 ├── pom.xml
 ├── common-js-web/
-│   ├── pom.xml
 │   ├── package.json
 │   └── src/
 └── module-web/
     ├── pom.xml
     ├── fx-module/
     │   ├── pom.xml
-    │   └── src/
-    │       ├── FxPage.js
-    │       ├── action/
-    │       ├── controller/
-    │       ├── form/
-    │       ├── main/java/com/company/web/fx/controller/
+    │   ├── package.json
+    │   ├── build.mjs
+    │   ├── dev.mjs
+    │   └── src/main/
+    │       ├── java/com/company/web/fx/controller/
     │       │   └── FxPageController.java
-    │       └── pages/
-    │           ├── enquiry.jsp
-    │           ├── master.jsp
-    │           └── transaction.jsp
+    │       ├── frontend/
+    │       │   ├── FxPage.js
+    │       │   ├── FxApi.js
+    │       │   ├── FxConstants.js
+    │       │   ├── FxRows.js
+    │       │   ├── FxService.js
+    │       │   ├── vendor.js
+    │       │   ├── action/
+    │       │   ├── controller/
+    │       │   └── form/
+    │       └── resources/META-INF/resources/
+    │           └── WEB-INF/views/fx/
+    │               ├── enquiry.jsp
+    │               ├── master.jsp
+    │               └── transaction.jsp
     └── webapp/
         ├── pom.xml
         ├── package.json
@@ -34,13 +43,43 @@ web-workspace/
             ├── main/
             │   ├── java/com/company/web/
             │   │   ├── config/
+            │   │   │   ├── WebAppInitializer.java
+            │   │   │   └── WebMvcConfig.java
             │   │   └── controller/
             │   │       └── HomeController.java
-            │   └── webapp/WEB-INF/views/home.jsp
-            ├── js/
-            ├── styles/
-            └── module-web.css
+            │   └── webapp/WEB-INF/views/
+            │       └── home.jsp
+            ├── module-web.css
+            └── styles/
 ```
+
+## Module ownership
+
+`fx-module` owns the complete FX feature:
+
+- Spring MVC controller
+- FX JSP views
+- FX JavaScript source
+- FX npm/esbuild configuration
+- generated `fx.js`
+
+`webapp` is only the Spring MVC host/WAR and shared web shell. It does not read or copy FX source files.
+
+During the FX Maven build, esbuild writes:
+
+```text
+fx-module/target/classes/
+└── META-INF/resources/
+    ├── WEB-INF/views/fx/
+    │   ├── enquiry.jsp
+    │   ├── master.jsp
+    │   └── transaction.jsp
+    └── fx/
+        ├── fx.js
+        └── fx.js.map
+```
+
+Those files are packaged inside `fx-module.jar`. The final WAR includes that JAR under `WEB-INF/lib`.
 
 ## Spring MVC routes
 
@@ -51,25 +90,31 @@ GET /module-web/fx/master
 GET /module-web/fx/transaction
 ```
 
-Legacy `.html` FX URLs redirect to the Spring MVC routes.
+Legacy `.html` FX URLs redirect to the extensionless Spring MVC routes.
 
-The page flow is now:
+## Runtime flow
 
 ```text
 HTTP request
     ↓
 DispatcherServlet
     ↓
-Spring MVC Controller
+FxPageController from fx-module.jar
     ↓
-JSP under WEB-INF/views
+JSP from fx-module.jar/META-INF/resources/WEB-INF/views/fx
     ↓
-fx.js + common-js-web
+/fx/fx.js from fx-module.jar/META-INF/resources/fx
     ↓
-REST API at http://localhost:8080/api
+common-js-web + REST API
 ```
 
-## Build WAR
+The REST service remains at:
+
+```text
+http://localhost:8080/api
+```
+
+## Build
 
 Requirements:
 
@@ -86,7 +131,17 @@ From the workspace root:
 mvn clean package
 ```
 
-The npm/esbuild build runs during Maven `generate-resources`.
+Maven reactor order:
+
+```text
+common-js-web
+      ↓
+module-web
+      ├── fx-module
+      │      └── builds fx.js into its own JAR
+      └── webapp
+             └── packages module-web.war
+```
 
 WAR output:
 
@@ -96,12 +151,19 @@ module-web\webapp\target\module-web.war
 
 ## Run locally with Jetty
 
-The REST service remains on port `8080`. The web application uses port `8081` locally to avoid a port collision.
+The web application uses port `8081` locally so it does not collide with the REST service on `8080`.
 
-From `module-web\webapp`:
+Build/install the reactor first:
 
 ```bat
-mvn generate-resources compile jetty:run
+mvn clean install
+```
+
+Then:
+
+```bat
+cd module-web\webapp
+mvn jetty:run
 ```
 
 Open:
@@ -111,20 +173,30 @@ http://localhost:8081/module-web/
 http://localhost:8081/module-web/fx/enquiry
 ```
 
-## Frontend live reload
+## Frontend development
 
-Start the Spring MVC application first on port `8081`, then in another terminal from `module-web\webapp`:
+FX frontend ownership is inside `fx-module`:
 
 ```bat
+cd module-web\fx-module
+npm install
 npm run dev
 ```
 
-BrowserSync proxies the Spring MVC application at:
+This watches `src/main/frontend` and writes the FX bundle to:
 
 ```text
-http://localhost:3000/module-web/
+target/classes/META-INF/resources/fx/fx.js
 ```
 
-JavaScript, CSS and JSP source changes are rebuilt/reloaded automatically.
+Shared webapp CSS/resources remain in `webapp`:
 
-Do not edit generated files under `module-web/webapp/dist`.
+```bat
+cd module-web\webapp
+npm install
+npm run dev
+```
+
+The webapp development server uses BrowserSync as a proxy to the Spring MVC app at port `8081`.
+
+Generated build output under `target` or `webapp/dist` must not be edited manually.

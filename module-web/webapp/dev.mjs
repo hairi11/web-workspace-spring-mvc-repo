@@ -1,49 +1,15 @@
 import browserSyncFactory from 'browser-sync';
 import chokidar from 'chokidar';
-import { context } from 'esbuild';
 import path from 'node:path';
 import {
     copyStaticFiles,
-    bundleDefinitions,
-    sharedVendorPlugin,
-    fxViews,
     springViews
 } from './build-common.mjs';
 
 const browserSync = browserSyncFactory.create();
 const root = process.cwd();
-const nodeModules = path.join(root, 'node_modules');
 
 await copyStaticFiles();
-
-const esbuildContexts = [];
-for (const item of bundleDefinitions()) {
-    const ctx = await context({
-        entryPoints: [item.entry],
-        bundle: true,
-        platform: 'browser',
-        format: 'iife',
-        outfile: item.outfile,
-        sourcemap: true,
-        logLevel: 'info',
-        nodePaths: [nodeModules],
-        plugins: [
-            sharedVendorPlugin(item.entry),
-            {
-                name: 'browser-reload',
-                setup(build) {
-                    build.onEnd((result) => {
-                        if (result.errors.length === 0 && browserSync.active) {
-                            browserSync.reload();
-                        }
-                    });
-                }
-            }
-        ]
-    });
-    await ctx.watch();
-    esbuildContexts.push(ctx);
-}
 
 browserSync.init({
     proxy: 'http://localhost:8081',
@@ -57,8 +23,7 @@ browserSync.init({
 const copyWatch = chokidar.watch([
     path.join(root, 'src', 'module-web.css'),
     path.join(root, 'src', 'styles'),
-    springViews,
-    fxViews
+    springViews
 ], {
     ignoreInitial: true,
     awaitWriteFinish: {
@@ -67,24 +32,23 @@ const copyWatch = chokidar.watch([
     }
 });
 
-let staticRefreshQueue = Promise.resolve();
+let refreshQueue = Promise.resolve();
 
-function queueStaticRefresh() {
-    staticRefreshQueue = staticRefreshQueue
+function queueRefresh() {
+    refreshQueue = refreshQueue
         .then(() => copyStaticFiles())
         .then(() => {
             if (browserSync.active) browserSync.reload();
         })
-        .catch((error) => console.error('Static refresh failed:', error));
+        .catch((error) => console.error('Webapp resource refresh failed:', error));
 }
 
-copyWatch.on('add', queueStaticRefresh);
-copyWatch.on('change', queueStaticRefresh);
-copyWatch.on('unlink', queueStaticRefresh);
+copyWatch.on('add', queueRefresh);
+copyWatch.on('change', queueRefresh);
+copyWatch.on('unlink', queueRefresh);
 
 async function shutdown() {
     await copyWatch.close();
-    for (const ctx of esbuildContexts) await ctx.dispose();
     browserSync.exit();
     process.exit(0);
 }
@@ -94,4 +58,3 @@ process.on('SIGTERM', shutdown);
 
 console.log('Spring MVC app expected at http://localhost:8081/module-web/');
 console.log('BrowserSync proxy: http://localhost:3000/module-web/');
-console.log('Source changes rebuild/reload automatically.');

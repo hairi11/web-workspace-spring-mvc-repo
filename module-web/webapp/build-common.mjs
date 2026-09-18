@@ -1,12 +1,10 @@
-import { mkdir, cp, readFile, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, cp, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { transform } from 'esbuild';
 
 const root = process.cwd();
 const distRoot = path.join(root, 'dist', 'module-web');
-const vendorEntry = path.join(root, 'src', 'js', 'vendor.js');
 const springViews = path.join(root, 'src', 'main', 'webapp', 'WEB-INF', 'views');
-const fxViews = path.join(root, '..', 'fx-module', 'src', 'pages');
 
 async function inlineCssImports(filePath, seen) {
     const absolutePath = path.resolve(filePath);
@@ -33,17 +31,8 @@ async function inlineCssImports(filePath, seen) {
 
 async function copySpringViews() {
     const target = path.join(distRoot, 'WEB-INF', 'views');
-
     await mkdir(target, { recursive: true });
     await cp(path.join(springViews, 'home.jsp'), path.join(target, 'home.jsp'));
-
-    const fxTarget = path.join(target, 'fx');
-    await mkdir(fxTarget, { recursive: true });
-
-    for (const file of await readdir(fxViews)) {
-        if (!file.endsWith('.jsp')) continue;
-        await cp(path.join(fxViews, file), path.join(fxTarget, file));
-    }
 }
 
 export async function bundleStyles(minify) {
@@ -62,7 +51,6 @@ export async function copyStaticFiles(options) {
     await mkdir(path.join(distRoot, 'assets'), { recursive: true });
     await mkdir(path.join(distRoot, 'assets', 'styles'), { recursive: true });
     await mkdir(path.join(distRoot, 'webfonts'), { recursive: true });
-    await mkdir(path.join(distRoot, 'fx'), { recursive: true });
 
     await copySpringViews();
 
@@ -79,24 +67,4 @@ export async function copyStaticFiles(options) {
     await bundleStyles(options.minifyCss === true);
 }
 
-export function bundleDefinitions() {
-    return [
-        { name: 'fx', entry: path.join(root, '..', 'fx-module', 'src', 'FxPage.js'), outfile: path.join(distRoot, 'fx', 'fx.js') }
-    ];
-}
-
-export function sharedVendorPlugin(entryFile) {
-    const normalizedEntry = path.resolve(entryFile);
-    return {
-        name: 'shared-vendor-bootstrap',
-        setup(buildContext) {
-            buildContext.onLoad({ filter: /\.js$/ }, async (args) => {
-                if (path.resolve(args.path) !== normalizedEntry) return null;
-                const source = await readFile(args.path, 'utf8');
-                return { contents: `import ${JSON.stringify(vendorEntry)};\n${source}`, loader: 'js' };
-            });
-        }
-    };
-}
-
-export { distRoot, fxViews, springViews };
+export { distRoot, springViews };
