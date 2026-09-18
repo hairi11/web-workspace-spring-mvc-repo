@@ -3,10 +3,10 @@ import path from 'node:path';
 import { context } from 'esbuild';
 
 const root = process.cwd();
-const frontendRoot = path.join(root, 'src', 'main', 'frontend');
+const resourceRoot = path.join(root, 'src', 'main', 'resources', 'fx');
 const outputDir = path.join(root, 'target', 'classes', 'META-INF', 'resources', 'fx');
-const entry = path.join(frontendRoot, 'FxPage.js');
-const vendorEntry = path.join(frontendRoot, 'vendor.js');
+const entry = path.join(resourceRoot, 'FxPage.js');
+const vendorEntry = path.join(resourceRoot, 'vendor.js');
 const nodeModules = path.join(root, 'node_modules');
 
 function sharedVendorPlugin(entryFile) {

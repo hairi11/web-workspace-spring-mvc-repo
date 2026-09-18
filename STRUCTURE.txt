@@ -22,24 +22,24 @@ web-workspace/
     │           ├── java/
     │           │   └── com/company/web/fx/controller/
     │           │       └── FxPageController.java
-    │           ├── frontend/
-    │           │   ├── FxApi.js
-    │           │   ├── FxConstants.js
-    │           │   ├── FxPage.js
-    │           │   ├── FxRows.js
-    │           │   ├── FxService.js
-    │           │   ├── vendor.js
-    │           │   ├── action/
-    │           │   │   ├── EnquiryAction.js
-    │           │   │   ├── FxMasterAction.js
-    │           │   │   └── FxTransactionAction.js
-    │           │   ├── controller/
-    │           │   │   ├── FxMasterController.js
-    │           │   │   └── FxTransactionController.js
-    │           │   └── form/
-    │           │       ├── FxMasterForm.js
-    │           │       └── FxTransactionForm.js
     │           └── resources/
+    │               ├── fx/
+    │               │   ├── FxApi.js
+    │               │   ├── FxConstants.js
+    │               │   ├── FxPage.js
+    │               │   ├── FxRows.js
+    │               │   ├── FxService.js
+    │               │   ├── vendor.js
+    │               │   ├── action/
+    │               │   │   ├── EnquiryAction.js
+    │               │   │   ├── FxMasterAction.js
+    │               │   │   └── FxTransactionAction.js
+    │               │   ├── controller/
+    │               │   │   ├── FxMasterController.js
+    │               │   │   └── FxTransactionController.js
+    │               │   └── form/
+    │               │       ├── FxMasterForm.js
+    │               │       └── FxTransactionForm.js
     │               └── META-INF/resources/
     │                   └── WEB-INF/views/fx/
     │                       ├── enquiry.jsp

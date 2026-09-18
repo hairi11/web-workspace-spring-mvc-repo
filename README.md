@@ -18,18 +18,19 @@ web-workspace/
     │   └── src/main/
     │       ├── java/com/company/web/fx/controller/
     │       │   └── FxPageController.java
-    │       ├── frontend/
-    │       │   ├── FxPage.js
-    │       │   ├── FxApi.js
-    │       │   ├── FxConstants.js
-    │       │   ├── FxRows.js
-    │       │   ├── FxService.js
-    │       │   ├── vendor.js
-    │       │   ├── action/
-    │       │   ├── controller/
-    │       │   └── form/
-    │       └── resources/META-INF/resources/
-    │           └── WEB-INF/views/fx/
+    │       └── resources/
+    │           ├── fx/
+    │           │   ├── FxPage.js
+    │           │   ├── FxApi.js
+    │           │   ├── FxConstants.js
+    │           │   ├── FxRows.js
+    │           │   ├── FxService.js
+    │           │   ├── vendor.js
+    │           │   ├── action/
+    │           │   ├── controller/
+    │           │   └── form/
+    │           └── META-INF/resources/
+    │               └── WEB-INF/views/fx/
     │               ├── enquiry.jsp
     │               ├── master.jsp
     │               └── transaction.jsp
@@ -183,7 +184,7 @@ npm install
 npm run dev
 ```
 
-This watches `src/main/frontend` and writes the FX bundle to:
+This watches `src/main/resources/fx` and writes the FX bundle to:
 
 ```text
 target/classes/META-INF/resources/fx/fx.js
