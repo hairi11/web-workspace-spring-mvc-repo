@@ -13,8 +13,6 @@ import {
 const browserSync = browserSyncFactory.create();
 const root = process.cwd();
 const nodeModules = path.join(root, 'node_modules');
-const userPages = path.join(root, '..', 'user', 'src', 'pages');
-const todoPages = path.join(root, '..', 'todos', 'src', 'pages');
 const fxPages = path.join(root, '..', 'fx-module', 'src', 'pages');
 
 await copyStaticFiles();
@@ -49,8 +47,6 @@ browserSync.init({
    so local edits and files replaced by git pull are detected reliably. */
 const copyWatch = chokidar.watch([
     path.join(root, 'src'),
-    userPages,
-    todoPages,
     fxPages
 ], {
     ignoreInitial: true,
@@ -75,10 +71,6 @@ async function refreshStatic(filePath) {
         await copyStaticFiles();
     } else if (normalized === path.join(root, 'src', 'index.html')) {
         await cp(normalized, path.join(distRoot, 'index.html'));
-    } else if (isInside(normalized, userPages) && normalized.endsWith('.html')) {
-        await cp(normalized, path.join(distRoot, 'user', path.basename(normalized)));
-    } else if (isInside(normalized, todoPages) && normalized.endsWith('.html')) {
-        await cp(normalized, path.join(distRoot, 'todos', path.basename(normalized)));
     } else if (isInside(normalized, fxPages) && normalized.endsWith('.html')) {
         await cp(normalized, path.join(distRoot, 'fx', path.basename(normalized)));
     } else {

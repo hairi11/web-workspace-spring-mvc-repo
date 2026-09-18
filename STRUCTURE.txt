@@ -12,30 +12,13 @@ web-workspace/
 │   └── examples/
 └── module-web/
     ├── pom.xml
-    ├── user/
+    ├── fx-module/
     │   ├── pom.xml
     │   └── src/
-    │       ├── UserApi.js
-    │       ├── UserService.js
-    │       ├── UserFormAction.js
-    │       ├── UserPage.js
+    │       ├── FxPage.js
+    │       ├── controller/
+    │       ├── form/
     │       └── pages/
-    │           ├── enquiry.html
-    │           ├── create.html
-    │           ├── update.html
-    │           └── view.html
-    ├── todos/
-    │   ├── pom.xml
-    │   └── src/
-    │       ├── TodoApi.js
-    │       ├── TodoService.js
-    │       ├── TodoFormAction.js
-    │       ├── TodoPage.js
-    │       └── pages/
-    │           ├── enquiry.html
-    │           ├── create.html
-    │           ├── update.html
-    │           └── view.html
     └── webapp/
         ├── pom.xml
         ├── package.json

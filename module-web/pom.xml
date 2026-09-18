@@ -13,8 +13,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>user</module>
-        <module>todos</module>
         <module>fx-module</module>
         <module>webapp</module>
     </modules>

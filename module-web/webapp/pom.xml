@@ -12,20 +12,6 @@
     <artifactId>module-web-webapp</artifactId>
     <packaging>war</packaging>
 
-    <!-- Reactor dependencies: ensure feature modules build before the final WAR -->
-    <dependencies>
-        <dependency>
-            <groupId>com.company.web</groupId>
-            <artifactId>user-module</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.company.web</groupId>
-            <artifactId>todos-module</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
-
     <build>
         <finalName>module-web</finalName>
 
@@ -93,14 +79,8 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
 
-                    <!-- Do not package the resource-module JARs into WEB-INF/lib. -->
-                    <packagingExcludes>
-                        WEB-INF/lib/user-module-*.jar,
-                        WEB-INF/lib/todos-module-*.jar
-                    </packagingExcludes>
-
                     <!-- npm build creates dist/module-web.
-                         Copy its CONTENTS to WAR root. -->
+                         Copy its contents to the WAR root. -->
                     <webResources>
                         <resource>
                             <directory>${project.basedir}/dist/module-web</directory>

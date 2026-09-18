@@ -1,4 +1,3 @@
-\
 # Web Workspace - WAR + npm Development
 
 ## Structure
@@ -14,51 +13,28 @@ web-workspace/
 │   └── docs/
 └── module-web/
     ├── pom.xml
-    ├── user/
+    ├── fx-module/
     │   ├── pom.xml
     │   └── src/
-    │       ├── UserApi.js
-    │       ├── UserService.js
-    │       ├── UserFormAction.js
-    │       ├── UserPage.js
-    │       └── pages/
-    │           ├── enquiry.html
-    │           ├── create.html
-    │           ├── update.html
-    │           └── view.html
-    ├── todos/
-    │   ├── pom.xml
-    │   └── src/
-    │       ├── TodoApi.js
-    │       ├── TodoService.js
-    │       ├── TodoFormAction.js
-    │       ├── TodoPage.js
-    │       └── pages/
-    │           ├── enquiry.html
-    │           ├── create.html
-    │           ├── update.html
-    │           └── view.html
     └── webapp/
         ├── pom.xml
         ├── package.json
         ├── build.mjs
+        ├── build-common.mjs
         ├── dev.mjs
         └── src/
 ```
 
-`user` and `todos` are separate Maven modules.
+`fx-module` contains the feature source.
 
-`webapp` is the ONLY WAR, so runtime still has ONE context path:
+`webapp` is the only WAR, so runtime has one context path:
 
 ```text
 /module-web/
-├── user/
-└── todos/
+└── fx/
 ```
 
----
-
-# 1. Development using npm
+## Development using npm
 
 Go to:
 
@@ -82,27 +58,19 @@ Open:
 
 ```text
 http://localhost:3000/module-web/
-http://localhost:3000/module-web/user/enquiry.html
-http://localhost:3000/module-web/todos/enquiry.html
+http://localhost:3000/module-web/fx/enquiry.html
 ```
 
-`npm run dev` provides:
+`npm run dev` provides esbuild watch, HTML/CSS source watching, automatic rebuild, and BrowserSync reload.
 
-- esbuild watch for User JavaScript
-- esbuild watch for Todos JavaScript
-- HTML/CSS source watching
-- automatic rebuild
-- automatic browser reload through BrowserSync
-
-You edit source files directly in:
+Edit source files directly in:
 
 ```text
-module-web/user/src/
-module-web/todos/src/
+module-web/fx-module/src/
 module-web/webapp/src/
 ```
 
-Do NOT edit generated files under `webapp/dist`.
+Do not edit generated files under `webapp/dist`.
 
 ## Static npm serve without watch
 
@@ -117,9 +85,7 @@ Then open:
 http://localhost:3000/module-web/
 ```
 
----
-
-# 2. Build WAR using Maven
+## Build WAR using Maven
 
 Requirements used by this workspace:
 
@@ -130,19 +96,13 @@ Node 24 LTS
 npm 11+
 ```
 
-Default Maven Node location:
-
-```text
-C:\Program Files\nodejs
-```
-
-If Node is elsewhere:
+If Node is installed somewhere else:
 
 ```bat
 mvn clean package -Dnode.home="D:\Tools\nodejs"
 ```
 
-From workspace root:
+From the workspace root:
 
 ```bat
 mvn clean package
@@ -154,8 +114,7 @@ Maven reactor:
 common-js-web
       ↓
 module-web
-      ├── user
-      ├── todos
+      ├── fx-module
       └── webapp
              ↓
         module-web.war
@@ -167,46 +126,9 @@ WAR output:
 module-web\webapp\target\module-web.war
 ```
 
-Deploy that ONE WAR to Tomcat:
-
-```text
-apache-tomcat\webapps\module-web.war
-```
-
-Then:
+Deploy that WAR to Tomcat and open:
 
 ```text
 http://localhost:8080/module-web/
-http://localhost:8080/module-web/user/enquiry.html
-http://localhost:8080/module-web/todos/enquiry.html
+http://localhost:8080/module-web/fx/enquiry.html
 ```
-
----
-
-# REST API
-
-User:
-
-```text
-GET  https://jsonplaceholder.typicode.com/users
-GET  https://jsonplaceholder.typicode.com/users/{id}
-POST https://jsonplaceholder.typicode.com/users
-```
-
-Todos:
-
-```text
-GET  https://jsonplaceholder.typicode.com/todos
-GET  https://jsonplaceholder.typicode.com/todos/{id}
-POST https://jsonplaceholder.typicode.com/todos
-```
-
-The example intentionally uses GET and POST only.
-
-For the project convention:
-
-- Create = POST
-- Update = POST with `action: "update"`
-- Delete = POST with `action: "delete"`
-
-JSONPlaceholder is a fake REST API, so POST operations are not persisted.
