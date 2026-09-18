@@ -1,4 +1,23 @@
+# Maven
 **/target/
+
+# Node
 **/node_modules/
-module-web/webapp/dist/
+**/dist/
+
+# Logs
 *.log
+
+# Eclipse
+**/.classpath
+**/.project
+**/.settings/
+**/.factorypath
+
+# IntelliJ IDEA
+**/.idea/
+**/*.iml
+
+# OS
+.DS_Store
+Thumbs.db
