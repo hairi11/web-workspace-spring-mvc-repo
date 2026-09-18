@@ -1,10 +1,12 @@
-import { mkdir, cp, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, cp, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { transform } from 'esbuild';
 
 const root = process.cwd();
 const distRoot = path.join(root, 'dist', 'module-web');
 const vendorEntry = path.join(root, 'src', 'js', 'vendor.js');
+const springViews = path.join(root, 'src', 'main', 'webapp', 'WEB-INF', 'views');
+const fxViews = path.join(root, '..', 'fx-module', 'src', 'pages');
 
 async function inlineCssImports(filePath, seen) {
     const absolutePath = path.resolve(filePath);
@@ -29,6 +31,21 @@ async function inlineCssImports(filePath, seen) {
     return output;
 }
 
+async function copySpringViews() {
+    const target = path.join(distRoot, 'WEB-INF', 'views');
+
+    await mkdir(target, { recursive: true });
+    await cp(path.join(springViews, 'home.jsp'), path.join(target, 'home.jsp'));
+
+    const fxTarget = path.join(target, 'fx');
+    await mkdir(fxTarget, { recursive: true });
+
+    for (const file of await readdir(fxViews)) {
+        if (!file.endsWith('.jsp')) continue;
+        await cp(path.join(fxViews, file), path.join(fxTarget, file));
+    }
+}
+
 export async function bundleStyles(minify) {
     const entry = path.join(distRoot, 'assets', 'module-web.css');
     const bundled = await inlineCssImports(entry);
@@ -47,10 +64,10 @@ export async function copyStaticFiles(options) {
     await mkdir(path.join(distRoot, 'webfonts'), { recursive: true });
     await mkdir(path.join(distRoot, 'fx'), { recursive: true });
 
-    await cp(path.join(root, 'src', 'index.html'), path.join(distRoot, 'index.html'));
+    await copySpringViews();
+
     await cp(path.join(root, 'src', 'module-web.css'), path.join(distRoot, 'assets', 'module-web.css'));
     await cp(path.join(root, 'src', 'styles'), path.join(distRoot, 'assets', 'styles'), { recursive: true });
-    await cp(path.join(root, '..', 'fx-module', 'src', 'pages'), path.join(distRoot, 'fx'), { recursive: true });
     await cp(path.join(root, 'node_modules', 'bootstrap', 'dist', 'css', 'bootstrap.min.css'), path.join(distRoot, 'assets', 'bootstrap.min.css'));
     await cp(path.join(root, 'node_modules', 'datatables.net-bs5', 'css', 'dataTables.bootstrap5.min.css'), path.join(distRoot, 'assets', 'dataTables.bootstrap5.min.css'));
     await cp(path.join(root, 'node_modules', 'datatables.net-select-bs5', 'css', 'select.bootstrap5.min.css'), path.join(distRoot, 'assets', 'select.bootstrap5.min.css'));
@@ -82,4 +99,4 @@ export function sharedVendorPlugin(entryFile) {
     };
 }
 
-export { distRoot };
+export { distRoot, fxViews, springViews };

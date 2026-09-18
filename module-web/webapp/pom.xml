@@ -12,10 +12,34 @@
     <artifactId>module-web-webapp</artifactId>
     <packaging>war</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>module-web</finalName>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -65,11 +89,21 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>10.0.26</version>
                 <configuration>
+                    <httpConnector>
+                        <port>8081</port>
+                    </httpConnector>
                     <webApp>
                         <contextPath>/module-web</contextPath>
                         <resourceBase>${project.basedir}/dist/module-web</resourceBase>
                     </webApp>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>apache-jsp</artifactId>
+                        <version>10.0.26</version>
+                    </dependency>
+                </dependencies>
             </plugin>
 
             <plugin>
@@ -78,15 +112,7 @@
                 <version>${maven.war.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-
-                    <!-- npm build creates dist/module-web.
-                         Copy its contents to the WAR root. -->
-                    <webResources>
-                        <resource>
-                            <directory>${project.basedir}/dist/module-web</directory>
-                            <targetPath>/</targetPath>
-                        </resource>
-                    </webResources>
+                    <warSourceDirectory>${project.basedir}/dist/module-web</warSourceDirectory>
                 </configuration>
             </plugin>
         </plugins>

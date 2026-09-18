@@ -100,7 +100,7 @@ class FxTransactionAction {
             rowsKey: this.rowsKey,
             returnTo: this.returnTo
         });
-        window.location.href = './transaction.html';
+        window.location.href = './transaction';
     }
 
     navigateTo(target) {
@@ -108,11 +108,11 @@ class FxTransactionAction {
 
         if (destination.page === 'master') {
             NavigationState.set(destination);
-            window.location.href = './master.html';
+            window.location.href = './master';
             return;
         }
 
-        window.location.href = './enquiry.html';
+        window.location.href = './enquiry';
     }
 }
 

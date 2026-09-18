@@ -72,7 +72,7 @@ class FxTransactionController {
         const rows = isView ? null : FxRows.get(context.rowsKey);
 
         if (!isView && !rows) {
-            window.location.href = './enquiry.html';
+            window.location.href = './enquiry';
             return null;
         }
 

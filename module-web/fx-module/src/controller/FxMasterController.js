@@ -17,7 +17,7 @@ class FxMasterController {
             // LOAD
             const data = await this.load(context);
             if (!data || !data.master) {
-                window.location.href = './enquiry.html';
+                window.location.href = './enquiry';
                 return;
             }
 

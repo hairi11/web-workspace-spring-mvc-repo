@@ -1,16 +1,17 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FX Master</title>
-    <link rel="stylesheet" href="../assets/module-web.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/module-web.css">
 </head>
 <body data-page="master">
 <main>
     <nav>
-        <a class="button" href="../index.html">Modules</a>
-        <a class="button" href="./enquiry.html">FX Enquiry</a>
+        <a class="button" href="${pageContext.request.contextPath}/">Modules</a>
+        <a class="button" href="${pageContext.request.contextPath}/fx/enquiry">FX Enquiry</a>
     </nav>
 
     <h1>FX Master</h1>
@@ -56,10 +57,10 @@
             <button id="saveButton" type="submit" name="action" value="save">Save Draft</button>
             <button id="cancelButton" type="button">Cancel</button>
             <button id="deleteButton" type="button">Delete</button>
-            <a id="backButton" class="button" href="./enquiry.html">Back</a>
+            <a id="backButton" class="button" href="${pageContext.request.contextPath}/fx/enquiry">Back</a>
         </div>
     </form>
 </main>
-<script src="./fx.js"></script>
+<script src="${pageContext.request.contextPath}/fx/fx.js"></script>
 </body>
 </html>

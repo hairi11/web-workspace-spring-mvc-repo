@@ -16,6 +16,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.version>3.11.0</maven.compiler.version>
+
+        <!-- Spring 5 keeps this workspace on the javax.servlet stack used by Jetty 10. -->
+        <spring.version>5.3.39</spring.version>
+        <servlet.api.version>4.0.1</servlet.api.version>
+
         <!-- Compatible with Maven 3.5.4 -->
         <maven.antrun.version>3.1.0</maven.antrun.version>
         <maven.war.version>3.3.2</maven.war.version>

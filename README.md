@@ -1,4 +1,4 @@
-# Web Workspace - WAR + npm Development
+# Web Workspace - Spring MVC WAR + npm Frontend
 
 ## Structure
 
@@ -8,14 +8,20 @@ web-workspace/
 ├── common-js-web/
 │   ├── pom.xml
 │   ├── package.json
-│   ├── src/
-│   ├── test/
-│   └── docs/
+│   └── src/
 └── module-web/
     ├── pom.xml
     ├── fx-module/
     │   ├── pom.xml
     │   └── src/
+    │       ├── FxPage.js
+    │       ├── action/
+    │       ├── controller/
+    │       ├── form/
+    │       └── pages/
+    │           ├── enquiry.jsp
+    │           ├── master.jsp
+    │           └── transaction.jsp
     └── webapp/
         ├── pom.xml
         ├── package.json
@@ -23,83 +29,52 @@ web-workspace/
         ├── build-common.mjs
         ├── dev.mjs
         └── src/
+            ├── main/
+            │   ├── java/com/company/web/
+            │   │   ├── config/
+            │   │   └── controller/
+            │   └── webapp/WEB-INF/views/home.jsp
+            ├── js/
+            ├── styles/
+            └── module-web.css
 ```
 
-`fx-module` contains the feature source.
-
-`webapp` is the only WAR, so runtime has one context path:
+## Spring MVC routes
 
 ```text
-/module-web/
-└── fx/
+GET /module-web/
+GET /module-web/fx/enquiry
+GET /module-web/fx/master
+GET /module-web/fx/transaction
 ```
 
-## Development using npm
+Legacy `.html` FX URLs redirect to the Spring MVC routes.
 
-Go to:
-
-```bat
-cd module-web\webapp
-```
-
-Install once:
-
-```bat
-npm install
-```
-
-Start development mode:
-
-```bat
-npm run dev
-```
-
-Open:
+The page flow is now:
 
 ```text
-http://localhost:3000/module-web/
-http://localhost:3000/module-web/fx/enquiry.html
+HTTP request
+    ↓
+DispatcherServlet
+    ↓
+Spring MVC Controller
+    ↓
+JSP under WEB-INF/views
+    ↓
+fx.js + common-js-web
+    ↓
+REST API at http://localhost:8080/api
 ```
 
-`npm run dev` provides esbuild watch, HTML/CSS source watching, automatic rebuild, and BrowserSync reload.
+## Build WAR
 
-Edit source files directly in:
-
-```text
-module-web/fx-module/src/
-module-web/webapp/src/
-```
-
-Do not edit generated files under `webapp/dist`.
-
-## Static npm serve without watch
-
-```bat
-npm run build
-npm run serve
-```
-
-Then open:
-
-```text
-http://localhost:3000/module-web/
-```
-
-## Build WAR using Maven
-
-Requirements used by this workspace:
+Requirements:
 
 ```text
 JDK 17
 Maven 3.5.4+
-Node 24 LTS
-npm 11+
-```
-
-If Node is installed somewhere else:
-
-```bat
-mvn clean package -Dnode.home="D:\Tools\nodejs"
+Node 22
+npm 10+
 ```
 
 From the workspace root:
@@ -108,17 +83,7 @@ From the workspace root:
 mvn clean package
 ```
 
-Maven reactor:
-
-```text
-common-js-web
-      ↓
-module-web
-      ├── fx-module
-      └── webapp
-             ↓
-        module-web.war
-```
+The npm/esbuild build runs during Maven `generate-resources`.
 
 WAR output:
 
@@ -126,9 +91,37 @@ WAR output:
 module-web\webapp\target\module-web.war
 ```
 
-Deploy that WAR to Tomcat and open:
+## Run locally with Jetty
+
+The REST service remains on port `8080`. The web application uses port `8081` locally to avoid a port collision.
+
+From `module-web\webapp`:
+
+```bat
+mvn generate-resources compile jetty:run
+```
+
+Open:
 
 ```text
-http://localhost:8080/module-web/
-http://localhost:8080/module-web/fx/enquiry.html
+http://localhost:8081/module-web/
+http://localhost:8081/module-web/fx/enquiry
 ```
+
+## Frontend live reload
+
+Start the Spring MVC application first on port `8081`, then in another terminal from `module-web\webapp`:
+
+```bat
+npm run dev
+```
+
+BrowserSync proxies the Spring MVC application at:
+
+```text
+http://localhost:3000/module-web/
+```
+
+JavaScript, CSS and JSP source changes are rebuilt/reloaded automatically.
+
+Do not edit generated files under `module-web/webapp/dist`.

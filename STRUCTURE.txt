@@ -16,9 +16,15 @@ web-workspace/
     │   ├── pom.xml
     │   └── src/
     │       ├── FxPage.js
+    │       ├── FxApi.js
+    │       ├── FxService.js
+    │       ├── action/
     │       ├── controller/
     │       ├── form/
     │       └── pages/
+    │           ├── enquiry.jsp
+    │           ├── master.jsp
+    │           └── transaction.jsp
     └── webapp/
         ├── pom.xml
         ├── package.json
@@ -26,5 +32,16 @@ web-workspace/
         ├── build-common.mjs
         ├── dev.mjs
         └── src/
-            ├── index.html
+            ├── main/
+            │   ├── java/com/company/web/
+            │   │   ├── config/
+            │   │   │   ├── WebAppInitializer.java
+            │   │   │   └── WebMvcConfig.java
+            │   │   └── controller/
+            │   │       ├── HomeController.java
+            │   │       └── FxPageController.java
+            │   └── webapp/WEB-INF/views/
+            │       └── home.jsp
+            ├── js/
+            ├── styles/
             └── module-web.css

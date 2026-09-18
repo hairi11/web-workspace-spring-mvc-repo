@@ -1,16 +1,17 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FX Transaction</title>
-    <link rel="stylesheet" href="../assets/module-web.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/module-web.css">
 </head>
 <body data-page="transaction">
 <main>
     <nav>
-        <a class="button" href="../index.html">Modules</a>
-        <a class="button" href="./enquiry.html">FX Enquiry</a>
+        <a class="button" href="${pageContext.request.contextPath}/">Modules</a>
+        <a class="button" href="${pageContext.request.contextPath}/fx/enquiry">FX Enquiry</a>
     </nav>
 
     <h1>FX Transaction</h1>
@@ -81,33 +82,21 @@
 
         <div id="transactionButtonBar" class="button-bar">
             <div class="button-bar-nav">
-                <a
-                    id="previousButton"
-                    class="navigator-link"
-                    href="#"
-                    aria-label="Previous transaction"
-                    title="Previous transaction"
-                >
+                <a id="previousButton" class="navigator-link" href="#" aria-label="Previous transaction" title="Previous transaction">
                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
                     <span>Previous</span>
                 </a>
-                <a
-                    id="nextButton"
-                    class="navigator-link"
-                    href="#"
-                    aria-label="Next transaction"
-                    title="Next transaction"
-                >
+                <a id="nextButton" class="navigator-link" href="#" aria-label="Next transaction" title="Next transaction">
                     <span>Next</span>
                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                 </a>
             </div>
 
             <button id="transactionSubmitButton" type="submit">Add</button>
-            <a id="cancelButton" class="button" href="./master.html">Cancel</a>
+            <a id="cancelButton" class="button" href="${pageContext.request.contextPath}/fx/master">Cancel</a>
         </div>
     </form>
 </main>
-<script src="./fx.js"></script>
+<script src="${pageContext.request.contextPath}/fx/fx.js"></script>
 </body>
 </html>

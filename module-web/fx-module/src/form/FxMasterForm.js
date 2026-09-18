@@ -54,7 +54,6 @@ class FxMasterForm extends FormAction {
             Toast.error('Add at least one FX transaction.');
             return false;
         }
-
     }
 
     sendRequest(context) {
@@ -84,7 +83,7 @@ class FxMasterForm extends FormAction {
         });
 
         window.setTimeout(() => {
-            window.location.href = './master.html';
+            window.location.href = './master';
         }, 300);
     }
 

@@ -6,7 +6,6 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && node build.mjs",
-    "serve": "browser-sync start --server dist --startPath /module-web/ --no-open",
     "dev": "node dev.mjs"
   },
   "dependencies": {

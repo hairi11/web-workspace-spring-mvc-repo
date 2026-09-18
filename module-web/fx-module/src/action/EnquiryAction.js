@@ -8,10 +8,7 @@ const { DataTableBuilder, NavigationState, Renderers, Toast } = Common;
 let table = null;
 
 export function initEnquiry() {
-    // BUILD - DataTable handles remote LOAD through serverPage().
     table = buildTable();
-
-    // BIND
     bindCreateButton();
     bindReloadButton();
 }
@@ -119,7 +116,7 @@ function openTransaction(mode, key, rowsKey, returnTo) {
         rowsKey: rowsKey,
         returnTo: returnTo
     });
-    window.location.href = './transaction.html';
+    window.location.href = './transaction';
 }
 
 function bindReloadButton() {

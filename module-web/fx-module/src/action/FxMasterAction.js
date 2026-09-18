@@ -33,7 +33,6 @@ class FxMasterAction {
 
     build() {
         const editing = this.mode === MasterMode.EDIT;
-
         this.table = this.buildTable();
 
         this.addButton = new Button('#addTransactionButton', {
@@ -160,7 +159,7 @@ class FxMasterAction {
     }
 
     cancel() {
-        window.location.href = './enquiry.html';
+        window.location.href = './enquiry';
     }
 
     hasPersistedMaster() {
@@ -182,7 +181,7 @@ class FxMasterAction {
             await FxService.deleteMaster(this.master.id);
             FxRows.clear(this.rowsKey);
             Toast.success('FX master deleted.');
-            window.location.href = './enquiry.html';
+            window.location.href = './enquiry';
         } catch (error) {
             Toast.error('Failed to delete FX master.');
             logger.error(error);
@@ -201,7 +200,7 @@ class FxMasterAction {
                 rowsKey: this.rowsKey
             }
         });
-        window.location.href = './transaction.html';
+        window.location.href = './transaction';
     }
 
     async removeTransaction(row) {

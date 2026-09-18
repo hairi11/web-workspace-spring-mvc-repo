@@ -148,7 +148,7 @@ class FxTransactionForm extends FormAction {
             action: MasterMode.EDIT,
             rowsKey: this.options.rowsKey
         });
-        window.location.href = './master.html';
+        window.location.href = './master';
         return false;
     }
 
