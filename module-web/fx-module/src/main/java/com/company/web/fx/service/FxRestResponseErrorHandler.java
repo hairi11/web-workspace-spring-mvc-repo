@@ -3,28 +3,18 @@ package com.company.web.fx.service;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.client.ResponseErrorHandler;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 
 public class FxRestResponseErrorHandler
-        implements ResponseErrorHandler {
+        extends DefaultResponseErrorHandler {
 
     private final FxJsonCaseConverter caseConverter;
 
     public FxRestResponseErrorHandler(
             FxJsonCaseConverter caseConverter) {
         this.caseConverter = caseConverter;
-    }
-
-    @Override
-    public boolean hasError(
-            ClientHttpResponse response)
-            throws IOException {
-        HttpStatus status = response.getStatusCode();
-        return status.is4xxClientError()
-                || status.is5xxServerError();
     }
 
     @Override
