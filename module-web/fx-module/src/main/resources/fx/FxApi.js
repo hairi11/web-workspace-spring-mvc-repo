@@ -1,12 +1,12 @@
-const BASE_URL = 'http://localhost:8080/api';
+const BASE_URL = './api';
 
 const FxApi = {
-    enquiry: BASE_URL + '/fx/enquiry',
-    references: BASE_URL + '/fx/references',
-    validateDate: BASE_URL + '/fx/validate-date',
-    masters: BASE_URL + '/fx-masters',
-    save: BASE_URL + '/fx/save',
-    submit: BASE_URL + '/fx/submit',
+    enquiry: BASE_URL + '/enquiry',
+    references: BASE_URL + '/references',
+    validateDate: BASE_URL + '/validate-date',
+    masters: BASE_URL + '/masters',
+    save: BASE_URL + '/save',
+    submit: BASE_URL + '/submit',
 
     masterById: function (id) {
         return this.masters + '/' + encodeURIComponent(id);
@@ -17,7 +17,7 @@ const FxApi = {
     },
 
     transactionById: function (id) {
-        return BASE_URL + '/fx-transactions/' + encodeURIComponent(id);
+        return BASE_URL + '/transactions/' + encodeURIComponent(id);
     }
 };
 

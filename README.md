@@ -16,8 +16,12 @@ web-workspace/
     │   ├── build.mjs
     │   ├── dev.mjs
     │   └── src/main/
-    │       ├── java/com/company/web/fx/controller/
-    │       │   └── FxPageController.java
+    │       ├── java/com/company/web/fx/
+    │       │   ├── controller/
+    │       │   │   ├── FxPageController.java
+    │       │   │   └── FxApiController.java
+    │       │   └── service/
+    │       │       └── FxRestClient.java
     │       └── resources/
     │           ├── fx/
     │           │   ├── FxPage.js
@@ -114,23 +118,31 @@ Legacy `.html` FX URLs redirect to the extensionless Spring MVC routes.
 ## Runtime flow
 
 ```text
-HTTP request
+Page request
     ↓
-DispatcherServlet
+FxPageController
     ↓
-FxPageController from fx-module.jar
+JSP + fx.js
     ↓
-JSP from fx-module.jar/META-INF/resources/WEB-INF/views/fx
+/fx/api/* (Spring MVC)
     ↓
-/fx/fx.js from fx-module.jar/META-INF/resources/fx
+FxApiController
     ↓
-common-js-web + REST API
+FxRestClient
+    ↓
+REST API at http://localhost:8080/api
 ```
 
-The REST service remains at:
+The browser no longer calls the REST service directly. Only Java code in `FxRestClient` calls:
 
 ```text
 http://localhost:8080/api
+```
+
+The REST base URL can be overridden with the JVM system property:
+
+```text
+-Dfx.api.base-url=http://host:port/api
 ```
 
 ## Build

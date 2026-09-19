@@ -20,8 +20,12 @@ web-workspace/
     │   └── src/
     │       └── main/
     │           ├── java/
-    │           │   └── com/company/web/fx/controller/
-    │           │       └── FxPageController.java
+    │           │   └── com/company/web/fx/
+    │           │       ├── controller/
+    │           │       │   ├── FxPageController.java
+    │           │       │   └── FxApiController.java
+    │           │       └── service/
+    │           │           └── FxRestClient.java
     │           └── resources/
     │               ├── fx/
     │               │   ├── FxApi.js
