@@ -70,9 +70,8 @@ web-workspace/
     │           │   ├── FcApi.js
     │           │   ├── FcService.js
     │           │   ├── vendor.js
-    │           │   ├── action/
-    │           │   ├── controller/
-    │           │   └── form/
+    │           │   └── action/
+    │           │       └── EnquiryAction.js
     │           └── META-INF/resources/WEB-INF/views/fc/
     │               └── enquiry.jsp
     └── webapp/
@@ -99,7 +98,7 @@ web-workspace/
 
 `common-web` owns reusable Spring/Java web infrastructure shared by feature modules. It contains the REST gateway, Spring `RestTemplate` factory, retry interceptor, error handler, JSON case converter, and shared REST settings.
 
-`fx-module` and `fc-module` own only feature-specific code. Both modules now use the shared REST infrastructure from `common-web`, with separate Spring bean names and separate JVM configuration prefixes.
+`fx-module` and `fc-module` own only feature-specific code. Both modules now use the shared REST infrastructure from `common-web`, with separate Spring bean names and separate JVM configuration prefixes. Their enquiry pages also follow the same browser pattern: `PageRouter -> initEnquiry -> DataTableBuilder.serverPage -> feature service`.
 
 - Spring MVC controller
 - FX JSP views
