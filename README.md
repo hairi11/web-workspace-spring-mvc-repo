@@ -66,7 +66,7 @@ web-workspace/
             │   │   └── controller/
             │   │       └── HomeController.java
             │   └── webapp/WEB-INF/views/
-            │       └── enquiry.jsp
+            │       └── home.jsp
             ├── module-web.css
             └── styles/
 ```
