@@ -21,11 +21,17 @@ web-workspace/
     │       └── main/
     │           ├── java/
     │           │   └── com/company/web/fx/
+    │           │       ├── config/
+    │           │       │   └── FxRestClientConfig.java
     │           │       ├── controller/
     │           │       │   ├── FxPageController.java
     │           │       │   └── FxApiController.java
     │           │       └── service/
     │           │           ├── FxRestClient.java
+    │           │           ├── FxRestClientInterceptor.java
+    │           │           ├── FxRestResponseErrorHandler.java
+    │           │           ├── FxRestClientException.java
+    │           │           ├── FxJsonHttpMessageConverter.java
     │           │           └── FxJsonCaseConverter.java
     │           └── resources/
     │               ├── fx/

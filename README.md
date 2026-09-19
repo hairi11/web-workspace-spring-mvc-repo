@@ -17,11 +17,17 @@ web-workspace/
     │   ├── dev.mjs
     │   └── src/main/
     │       ├── java/com/company/web/fx/
+    │       │   ├── config/
+    │       │   │   └── FxRestClientConfig.java
     │       │   ├── controller/
     │       │   │   ├── FxPageController.java
     │       │   │   └── FxApiController.java
     │       │   └── service/
     │       │       ├── FxRestClient.java
+    │       │       ├── FxRestClientInterceptor.java
+    │       │       ├── FxRestResponseErrorHandler.java
+    │       │       ├── FxRestClientException.java
+    │       │       ├── FxJsonHttpMessageConverter.java
     │       │       └── FxJsonCaseConverter.java
     │       └── resources/
     │           ├── fx/
@@ -146,13 +152,14 @@ FX REST responsibilities are split deliberately:
 | --- | --- | --- |
 | UI cache / request dedupe | Ajax.js | - |
 | Browser request cancellation | Ajax.js | - |
-| Backend connect/read timeout | - | FxRestClient |
-| Retry transient backend GET failures | - | FxRestClient |
+| Backend connect/read timeout | - | Spring request factory |
+| Retry transient backend GET failures | - | Spring RestTemplate interceptor |
 | Retry POST/save/submit/delete | - | Never automatic |
-| camelCase ↔ snake_case JSON | - | FxJsonCaseConverter |
-| Backend error normalization | - | FxRestClient |
+| camelCase ↔ snake_case JSON | - | Spring HTTP message converter |
+| Backend error normalization | - | Spring ResponseErrorHandler |
 | Backend request body limit | - | FxRestClient |
-| Arbitrary browser headers forwarded to backend | - | Blocked by default |
+| Base REST URL | - | Spring DefaultUriBuilderFactory |
+| Arbitrary browser headers forwarded to backend | - | Blocked by design |
 
 Java-side defaults can be overridden with JVM system properties:
 
@@ -166,6 +173,8 @@ Java-side defaults can be overridden with JVM system properties:
 ```
 
 POST requests are intentionally not retried automatically because save, submit and delete operations can have side effects.
+
+Because this workspace stays on Spring Framework 5.3, the synchronous Spring client is `RestTemplate`. Spring's newer `RestClient` API requires Spring Framework 6.1+. The FX module therefore configures one Spring-managed `RestTemplate` bean and uses its request factory, URI builder factory, interceptors, message converters, and response error handler instead of constructing the HTTP client inside `FxRestClient`.
 
 ## Build
 
