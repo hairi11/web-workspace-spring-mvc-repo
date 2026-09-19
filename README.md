@@ -57,11 +57,19 @@ web-workspace/
     │   ├── build.mjs
     │   ├── dev.mjs
     │   └── src/main/
-    │       ├── java/com/company/web/fc/controller/
-    │       │   └── FcPageController.java
+    │       ├── java/com/company/web/fc/
+    │       │   ├── config/
+    │       │   │   └── FcRestClientConfig.java
+    │       │   ├── controller/
+    │       │   │   ├── FcPageController.java
+    │       │   │   └── FcApiController.java
+    │       │   └── service/
+    │       │       └── FcRestClient.java
     │       └── resources/
     │           ├── fc/
     │           │   ├── FcPage.js
+    │           │   ├── FcApi.js
+    │           │   ├── FcService.js
     │           │   ├── vendor.js
     │           │   ├── action/
     │           │   ├── controller/
@@ -92,7 +100,7 @@ web-workspace/
 
 `common-web` owns reusable Spring/Java web infrastructure shared by feature modules. It contains the REST gateway, Spring `RestTemplate` factory, retry interceptor, error handler, JSON case converter, and shared REST settings.
 
-`fx-module` and `fc-module` own only feature-specific code. `fx-module` currently uses the shared REST infrastructure, while `fc-module` already depends on `common-web` and can opt into the same setup later without copying FX classes.
+`fx-module` and `fc-module` own only feature-specific code. Both modules now use the shared REST infrastructure from `common-web`, with separate Spring bean names and separate JVM configuration prefixes.
 
 - Spring MVC controller
 - FX JSP views
@@ -126,6 +134,9 @@ GET /module-web/fx/enquiry
 GET /module-web/fx/master
 GET /module-web/fx/transaction
 GET /module-web/fc/enquiry
+
+GET /module-web/fx/api/*
+GET /module-web/fc/api/enquiry
 ```
 
 Legacy `.html` FX URLs redirect to the extensionless Spring MVC routes.
@@ -203,7 +214,40 @@ public RestTemplate fxRestTemplate() {
 
 `FxRestClient` then extends the shared `RestGateway`.
 
-When FC needs REST access later, use the same pattern with an FC prefix and bean names such as `fcRestClientSettings` / `fcRestTemplate`. `fc-module` already has the Maven dependency on `common-web`.
+FC now uses the same pattern with its own beans:
+
+```text
+fcRestClientSettings
+fcRestTemplate
+FcRestClient extends RestGateway
+```
+
+FC browser flow:
+
+```text
+fc.js
+  ↓
+/fc/api/enquiry
+  ↓
+FcApiController
+  ↓
+FcRestClient
+  ↓
+common-web RestGateway
+  ↓
+http://localhost:8080/api/fc/enquiry
+```
+
+FC settings can be overridden independently:
+
+```text
+-Dfc.api.base-url=http://host:port/api
+-Dfc.api.connect-timeout-ms=3000
+-Dfc.api.read-timeout-ms=10000
+-Dfc.api.get-attempts=2
+-Dfc.api.retry-delay-ms=250
+-Dfc.api.max-body-length=2000000
+```
 
 ## Build
 

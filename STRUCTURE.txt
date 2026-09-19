@@ -70,11 +70,19 @@ web-workspace/
     │   └── src/
     │       └── main/
     │           ├── java/
-    │           │   └── com/company/web/fc/controller/
-    │           │       └── FcPageController.java
+    │           │   └── com/company/web/fc/
+    │           │       ├── config/
+    │           │       │   └── FcRestClientConfig.java
+    │           │       ├── controller/
+    │           │       │   ├── FcPageController.java
+    │           │       │   └── FcApiController.java
+    │           │       └── service/
+    │           │           └── FcRestClient.java
     │           └── resources/
     │               ├── fc/
+    │               │   ├── FcApi.js
     │               │   ├── FcPage.js
+    │               │   ├── FcService.js
     │               │   ├── vendor.js
     │               │   ├── action/
     │               │   │   └── FcEnquiryAction.js

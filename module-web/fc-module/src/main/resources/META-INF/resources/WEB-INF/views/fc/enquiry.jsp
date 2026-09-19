@@ -7,7 +7,7 @@
     <title>FC Enquiry</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/module-web.css">
 </head>
-<body data-page="enquiry">
+<body data-page="enquiry" data-context-path="${pageContext.request.contextPath}">
 <main>
     <nav>
         <a class="button" href="${pageContext.request.contextPath}/">Modules</a>
