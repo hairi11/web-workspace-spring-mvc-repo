@@ -1,6 +1,5 @@
 package com.company.web.fx.service;
 
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
@@ -85,10 +84,8 @@ public class FxJsonCaseConverter {
         }
 
         ObjectNode result = objectMapper.createObjectNode();
-        Iterator<Map.Entry<String, JsonNode>> fields = node.fields();
 
-        while (fields.hasNext()) {
-            Map.Entry<String, JsonNode> field = fields.next();
+        for (Map.Entry<String, JsonNode> field : node.properties()) {
             result.set(
                     keyMapper.apply(field.getKey()),
                     transformNode(field.getValue(), keyMapper));
