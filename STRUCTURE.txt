@@ -12,6 +12,17 @@ web-workspace/
 │   └── examples/
 └── module-web/
     ├── pom.xml
+    ├── common-web/
+    │   ├── pom.xml
+    │   └── src/main/java/com/company/web/common/rest/
+    │       ├── RestClientSettings.java
+    │       ├── RestTemplateFactory.java
+    │       ├── RestGateway.java
+    │       ├── RestGatewayInterceptor.java
+    │       ├── RestGatewayErrorHandler.java
+    │       ├── RestGatewayException.java
+    │       ├── JsonCaseHttpMessageConverter.java
+    │       └── JsonCaseConverter.java
     ├── fx-module/
     │   ├── pom.xml
     │   ├── package.json
@@ -27,12 +38,7 @@ web-workspace/
     │           │       │   ├── FxPageController.java
     │           │       │   └── FxApiController.java
     │           │       └── service/
-    │           │           ├── FxRestClient.java
-    │           │           ├── FxRestClientInterceptor.java
-    │           │           ├── FxRestResponseErrorHandler.java
-    │           │           ├── FxRestClientException.java
-    │           │           ├── FxJsonHttpMessageConverter.java
-    │           │           └── FxJsonCaseConverter.java
+    │           │           └── FxRestClient.java
     │           └── resources/
     │               ├── fx/
     │               │   ├── FxApi.js

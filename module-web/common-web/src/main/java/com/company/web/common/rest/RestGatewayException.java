@@ -1,16 +1,17 @@
-package com.company.web.fx.service;
+package com.company.web.common.rest;
 
 import org.springframework.web.client.RestClientException;
 
-public class FxRestClientException extends RestClientException {
+public class RestGatewayException
+        extends RestClientException {
 
     private final int statusCode;
     private final String responseBody;
 
-    public FxRestClientException(
+    public RestGatewayException(
             int statusCode,
             String responseBody) {
-        super("FX REST request failed with HTTP " + statusCode);
+        super("REST request failed with HTTP " + statusCode);
         this.statusCode = statusCode;
         this.responseBody = responseBody;
     }

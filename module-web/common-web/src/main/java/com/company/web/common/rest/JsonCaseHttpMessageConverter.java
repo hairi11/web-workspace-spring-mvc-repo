@@ -1,4 +1,4 @@
-package com.company.web.fx.service;
+package com.company.web.common.rest;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,13 +11,13 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.StreamUtils;
 
-public class FxJsonHttpMessageConverter
+public class JsonCaseHttpMessageConverter
         extends AbstractHttpMessageConverter<String> {
 
-    private final FxJsonCaseConverter caseConverter;
+    private final JsonCaseConverter caseConverter;
 
-    public FxJsonHttpMessageConverter(
-            FxJsonCaseConverter caseConverter) {
+    public JsonCaseHttpMessageConverter(
+            JsonCaseConverter caseConverter) {
         super(MediaType.APPLICATION_JSON);
         this.caseConverter = caseConverter;
     }

@@ -1,4 +1,4 @@
-package com.company.web.fx.service;
+package com.company.web.common.rest;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -14,17 +14,17 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
-public class FxRestClientInterceptor
+public class RestGatewayInterceptor
         implements ClientHttpRequestInterceptor {
 
     private static final Logger LOGGER =
             Logger.getLogger(
-                    FxRestClientInterceptor.class.getName());
+                    RestGatewayInterceptor.class.getName());
 
     private final int getAttempts;
     private final int retryDelayMs;
 
-    public FxRestClientInterceptor(
+    public RestGatewayInterceptor(
             int getAttempts,
             int retryDelayMs) {
         this.getAttempts = Math.max(1, getAttempts);
@@ -39,16 +39,21 @@ public class FxRestClientInterceptor
             throws IOException {
         applyDefaultHeaders(request.getHeaders());
 
-        int attempts = request.getMethod() == HttpMethod.GET
-                ? getAttempts
-                : 1;
+        int attempts =
+                request.getMethod() == HttpMethod.GET
+                        ? getAttempts
+                        : 1;
 
         IOException lastException = null;
 
-        for (int attempt = 1; attempt <= attempts; attempt++) {
+        for (int attempt = 1;
+                attempt <= attempts;
+                attempt++) {
             try {
                 ClientHttpResponse response =
-                        execution.execute(request, body);
+                        execution.execute(
+                                request,
+                                body);
 
                 if (shouldRetry(
                         request.getMethod(),
@@ -69,7 +74,8 @@ public class FxRestClientInterceptor
             } catch (IOException exception) {
                 lastException = exception;
 
-                if (request.getMethod() != HttpMethod.GET
+                if (request.getMethod()
+                                != HttpMethod.GET
                         || attempt >= attempts) {
                     throw exception;
                 }
@@ -85,7 +91,8 @@ public class FxRestClientInterceptor
 
         throw lastException != null
                 ? lastException
-                : new IOException("FX REST request failed.");
+                : new IOException(
+                        "REST request failed.");
     }
 
     private void applyDefaultHeaders(
@@ -102,13 +109,17 @@ public class FxRestClientInterceptor
             int status,
             int attempt,
             int attempts) {
-        if (method != HttpMethod.GET || attempt >= attempts) {
+        if (method != HttpMethod.GET
+                || attempt >= attempts) {
             return false;
         }
 
-        return status == HttpStatus.BAD_GATEWAY.value()
-                || status == HttpStatus.SERVICE_UNAVAILABLE.value()
-                || status == HttpStatus.GATEWAY_TIMEOUT.value();
+        return status
+                        == HttpStatus.BAD_GATEWAY.value()
+                || status
+                        == HttpStatus.SERVICE_UNAVAILABLE.value()
+                || status
+                        == HttpStatus.GATEWAY_TIMEOUT.value();
     }
 
     private void delayBeforeRetry() {
@@ -129,7 +140,7 @@ public class FxRestClientInterceptor
             int attempts,
             Exception exception) {
         String message =
-                "Retrying FX GET request "
+                "Retrying GET request "
                         + request.getURI()
                         + " after attempt "
                         + attempt

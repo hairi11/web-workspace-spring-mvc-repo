@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>common-web</module>
         <module>fx-module</module>
         <module>fc-module</module>
         <module>webapp</module>

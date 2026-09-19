@@ -1,4 +1,4 @@
-package com.company.web.fx.service;
+package com.company.web.common.rest;
 
 import java.util.Locale;
 import java.util.Map;
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class FxJsonCaseConverter {
+public class JsonCaseConverter {
 
     private static final Pattern ACRONYM_BOUNDARY =
             Pattern.compile("([A-Z]+)([A-Z][a-z])");
@@ -23,11 +23,11 @@ public class FxJsonCaseConverter {
 
     private final ObjectMapper objectMapper;
 
-    public FxJsonCaseConverter() {
+    public JsonCaseConverter() {
         this(new ObjectMapper());
     }
 
-    FxJsonCaseConverter(ObjectMapper objectMapper) {
+    JsonCaseConverter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
@@ -39,7 +39,9 @@ public class FxJsonCaseConverter {
         return transformJson(json, this::toCamelCase);
     }
 
-    public String normalizeErrorJson(String json, String fallbackMessage) {
+    public String normalizeErrorJson(
+            String json,
+            String fallbackMessage) {
         if (json != null && !json.isBlank()) {
             try {
                 JsonNode root = objectMapper.readTree(json);
@@ -55,40 +57,53 @@ public class FxJsonCaseConverter {
         return writeJson(error);
     }
 
-    private String transformJson(String json, Function<String, String> keyMapper) {
+    private String transformJson(
+            String json,
+            Function<String, String> keyMapper) {
         if (json == null || json.isBlank()) {
             return json;
         }
 
         try {
             JsonNode root = objectMapper.readTree(json);
-            return objectMapper.writeValueAsString(transformNode(root, keyMapper));
+            return objectMapper.writeValueAsString(
+                    transformNode(root, keyMapper));
         } catch (JsonProcessingException exception) {
-            throw new IllegalArgumentException("Invalid JSON payload.", exception);
+            throw new IllegalArgumentException(
+                    "Invalid JSON payload.",
+                    exception);
         }
     }
 
     private JsonNode transformNode(
             JsonNode node,
             Function<String, String> keyMapper) {
-        if (node == null || node.isNull() || node.isValueNode()) {
+        if (node == null
+                || node.isNull()
+                || node.isValueNode()) {
             return node;
         }
 
         if (node.isArray()) {
             ArrayNode result = objectMapper.createArrayNode();
+
             for (JsonNode item : node) {
-                result.add(transformNode(item, keyMapper));
+                result.add(
+                        transformNode(item, keyMapper));
             }
+
             return result;
         }
 
         ObjectNode result = objectMapper.createObjectNode();
 
-        for (Map.Entry<String, JsonNode> field : node.properties()) {
+        for (Map.Entry<String, JsonNode> field
+                : node.properties()) {
             result.set(
                     keyMapper.apply(field.getKey()),
-                    transformNode(field.getValue(), keyMapper));
+                    transformNode(
+                            field.getValue(),
+                            keyMapper));
         }
 
         return result;
@@ -101,7 +116,9 @@ public class FxJsonCaseConverter {
         while (matcher.find()) {
             matcher.appendReplacement(
                     result,
-                    Matcher.quoteReplacement(matcher.group(1).toUpperCase(Locale.ROOT)));
+                    Matcher.quoteReplacement(
+                            matcher.group(1)
+                                    .toUpperCase(Locale.ROOT)));
         }
 
         matcher.appendTail(result);
@@ -112,6 +129,7 @@ public class FxJsonCaseConverter {
         String firstPass = ACRONYM_BOUNDARY
                 .matcher(value)
                 .replaceAll("$1_$2");
+
         String secondPass = LOWER_UPPER_BOUNDARY
                 .matcher(firstPass)
                 .replaceAll("$1_$2");

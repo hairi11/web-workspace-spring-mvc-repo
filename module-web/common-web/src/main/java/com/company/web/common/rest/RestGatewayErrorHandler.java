@@ -1,4 +1,4 @@
-package com.company.web.fx.service;
+package com.company.web.common.rest;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -7,13 +7,13 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
-public class FxRestResponseErrorHandler
+public class RestGatewayErrorHandler
         extends DefaultResponseErrorHandler {
 
-    private final FxJsonCaseConverter caseConverter;
+    private final JsonCaseConverter caseConverter;
 
-    public FxRestResponseErrorHandler(
-            FxJsonCaseConverter caseConverter) {
+    public RestGatewayErrorHandler(
+            JsonCaseConverter caseConverter) {
         this.caseConverter = caseConverter;
     }
 
@@ -28,9 +28,9 @@ public class FxRestResponseErrorHandler
         String normalizedBody =
                 caseConverter.normalizeErrorJson(
                         rawBody,
-                        "FX REST request failed.");
+                        "REST request failed.");
 
-        throw new FxRestClientException(
+        throw new RestGatewayException(
                 response.getRawStatusCode(),
                 normalizedBody);
     }

@@ -10,6 +10,17 @@ web-workspace/
 │   └── src/
 └── module-web/
     ├── pom.xml
+    ├── common-web/
+    │   ├── pom.xml
+    │   └── src/main/java/com/company/web/common/rest/
+    │       ├── RestClientSettings.java
+    │       ├── RestTemplateFactory.java
+    │       ├── RestGateway.java
+    │       ├── RestGatewayInterceptor.java
+    │       ├── RestGatewayErrorHandler.java
+    │       ├── RestGatewayException.java
+    │       ├── JsonCaseHttpMessageConverter.java
+    │       └── JsonCaseConverter.java
     ├── fx-module/
     │   ├── pom.xml
     │   ├── package.json
@@ -23,12 +34,7 @@ web-workspace/
     │       │   │   ├── FxPageController.java
     │       │   │   └── FxApiController.java
     │       │   └── service/
-    │       │       ├── FxRestClient.java
-    │       │       ├── FxRestClientInterceptor.java
-    │       │       ├── FxRestResponseErrorHandler.java
-    │       │       ├── FxRestClientException.java
-    │       │       ├── FxJsonHttpMessageConverter.java
-    │       │       └── FxJsonCaseConverter.java
+    │       │       └── FxRestClient.java
     │       └── resources/
     │           ├── fx/
     │           │   ├── FxPage.js
@@ -84,7 +90,9 @@ web-workspace/
 
 ## Module ownership
 
-`fx-module` and `fc-module` each own their complete feature stack. `fx-module` currently contains the full FX implementation, while `fc-module` contains a basic FC enquiry scaffold.
+`common-web` owns reusable Spring/Java web infrastructure shared by feature modules. It contains the REST gateway, Spring `RestTemplate` factory, retry interceptor, error handler, JSON case converter, and shared REST settings.
+
+`fx-module` and `fc-module` own only feature-specific code. `fx-module` currently uses the shared REST infrastructure, while `fc-module` already depends on `common-web` and can opt into the same setup later without copying FX classes.
 
 - Spring MVC controller
 - FX JSP views
@@ -146,19 +154,19 @@ The browser no longer calls the REST service directly. Only Java code in `FxRest
 http://localhost:8080/api
 ```
 
-FX REST responsibilities are split deliberately:
+REST responsibilities are split deliberately. The Java-side implementation below is reusable from `common-web`:
 
 | Concern | Browser | Java |
 | --- | --- | --- |
 | UI cache / request dedupe | Ajax.js | - |
 | Browser request cancellation | Ajax.js | - |
-| Backend connect/read timeout | - | Spring request factory |
-| Retry transient backend GET failures | - | Spring RestTemplate interceptor |
+| Backend connect/read timeout | - | common-web Spring request factory |
+| Retry transient backend GET failures | - | common-web RestTemplate interceptor |
 | Retry POST/save/submit/delete | - | Never automatic |
-| camelCase ↔ snake_case JSON | - | Spring HTTP message converter |
-| Backend error normalization | - | Spring ResponseErrorHandler |
-| Backend request body limit | - | FxRestClient |
-| Base REST URL | - | Spring DefaultUriBuilderFactory |
+| camelCase ↔ snake_case JSON | - | common-web HTTP message converter |
+| Backend error normalization | - | common-web ResponseErrorHandler |
+| Backend request body limit | - | common-web RestGateway |
+| Base REST URL | - | common-web RestClientSettings + DefaultUriBuilderFactory |
 | Arbitrary browser headers forwarded to backend | - | Blocked by design |
 
 Java-side defaults can be overridden with JVM system properties:
@@ -174,7 +182,28 @@ Java-side defaults can be overridden with JVM system properties:
 
 POST requests are intentionally not retried automatically because save, submit and delete operations can have side effects.
 
-Because this workspace stays on Spring Framework 5.3, the synchronous Spring client is `RestTemplate`. Spring's newer `RestClient` API requires Spring Framework 6.1+. The FX module therefore configures one Spring-managed `RestTemplate` bean and uses its request factory, URI builder factory, interceptors, message converters, and response error handler instead of constructing the HTTP client inside `FxRestClient`.
+Because this workspace stays on Spring Framework 5.3, the synchronous Spring client is `RestTemplate`. Spring's newer `RestClient` API requires Spring Framework 6.1+. The shared `common-web` module therefore builds Spring-managed `RestTemplate` instances through `RestTemplateFactory`.
+
+FX only supplies its feature settings and bean name:
+
+```java
+@Bean(name = "fxRestClientSettings")
+public RestClientSettings fxRestClientSettings() {
+    return RestClientSettings.fromSystemProperties(
+            "fx.api",
+            "http://localhost:8080/api");
+}
+
+@Bean(name = "fxRestTemplate")
+public RestTemplate fxRestTemplate() {
+    return RestTemplateFactory.create(
+            fxRestClientSettings());
+}
+```
+
+`FxRestClient` then extends the shared `RestGateway`.
+
+When FC needs REST access later, use the same pattern with an FC prefix and bean names such as `fcRestClientSettings` / `fcRestTemplate`. `fc-module` already has the Maven dependency on `common-web`.
 
 ## Build
 
@@ -199,6 +228,7 @@ Maven reactor order:
 common-js-web
       ↓
 module-web
+      ├── common-web
       ├── fx-module
       │      └── builds fx.js into its own JAR
       ├── fc-module
