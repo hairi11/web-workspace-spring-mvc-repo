@@ -13,7 +13,7 @@
     <p>Feature modules are served through Spring MVC.</p>
     <nav>
         <a class="button" href="${pageContext.request.contextPath}/fx/enquiry">FX Module</a>
-        <a class="button" href="${pageContext.request.contextPath}/fc/home">FC Module</a>
+        <a class="button" href="${pageContext.request.contextPath}/fc/enquiry">FC Module</a>
     </nav>
 </main>
 </body>

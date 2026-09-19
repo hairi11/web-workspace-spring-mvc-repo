@@ -50,7 +50,7 @@ web-workspace/
     │           │   ├── controller/
     │           │   └── form/
     │           └── META-INF/resources/WEB-INF/views/fc/
-    │               └── home.jsp
+    │               └── enquiry.jsp
     └── webapp/
         ├── pom.xml
         ├── package.json
@@ -66,14 +66,14 @@ web-workspace/
             │   │   └── controller/
             │   │       └── HomeController.java
             │   └── webapp/WEB-INF/views/
-            │       └── home.jsp
+            │       └── enquiry.jsp
             ├── module-web.css
             └── styles/
 ```
 
 ## Module ownership
 
-`fx-module` and `fc-module` each own their complete feature stack. `fx-module` currently contains the full FX implementation, while `fc-module` is the basic scaffold for FC.
+`fx-module` and `fc-module` each own their complete feature stack. `fx-module` currently contains the full FX implementation, while `fc-module` contains a basic FC enquiry scaffold.
 
 - Spring MVC controller
 - FX JSP views
@@ -106,7 +106,7 @@ GET /module-web/
 GET /module-web/fx/enquiry
 GET /module-web/fx/master
 GET /module-web/fx/transaction
-GET /module-web/fc/home
+GET /module-web/fc/enquiry
 ```
 
 Legacy `.html` FX URLs redirect to the extensionless Spring MVC routes.
@@ -192,7 +192,7 @@ Open:
 ```text
 http://localhost:8081/module-web/
 http://localhost:8081/module-web/fx/enquiry
-http://localhost:8081/module-web/fc/home
+http://localhost:8081/module-web/fc/enquiry
 ```
 
 ## Frontend development

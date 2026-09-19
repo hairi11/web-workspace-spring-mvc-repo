@@ -60,14 +60,14 @@ web-workspace/
     │               │   ├── FcPage.js
     │               │   ├── vendor.js
     │               │   ├── action/
-    │               │   │   └── FcHomeAction.js
+    │               │   │   └── FcEnquiryAction.js
     │               │   ├── controller/
-    │               │   │   └── FcHomeController.js
+    │               │   │   └── FcEnquiryController.js
     │               │   └── form/
-    │               │       └── FcForm.js
+    │               │       └── FcEnquiryForm.js
     │               └── META-INF/resources/
     │                   └── WEB-INF/views/fc/
-    │                       └── home.jsp
+    │                       └── enquiry.jsp
     └── webapp/
         ├── pom.xml
         ├── package.json

@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class FcPageController {
 
-    @GetMapping({"/fc", "/fc/", "/fc/home"})
-    public String home() {
-        return "fc/home";
+    @GetMapping({"/fc", "/fc/", "/fc/enquiry"})
+    public String enquiry() {
+        return "fc/enquiry";
     }
 
-    @GetMapping("/fc/home.html")
-    public String legacyHome() {
-        return "redirect:/fc/home";
+    @GetMapping("/fc/enquiry.html")
+    public String legacyEnquiry() {
+        return "redirect:/fc/enquiry";
     }
 }
