@@ -7,7 +7,7 @@
     <title>FX Master</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/module-web.css">
 </head>
-<body data-page="master">
+<body data-page="master" data-context-path="${pageContext.request.contextPath}">
 <main>
     <nav>
         <a class="button" href="${pageContext.request.contextPath}/">Modules</a>

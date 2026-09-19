@@ -1,4 +1,5 @@
-const BASE_URL = './api';
+const contextPath = document.body?.dataset.contextPath || '';
+const BASE_URL = contextPath + '/fx/api';
 
 const FxApi = {
     enquiry: BASE_URL + '/enquiry',
