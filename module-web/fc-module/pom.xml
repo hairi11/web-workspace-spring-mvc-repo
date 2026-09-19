@@ -9,22 +9,10 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>module-web-webapp</artifactId>
-    <packaging>war</packaging>
+    <artifactId>fc-module</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>com.company.web</groupId>
-            <artifactId>fx-module</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.company.web</groupId>
-            <artifactId>fc-module</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -40,8 +28,6 @@
     </dependencies>
 
     <build>
-        <finalName>module-web</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -94,38 +80,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>10.0.26</version>
-                <configuration>
-                    <httpConnector>
-                        <port>8081</port>
-                    </httpConnector>
-                    <webApp>
-                        <contextPath>/module-web</contextPath>
-                        <resourceBase>${project.basedir}/dist/module-web</resourceBase>
-                    </webApp>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>apache-jsp</artifactId>
-                        <version>10.0.26</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven.war.version}</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warSourceDirectory>${project.basedir}/dist/module-web</warSourceDirectory>
-                </configuration>
             </plugin>
         </plugins>
     </build>

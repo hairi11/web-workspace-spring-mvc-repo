@@ -34,6 +34,23 @@ web-workspace/
     │               ├── enquiry.jsp
     │               ├── master.jsp
     │               └── transaction.jsp
+    ├── fc-module/
+    │   ├── pom.xml
+    │   ├── package.json
+    │   ├── build.mjs
+    │   ├── dev.mjs
+    │   └── src/main/
+    │       ├── java/com/company/web/fc/controller/
+    │       │   └── FcPageController.java
+    │       └── resources/
+    │           ├── fc/
+    │           │   ├── FcPage.js
+    │           │   ├── vendor.js
+    │           │   ├── action/
+    │           │   ├── controller/
+    │           │   └── form/
+    │           └── META-INF/resources/WEB-INF/views/fc/
+    │               └── home.jsp
     └── webapp/
         ├── pom.xml
         ├── package.json
@@ -56,7 +73,7 @@ web-workspace/
 
 ## Module ownership
 
-`fx-module` owns the complete FX feature:
+`fx-module` and `fc-module` each own their complete feature stack. `fx-module` currently contains the full FX implementation, while `fc-module` is the basic scaffold for FC.
 
 - Spring MVC controller
 - FX JSP views
@@ -89,6 +106,7 @@ GET /module-web/
 GET /module-web/fx/enquiry
 GET /module-web/fx/master
 GET /module-web/fx/transaction
+GET /module-web/fc/home
 ```
 
 Legacy `.html` FX URLs redirect to the extensionless Spring MVC routes.
@@ -140,6 +158,8 @@ common-js-web
 module-web
       ├── fx-module
       │      └── builds fx.js into its own JAR
+      ├── fc-module
+      │      └── builds fc.js into its own JAR
       └── webapp
              └── packages module-web.war
 ```
@@ -172,6 +192,7 @@ Open:
 ```text
 http://localhost:8081/module-web/
 http://localhost:8081/module-web/fx/enquiry
+http://localhost:8081/module-web/fc/home
 ```
 
 ## Frontend development
@@ -201,3 +222,17 @@ npm run dev
 The webapp development server uses BrowserSync as a proxy to the Spring MVC app at port `8081`.
 
 Generated build output under `target` or `webapp/dist` must not be edited manually.
+
+## FC module development
+
+```bat
+cd module-web\fc-module
+npm install
+npm run dev
+```
+
+FC JavaScript source lives under `src/main/resources/fc` and bundles to:
+
+```text
+target/classes/META-INF/resources/fc/fc.js
+```

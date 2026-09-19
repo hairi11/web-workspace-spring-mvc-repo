@@ -4,17 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module Web</title>
+    <title>FC Module</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/module-web.css">
 </head>
-<body>
+<body data-page="home">
 <main>
-    <h1>Module Web</h1>
-    <p>Feature modules are served through Spring MVC.</p>
     <nav>
-        <a class="button" href="${pageContext.request.contextPath}/fx/enquiry">FX Module</a>
-        <a class="button" href="${pageContext.request.contextPath}/fc/home">FC Module</a>
+        <a class="button" href="${pageContext.request.contextPath}/">Modules</a>
+        <a class="button" href="${pageContext.request.contextPath}/fc/home">FC Home</a>
     </nav>
+
+    <h1>FC Module</h1>
+    <p id="fcStatus">Loading FC module...</p>
 </main>
+<script src="${pageContext.request.contextPath}/fc/fc.js"></script>
 </body>
 </html>

@@ -45,6 +45,29 @@ web-workspace/
     │                       ├── enquiry.jsp
     │                       ├── master.jsp
     │                       └── transaction.jsp
+    ├── fc-module/
+    │   ├── pom.xml
+    │   ├── package.json
+    │   ├── build.mjs
+    │   ├── dev.mjs
+    │   └── src/
+    │       └── main/
+    │           ├── java/
+    │           │   └── com/company/web/fc/controller/
+    │           │       └── FcPageController.java
+    │           └── resources/
+    │               ├── fc/
+    │               │   ├── FcPage.js
+    │               │   ├── vendor.js
+    │               │   ├── action/
+    │               │   │   └── FcHomeAction.js
+    │               │   ├── controller/
+    │               │   │   └── FcHomeController.js
+    │               │   └── form/
+    │               │       └── FcForm.js
+    │               └── META-INF/resources/
+    │                   └── WEB-INF/views/fc/
+    │                       └── home.jsp
     └── webapp/
         ├── pom.xml
         ├── package.json

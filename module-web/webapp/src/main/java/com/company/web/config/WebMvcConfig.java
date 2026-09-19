@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.company.web.controller", "com.company.web.fx.controller"})
+@ComponentScan(basePackages = {"com.company.web.controller", "com.company.web.fx.controller", "com.company.web.fc.controller"})
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
@@ -32,5 +32,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/fx/**")
                 .addResourceLocations("/fx/");
+
+        registry.addResourceHandler("/fc/**")
+                .addResourceLocations("/fc/");
     }
 }
