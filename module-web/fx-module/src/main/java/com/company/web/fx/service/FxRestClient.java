@@ -199,6 +199,19 @@ public class FxRestClient {
                     .build();
         }
 
+        MediaType contentType = response.getHeaders().getContentType();
+        boolean jsonResponse = contentType != null
+                && MediaType.APPLICATION_JSON.isCompatibleWith(contentType);
+
+        if (!jsonResponse) {
+            return ResponseEntity
+                    .status(response.getStatusCode())
+                    .contentType(contentType != null
+                            ? contentType
+                            : MediaType.TEXT_PLAIN)
+                    .body(body);
+        }
+
         final String normalized;
 
         try {

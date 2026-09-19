@@ -21,7 +21,8 @@ web-workspace/
     │       │   │   ├── FxPageController.java
     │       │   │   └── FxApiController.java
     │       │   └── service/
-    │       │       └── FxRestClient.java
+    │       │       ├── FxRestClient.java
+    │       │       └── FxJsonCaseConverter.java
     │       └── resources/
     │           ├── fx/
     │           │   ├── FxPage.js
@@ -139,11 +140,32 @@ The browser no longer calls the REST service directly. Only Java code in `FxRest
 http://localhost:8080/api
 ```
 
-The REST base URL can be overridden with the JVM system property:
+FX REST responsibilities are split deliberately:
+
+| Concern | Browser | Java |
+| --- | --- | --- |
+| UI cache / request dedupe | Ajax.js | - |
+| Browser request cancellation | Ajax.js | - |
+| Backend connect/read timeout | - | FxRestClient |
+| Retry transient backend GET failures | - | FxRestClient |
+| Retry POST/save/submit/delete | - | Never automatic |
+| camelCase ↔ snake_case JSON | - | FxJsonCaseConverter |
+| Backend error normalization | - | FxRestClient |
+| Backend request body limit | - | FxRestClient |
+| Arbitrary browser headers forwarded to backend | - | Blocked by default |
+
+Java-side defaults can be overridden with JVM system properties:
 
 ```text
 -Dfx.api.base-url=http://host:port/api
+-Dfx.api.connect-timeout-ms=3000
+-Dfx.api.read-timeout-ms=10000
+-Dfx.api.get-attempts=2
+-Dfx.api.retry-delay-ms=250
+-Dfx.api.max-body-length=2000000
 ```
+
+POST requests are intentionally not retried automatically because save, submit and delete operations can have side effects.
 
 ## Build
 

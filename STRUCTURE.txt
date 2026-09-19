@@ -25,7 +25,8 @@ web-workspace/
     │           │       │   ├── FxPageController.java
     │           │       │   └── FxApiController.java
     │           │       └── service/
-    │           │           └── FxRestClient.java
+    │           │           ├── FxRestClient.java
+    │           │           └── FxJsonCaseConverter.java
     │           └── resources/
     │               ├── fx/
     │               │   ├── FxApi.js
