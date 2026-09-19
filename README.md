@@ -43,9 +43,8 @@ web-workspace/
     │           │   ├── FxRows.js
     │           │   ├── FxService.js
     │           │   ├── vendor.js
-    │           │   ├── action/
-    │           │   ├── controller/
-    │           │   └── form/
+    │           │   └── action/
+    │           │       └── EnquiryAction.js
     │           └── META-INF/resources/
     │               └── WEB-INF/views/fx/
     │               ├── enquiry.jsp

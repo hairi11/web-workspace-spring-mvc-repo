@@ -1,8 +1,8 @@
 import Common from '@company/common-js-web';
-import FcEnquiryController from './controller/FcEnquiryController.js';
+import { initEnquiry } from './action/EnquiryAction.js';
 
 const { PageRouter } = Common;
 
 new PageRouter()
-    .route('enquiry', () => new FcEnquiryController().init())
+    .route('enquiry', initEnquiry)
     .start();

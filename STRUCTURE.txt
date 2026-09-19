@@ -84,12 +84,8 @@ web-workspace/
     │               │   ├── FcPage.js
     │               │   ├── FcService.js
     │               │   ├── vendor.js
-    │               │   ├── action/
-    │               │   │   └── FcEnquiryAction.js
-    │               │   ├── controller/
-    │               │   │   └── FcEnquiryController.js
-    │               │   └── form/
-    │               │       └── FcEnquiryForm.js
+    │               │   └── action/
+    │               │       └── EnquiryAction.js
     │               └── META-INF/resources/
     │                   └── WEB-INF/views/fc/
     │                       └── enquiry.jsp
