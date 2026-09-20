@@ -141,14 +141,6 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
 }
 
 .dt-common-toolbar-action {
-    flex: 0 0 auto;
-}
-
-.datatable-action-toolbar .dt-common-toolbar-end-group {
-    margin-left: auto;
-}
-
-.dt-common-toolbar-action {
     display: inline-flex;
     align-items: center;
     gap: .375rem;

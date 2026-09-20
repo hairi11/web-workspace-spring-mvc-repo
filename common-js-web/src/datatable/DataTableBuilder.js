@@ -18,7 +18,7 @@ const DEFAULT_OPTIONS = {
         topStart: null,
         topEnd: null,
         bottom: {
-            className: 'datatable-footer-cell',
+            className: 'datatable-footer-cell col-12',
             features: ['pageLength', 'info', 'paging']
         },
         bottomStart: null,
@@ -468,8 +468,8 @@ class DataTableBuilder {
         var className = [
             this.toolbarClassName,
             placement === 'end'
-                ? 'datatable-action-toolbar-end'
-                : 'datatable-action-toolbar-start'
+                ? 'datatable-action-toolbar-end col-md-auto ms-auto'
+                : 'datatable-action-toolbar-start col-md-auto me-auto'
         ].filter(Boolean).join(' ');
 
         return {

@@ -106,12 +106,19 @@ export async function removeWatchedResource(sourcePath) {
     const source = path.resolve(sourcePath);
     const mappings = [
         {
+            source: path.join(root, 'src', 'module-web.css'),
+            target: path.join(distRoot, 'assets', 'module-web.css'),
+            allowRoot: true
+        },
+        {
             source: path.join(root, 'src', 'styles'),
-            target: path.join(distRoot, 'assets', 'styles')
+            target: path.join(distRoot, 'assets', 'styles'),
+            allowRoot: true
         },
         {
             source: springViews,
-            target: path.join(distRoot, 'WEB-INF', 'views')
+            target: path.join(distRoot, 'WEB-INF', 'views'),
+            allowRoot: false
         }
     ];
 
@@ -119,18 +126,22 @@ export async function removeWatchedResource(sourcePath) {
         mappings.push(
             {
                 source: feature.views,
-                target: path.join(distRoot, 'WEB-INF', 'views', feature.name)
+                target: path.join(distRoot, 'WEB-INF', 'views', feature.name),
+                allowRoot: true
             },
             {
                 source: feature.bundle,
-                target: path.join(distRoot, feature.name)
+                target: path.join(distRoot, feature.name),
+                allowRoot: true
             }
         );
     });
 
     for (const mapping of mappings) {
         const relative = relativeInside(mapping.source, source);
-        if (relative === null) continue;
+        if (relative === null || (relative === '' && !mapping.allowRoot)) {
+            continue;
+        }
 
         await rm(path.join(mapping.target, relative), {
             recursive: true,
