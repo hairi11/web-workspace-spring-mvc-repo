@@ -204,6 +204,10 @@ class DataTableBuilder {
         row.appendChild(this.actionHeader);
     }
 
+    _renderActions() {
+        return this.renderActions();
+    }
+
     renderActions() {
         var html = '<div class="dropdown">'
             + '<button class="btn btn-sm btn-outline-secondary dropdown-toggle" '
