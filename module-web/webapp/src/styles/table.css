@@ -111,11 +111,11 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
     gap: .5rem;
 }
 
-.datatable-action-toolbar .dt-buttons .buttons-create {
+.datatable-action-toolbar .dt-buttons .dt-common-toolbar-end {
     margin-left: auto;
 }
 
-.datatable-action-button {
+.dt-common-toolbar-action {
     display: inline-flex;
     align-items: center;
     gap: .375rem;
@@ -128,42 +128,42 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
     text-decoration: none;
 }
 
-.datatable-action-button:hover,
-.datatable-action-button:focus,
-.datatable-action-button:active {
+.dt-common-toolbar-action:hover,
+.dt-common-toolbar-action:focus,
+.dt-common-toolbar-action:active {
     border: 0;
     background: #f3f4f6;
     color: var(--app-button-secondary, #272833);
     box-shadow: none;
 }
 
-.datatable-action-button i {
+.dt-common-toolbar-action i {
     width: 1rem;
     text-align: center;
 }
 
-.datatable-action-button-primary {
+.dt-common-toolbar-action-primary {
     color: var(--app-button-primary, #0e1826);
 }
 
-.datatable-action-button-primary:hover,
-.datatable-action-button-primary:focus,
-.datatable-action-button-primary:active {
+.dt-common-toolbar-action-primary:hover,
+.dt-common-toolbar-action-primary:focus,
+.dt-common-toolbar-action-primary:active {
     color: var(--app-button-primary, #0e1826);
 }
 
-.datatable-action-button-danger {
+.dt-common-toolbar-action-danger {
     color: #b42318;
 }
 
-.datatable-action-button-danger:hover,
-.datatable-action-button-danger:focus,
-.datatable-action-button-danger:active {
+.dt-common-toolbar-action-danger:hover,
+.dt-common-toolbar-action-danger:focus,
+.dt-common-toolbar-action-danger:active {
     color: #912018;
 }
 
-.datatable-action-button:disabled,
-.datatable-action-button.disabled {
+.dt-common-toolbar-action:disabled,
+.dt-common-toolbar-action.disabled {
     border: 0;
     background: transparent;
     color: #adb5bd;

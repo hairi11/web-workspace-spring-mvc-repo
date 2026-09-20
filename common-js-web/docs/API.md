@@ -90,6 +90,7 @@ Supported configuration:
 - `column(data, title, config?)`
 - `renderer(data, title, renderer, config?)`
 - `menuAction({mode?: 'dropdown' | 'context', title?})`
+- `toolbarAction({className?})`
 - `addAction(action)`
 - `searchInput(selector)`
 
@@ -102,6 +103,8 @@ Runtime:
 - `destroy()`
 
 `dropdown` adds a visible Bootstrap action column. `context` keeps the table columns unchanged and delegates right-click menu rendering, positioning, keyboard behavior and lifecycle to `jquery-contextmenu`, which must be loaded by the feature module vendor bundle.
+
+`toolbarAction()` switches subsequent `addAction()` calls to the DataTables Buttons toolbar. Toolbar actions support `selection: 'none' | 'single' | 'multi' | 'any'`, `placement: 'end'`, and `variant: 'primary' | 'danger' | 'secondary'`. DataTables Buttons owns button creation and enable/disable state; the feature module only declares actions. The feature module vendor bundle must load DataTables Buttons.
 
 ## HTTP
 

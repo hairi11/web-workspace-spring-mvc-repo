@@ -118,6 +118,24 @@ test('DataTable context items escape labels and filter classes', function () {
     assert.equal(item.className, 'safe');
 });
 
+test('DataTable toolbar items escape labels and filter classes', function () {
+    var builder = new DataTableBuilder('#table');
+    builder.toolbarAction().addAction({
+        text: '<img src=x onerror=alert(1)>',
+        icon: 'fa fa-eye\" onclick=alert(1)',
+        className: 'safe bad<script>',
+        selection: 'single'
+    });
+
+    var button = builder.buildToolbarButtons()[0];
+    assert.match(button.text, /class="fa"/);
+    assert.match(button.text, /&lt;img/);
+    assert.doesNotMatch(button.text, /<img/i);
+    assert.doesNotMatch(button.text, /onclick=/);
+    assert.match(button.className, /dt-common-toolbar-action/);
+    assert.match(button.className, /safe/);
+});
+
 test('FileValidator enforces size and type on file-like values', function () {
     var sizeRule = FileValidator.maxSize(100);
     var typeRule = FileValidator.allowedTypes(['image/png']);

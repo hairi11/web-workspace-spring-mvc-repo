@@ -41,13 +41,29 @@ function loadContextMenu() {
     }
 }
 
+function loadButtons() {
+    if (
+        !window.jQuery
+        || !window.jQuery.fn
+        || !window.jQuery.fn.dataTable
+        || typeof window.jQuery.fn.dataTable.Buttons !== 'function'
+    ) {
+        throw new Error(
+            'DataTable toolbar actions require DataTables Buttons in the module vendor bundle.'
+        );
+    }
+}
+
 class DataTableBuilder {
     constructor(selector) {
         this.selector = selector;
         this.options = cloneDefaults();
         this.actions = [];
+        this.toolbarActions = [];
+        this.actionTarget = 'menu';
         this.actionTitle = 'Actions';
         this.actionMode = 'dropdown';
+        this.toolbarClassName = 'datatable-action-toolbar';
         this.table = null;
         this.searchSelector = null;
         this.actionHeader = null;
@@ -78,6 +94,7 @@ class DataTableBuilder {
 
     menuAction(config) {
         config = config || {};
+        this.actionTarget = 'menu';
 
         if (config.title) {
             this.actionTitle = config.title;
@@ -93,8 +110,31 @@ class DataTableBuilder {
         return this;
     }
 
+    toolbarAction(config) {
+        config = config || {};
+        this.actionTarget = 'toolbar';
+
+        if (config.className) {
+            this.toolbarClassName = SecurityUtil.sanitizeClassList(config.className)
+                || 'datatable-action-toolbar';
+        }
+
+        return this;
+    }
+
     addAction(action) {
-        this.actions.push(action);
+        action = action || {};
+
+        if (this.actionTarget === 'toolbar') {
+            if (action.divider) {
+                throw new Error('DataTable toolbar actions do not support dividers.');
+            }
+
+            this.toolbarActions.push(action);
+        } else {
+            this.actions.push(action);
+        }
+
         return this;
     }
 
@@ -193,6 +233,11 @@ class DataTableBuilder {
             throw new Error('DataTableBuilder requires jQuery DataTables.');
         }
 
+        if (this.toolbarActions.length) {
+            loadButtons();
+            this.prepareToolbarActions();
+        }
+
         if (this.actions.length && this.actionMode === 'dropdown') {
             loadBootstrapDropdown();
             this.appendActionColumn();
@@ -201,6 +246,7 @@ class DataTableBuilder {
 
         this.table = window.jQuery(this.selector).DataTable(this.options);
         this.bindActions();
+        this.bindToolbarActions();
         this.bindSearch();
         return this;
     }
@@ -272,6 +318,102 @@ class DataTableBuilder {
         });
 
         return html;
+    }
+
+    toolbarActionClass(action) {
+        var classes = ['dt-common-toolbar-action'];
+        var variant = action.variant || 'secondary';
+
+        if (variant === 'primary') {
+            classes.push('dt-common-toolbar-primary');
+        } else if (variant === 'danger') {
+            classes.push('dt-common-toolbar-danger');
+        }
+
+        if (action.placement === 'end') {
+            classes.push('dt-common-toolbar-end');
+        }
+
+        var extra = SecurityUtil.sanitizeClassList(action.className || '');
+        if (extra) classes.push(extra);
+
+        return classes.join(' ');
+    }
+
+    buildToolbarButtons() {
+        var self = this;
+
+        return this.toolbarActions.map(function (action, index) {
+            return {
+                name: 'commonToolbarAction' + index,
+                text: self.renderActionLabel(action),
+                className: self.toolbarActionClass(action),
+                enabled: self.toolbarActionEnabled(action, 0),
+                action: function (_event, dt) {
+                    return self.runToolbarAction(action, dt);
+                }
+            };
+        });
+    }
+
+    prepareToolbarActions() {
+        var className = SecurityUtil.sanitizeClassList(this.toolbarClassName)
+            || 'datatable-action-toolbar';
+
+        this.options.dom = '<"' + className + '"B>'
+            + (this.options.dom || DEFAULT_OPTIONS.dom);
+        this.options.buttons = this.buildToolbarButtons();
+    }
+
+    toolbarActionEnabled(action, count) {
+        var selection = action.selection || 'none';
+
+        if (selection === 'single') return count === 1;
+        if (selection === 'multi') return count > 1;
+        if (selection === 'any') return count > 0;
+        return true;
+    }
+
+    runToolbarAction(action, dt) {
+        if (typeof action.onClick !== 'function') return;
+
+        var rows = dt.rows({selected: true});
+        var data = rows.data().toArray();
+        var selection = action.selection || 'none';
+
+        if (!this.toolbarActionEnabled(action, data.length)) return;
+
+        if (selection === 'single') {
+            var row = dt.row({selected: true});
+            return action.onClick(row.data(), row, dt);
+        }
+
+        if (selection === 'multi' || selection === 'any') {
+            return action.onClick(data, rows, dt);
+        }
+
+        return action.onClick(null, null, dt);
+    }
+
+    bindToolbarActions() {
+        if (!this.toolbarActions.length || !this.table) return;
+
+        var self = this;
+        var update = function () {
+            var count = self.table.rows({selected: true}).count();
+
+            self.toolbarActions.forEach(function (action, index) {
+                self.table
+                    .button(index)
+                    .enable(self.toolbarActionEnabled(action, count));
+            });
+        };
+
+        this.table.on(
+            'select.commonJsToolbar deselect.commonJsToolbar draw.commonJsToolbar',
+            update
+        );
+        update();
     }
 
     buildContextItems() {
@@ -393,6 +535,10 @@ class DataTableBuilder {
 
         if (this.searchSelector) {
             window.jQuery(this.searchSelector).off('.commonJsSearch');
+        }
+
+        if (this.table && this.toolbarActions.length) {
+            this.table.off('.commonJsToolbar');
         }
 
         if (this.table) {

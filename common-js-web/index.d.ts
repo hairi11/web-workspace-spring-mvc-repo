@@ -243,6 +243,21 @@ export interface DataTableActionMenuConfig {
     mode?: 'dropdown' | 'context';
 }
 
+export interface DataTableToolbarConfig {
+    className?: string;
+}
+
+export interface DataTableActionConfig {
+    text?: string;
+    icon?: string;
+    className?: string;
+    divider?: boolean;
+    selection?: 'none' | 'single' | 'multi' | 'any';
+    placement?: 'start' | 'end';
+    variant?: 'secondary' | 'primary' | 'danger';
+    onClick?: (...args: any[]) => any;
+}
+
 export class DataTableBuilder {
     constructor(selector: string);
     data(rows: any[]): this;
@@ -251,7 +266,8 @@ export class DataTableBuilder {
     column(data: any, title: string, config?: any): this;
     renderer(data: any, title: string, renderer: Function, config?: any): this;
     menuAction(config?: DataTableActionMenuConfig): this;
-    addAction(action: any): this;
+    toolbarAction(config?: DataTableToolbarConfig): this;
+    addAction(action: DataTableActionConfig): this;
     searchInput(selector: string): this;
     build(): any;
     refresh(resetPaging?: boolean): this;

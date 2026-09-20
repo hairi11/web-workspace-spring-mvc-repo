@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.0.2 - DataTables toolbar action wrapper
+
+- Added `toolbarAction()` so feature modules declare toolbar actions through `DataTableBuilder`, matching the existing `menuAction()` wrapper pattern.
+- DataTables Buttons now owns toolbar button rendering and selection-driven enable/disable state.
+- Added single, multi, any, and no-selection action rules plus end placement and semantic variants.
+
+
 ## 8.0.1 - Third-party DataTable context menu
 
 - Replaced custom right-click menu mechanics with `jquery-contextmenu` 2.10.2.

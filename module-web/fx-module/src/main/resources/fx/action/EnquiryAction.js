@@ -25,77 +25,6 @@ function selectCheckboxRenderer() {
     return render.select();
 }
 
-function tableDom() {
-    return '<"datatable-action-toolbar"B>'
-        + 't'
-        + '<"row align-items-center mt-3"'
-        + '<"col-12 col-md-4"l>'
-        + '<"col-12 col-md-4 text-md-center mt-2 mt-md-0"i>'
-        + '<"col-12 col-md-4 d-flex justify-content-md-end mt-2 mt-md-0"p>'
-        + '>';
-}
-
-function tableButtons() {
-    return [
-        {
-            extend: 'selectedSingle',
-            text: '<i class="fa fa-eye" aria-hidden="true"></i><span>View</span>',
-            className: 'datatable-action-button buttons-view',
-            action: function (_event, dt) {
-                const row = dt.row({ selected: true }).data();
-                if (!row) return;
-
-                openTransaction(
-                    TransactionMode.VIEW,
-                    row.id,
-                    null,
-                    { page: 'enquiry' }
-                );
-            }
-        },
-        {
-            extend: 'selectedSingle',
-            text: '<i class="fa fa-pen" aria-hidden="true"></i><span>Edit</span>',
-            className: 'datatable-action-button buttons-edit',
-            action: function (_event, dt) {
-                const row = dt.row({ selected: true }).data();
-                if (!row) return;
-                openExistingTransaction(row.masterId, row.id);
-            }
-        },
-        {
-            name: 'deleteSelected',
-            text: '<i class="fa fa-trash" aria-hidden="true"></i><span>Delete</span>',
-            className: 'datatable-action-button datatable-action-button-danger buttons-delete',
-            enabled: false,
-            init: function (dt) {
-                const update = () => {
-                    const count = dt.rows({ selected: true }).count();
-                    dt.button('deleteSelected:name').enable(count > 1);
-                };
-
-                dt.on(
-                    'select.fxDeleteButton deselect.fxDeleteButton draw.fxDeleteButton',
-                    update
-                );
-                update();
-            },
-            action: function (_event, dt) {
-                const rows = dt.rows({ selected: true }).data().toArray();
-                if (rows.length <= 1) return;
-                deleteTransactions(rows);
-            }
-        },
-        {
-            text: '<i class="fa fa-plus" aria-hidden="true"></i><span>Create</span>',
-            className: 'datatable-action-button datatable-action-button-primary buttons-create',
-            action: function () {
-                createTransaction();
-            }
-        }
-    ];
-}
-
 function buildTable() {
     return new DataTableBuilder('#fxTable')
         .serverPage((page, size, options) => FxService.enquiry(
@@ -110,8 +39,6 @@ function buildTable() {
                 console.error(error);
             }
         })
-        .option('dom', tableDom())
-        .option('buttons', tableButtons())
         .option('select', {
             style: 'multi',
             selector: 'td',
@@ -132,6 +59,39 @@ function buildTable() {
         .renderer('fxType', 'FX Type', Renderers.property('fxTypeDescription'))
         .renderer('fxAmount', 'FX Amount', Renderers.amount())
         .renderer('fxDate', 'FX Date', Renderers.date())
+        .toolbarAction()
+        .addAction({
+            text: 'View',
+            icon: 'fa fa-eye',
+            selection: 'single',
+            onClick: (row) => openTransaction(
+                TransactionMode.VIEW,
+                row.id,
+                null,
+                { page: 'enquiry' }
+            )
+        })
+        .addAction({
+            text: 'Edit',
+            icon: 'fa fa-pen',
+            selection: 'single',
+            onClick: (row) => openExistingTransaction(row.masterId, row.id)
+        })
+        .addAction({
+            text: 'Delete',
+            icon: 'fa fa-trash',
+            selection: 'multi',
+            variant: 'danger',
+            onClick: (rows) => deleteTransactions(rows)
+        })
+        .addAction({
+            text: 'Create',
+            icon: 'fa fa-plus',
+            selection: 'none',
+            placement: 'end',
+            variant: 'primary',
+            onClick: () => createTransaction()
+        })
         .menuAction({ mode: 'context' })
         .addAction({
             text: 'View',
