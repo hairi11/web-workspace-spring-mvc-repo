@@ -27,7 +27,9 @@
             <button class="btn btn-outline-secondary" id="editFxButton" type="button" disabled>Edit</button>
             <button class="btn btn-outline-secondary" id="deleteFxButton" type="button" disabled>Delete</button>
         </div>
-        <button class="btn btn-primary" id="createFxButton" type="button">Create</button>
+        <div class="datatable-action-toolbar-right">
+            <button class="btn btn-primary" id="createFxButton" type="button">Create</button>
+        </div>
     </div>
 
     <table id="fxTable">
