@@ -9,8 +9,6 @@ let table = null;
 
 export function initEnquiry() {
     table = buildTable();
-    bindTableActions();
-    bindCreateButton();
     bindReloadButton();
 }
 
@@ -27,6 +25,77 @@ function selectCheckboxRenderer() {
     return render.select();
 }
 
+function tableDom() {
+    return '<"datatable-action-toolbar"B>'
+        + 't'
+        + '<"row align-items-center mt-3"'
+        + '<"col-12 col-md-4"l>'
+        + '<"col-12 col-md-4 text-md-center mt-2 mt-md-0"i>'
+        + '<"col-12 col-md-4 d-flex justify-content-md-end mt-2 mt-md-0"p>'
+        + '>';
+}
+
+function tableButtons() {
+    return [
+        {
+            extend: 'selectedSingle',
+            text: '<i class="fa fa-eye" aria-hidden="true"></i><span>View</span>',
+            className: 'datatable-action-button buttons-view',
+            action: function (_event, dt) {
+                const row = dt.row({ selected: true }).data();
+                if (!row) return;
+
+                openTransaction(
+                    TransactionMode.VIEW,
+                    row.id,
+                    null,
+                    { page: 'enquiry' }
+                );
+            }
+        },
+        {
+            extend: 'selectedSingle',
+            text: '<i class="fa fa-pen" aria-hidden="true"></i><span>Edit</span>',
+            className: 'datatable-action-button buttons-edit',
+            action: function (_event, dt) {
+                const row = dt.row({ selected: true }).data();
+                if (!row) return;
+                openExistingTransaction(row.masterId, row.id);
+            }
+        },
+        {
+            name: 'deleteSelected',
+            text: '<i class="fa fa-trash" aria-hidden="true"></i><span>Delete</span>',
+            className: 'datatable-action-button datatable-action-button-danger buttons-delete',
+            enabled: false,
+            init: function (dt) {
+                const update = () => {
+                    const count = dt.rows({ selected: true }).count();
+                    dt.button('deleteSelected:name').enable(count > 1);
+                };
+
+                dt.on(
+                    'select.fxDeleteButton deselect.fxDeleteButton draw.fxDeleteButton',
+                    update
+                );
+                update();
+            },
+            action: function (_event, dt) {
+                const rows = dt.rows({ selected: true }).data().toArray();
+                if (rows.length <= 1) return;
+                deleteTransactions(rows);
+            }
+        },
+        {
+            text: '<i class="fa fa-plus" aria-hidden="true"></i><span>Create</span>',
+            className: 'datatable-action-button datatable-action-button-primary buttons-create',
+            action: function () {
+                createTransaction();
+            }
+        }
+    ];
+}
+
 function buildTable() {
     return new DataTableBuilder('#fxTable')
         .serverPage((page, size, options) => FxService.enquiry(
@@ -41,6 +110,8 @@ function buildTable() {
                 console.error(error);
             }
         })
+        .option('dom', tableDom())
+        .option('buttons', tableButtons())
         .option('select', {
             style: 'multi',
             selector: 'td',
@@ -86,101 +157,14 @@ function buildTable() {
         .build();
 }
 
-function bindTableActions() {
-    const view = document.querySelector('#viewFxButton');
-    const edit = document.querySelector('#editFxButton');
-    const remove = document.querySelector('#deleteFxButton');
-
-    if (!view || !edit || !remove || !table || !table.table) return;
-
-    const updateState = () => {
-        const count = selectedRows().length;
-        const singleSelected = count === 1;
-        const multiSelected = count > 1;
-
-        view.disabled = !singleSelected;
-        edit.disabled = !singleSelected;
-        remove.disabled = !multiSelected;
-    };
-
-    table.table.on('select deselect draw', updateState);
-
-    view.addEventListener('click', () => {
-        const row = selectedRows()[0];
-        if (!row) return;
-
-        openTransaction(
-            TransactionMode.VIEW,
-            row.id,
-            null,
-            { page: 'enquiry' }
-        );
-    });
-
-    edit.addEventListener('click', () => {
-        const row = selectedRows()[0];
-        if (!row) return;
-        openExistingTransaction(row.masterId, row.id);
-    });
-
-    remove.addEventListener('click', async () => {
-        const rows = selectedRows();
-        if (!rows.length) return;
-        await deleteTransactions(rows);
-    });
-
-    updateState();
-}
-
-function selectedRows() {
-    if (!table || !table.table) return [];
-
-    return table.table
-        .rows({ selected: true })
-        .data()
-        .toArray();
-}
-
-async function deleteTransactions(rows) {
-    const count = rows.length;
-    const confirmed = await Dialog.confirm({
-        title: count === 1 ? 'Delete FX Transaction' : 'Delete FX Transactions',
-        message: count === 1
-            ? 'Delete this FX transaction?'
-            : 'Delete the ' + count + ' selected FX transactions?',
-        yesLabel: 'Delete',
-        noLabel: 'Cancel'
-    });
-    if (!confirmed) return;
-
-    try {
-        await Promise.all(rows.map((row) => FxService.deleteTransaction(row.id)));
-        Toast.success(
-            count === 1
-                ? 'FX transaction deleted.'
-                : count + ' FX transactions deleted.'
-        );
-        table.refresh(false);
-    } catch (error) {
-        Toast.error('Failed to delete selected FX transaction(s).');
-        console.error(error);
-        table.refresh(false);
-    }
-}
-
-function bindCreateButton() {
-    const button = document.querySelector('#createFxButton');
-    if (!button) return;
-
-    button.addEventListener('click', () => {
-        const rows = FxRows.create();
-        openTransaction(
-            TransactionMode.CREATE,
-            null,
-            rows.rowsKey,
-            { page: 'enquiry' }
-        );
-    });
+function createTransaction() {
+    const rows = FxRows.create();
+    openTransaction(
+        TransactionMode.CREATE,
+        null,
+        rows.rowsKey,
+        { page: 'enquiry' }
+    );
 }
 
 async function openExistingTransaction(masterId, transactionId) {

@@ -21,29 +21,6 @@
         <button class="btn btn-outline-secondary" id="reloadButton" type="button">Reload</button>
     </div>
 
-    <div class="datatable-action-toolbar" aria-label="FX table actions">
-        <div class="datatable-action-toolbar-left">
-            <button class="btn datatable-action-button" id="viewFxButton" type="button" disabled>
-                <i class="fa fa-eye" aria-hidden="true"></i>
-                <span>View</span>
-            </button>
-            <button class="btn datatable-action-button" id="editFxButton" type="button" disabled>
-                <i class="fa fa-pen" aria-hidden="true"></i>
-                <span>Edit</span>
-            </button>
-            <button class="btn datatable-action-button datatable-action-button-danger" id="deleteFxButton" type="button" disabled>
-                <i class="fa fa-trash" aria-hidden="true"></i>
-                <span>Delete</span>
-            </button>
-        </div>
-        <div class="datatable-action-toolbar-right">
-            <button class="btn datatable-action-button datatable-action-button-primary" id="createFxButton" type="button">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                <span>Create</span>
-            </button>
-        </div>
-    </div>
-
     <table id="fxTable">
         <caption>FX enquiry records</caption>
         <thead>

@@ -101,27 +101,18 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
 }
 
 .datatable-action-toolbar {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    gap: 1rem;
     margin-bottom: .75rem;
 }
 
-.datatable-action-toolbar-left,
-.datatable-action-toolbar-right {
+.datatable-action-toolbar .dt-buttons {
     display: flex;
     align-items: center;
+    width: 100%;
     gap: .5rem;
-    flex: 1 1 0;
 }
 
-.datatable-action-toolbar-left {
-    justify-content: flex-start;
-}
-
-.datatable-action-toolbar-right {
-    justify-content: flex-end;
+.datatable-action-toolbar .dt-buttons .buttons-create {
+    margin-left: auto;
 }
 
 .datatable-action-button {
@@ -171,7 +162,8 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
     color: #912018;
 }
 
-.datatable-action-button:disabled {
+.datatable-action-button:disabled,
+.datatable-action-button.disabled {
     border: 0;
     background: transparent;
     color: #adb5bd;
@@ -179,14 +171,8 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
 }
 
 @media (max-width: 700px) {
-    .datatable-action-toolbar {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .datatable-action-toolbar-left,
-    .datatable-action-toolbar-right {
-        flex: 0 0 auto;
+    .datatable-action-toolbar .dt-buttons {
+        flex-wrap: wrap;
     }
 }
 

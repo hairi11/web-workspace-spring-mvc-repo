@@ -137,6 +137,7 @@ export async function copyStaticFiles(options) {
     await cp(path.join(root, 'src', 'styles'), path.join(distRoot, 'assets', 'styles'), { recursive: true });
     await cp(path.join(root, 'node_modules', 'bootstrap', 'dist', 'css', 'bootstrap.min.css'), path.join(distRoot, 'assets', 'bootstrap.min.css'));
     await cp(path.join(root, 'node_modules', 'datatables.net-bs5', 'css', 'dataTables.bootstrap5.min.css'), path.join(distRoot, 'assets', 'dataTables.bootstrap5.min.css'));
+    await cp(path.join(root, 'node_modules', 'datatables.net-buttons-bs5', 'css', 'buttons.bootstrap5.min.css'), path.join(distRoot, 'assets', 'buttons.bootstrap5.min.css'));
     await cp(path.join(root, 'node_modules', 'datatables.net-select-bs5', 'css', 'select.bootstrap5.min.css'), path.join(distRoot, 'assets', 'select.bootstrap5.min.css'));
     await cp(path.join(root, 'node_modules', '@fortawesome', 'fontawesome-free', 'css', 'all.min.css'), path.join(distRoot, 'assets', 'fontawesome.min.css'));
     await cp(path.join(root, 'node_modules', '@fortawesome', 'fontawesome-free', 'webfonts'), path.join(distRoot, 'webfonts'), { recursive: true });
