@@ -110,7 +110,8 @@ test('DataTable context items escape labels and filter classes', function () {
 
     var item = builder.buildContextItems().action0;
     assert.equal(item.isHtmlName, true);
-    assert.match(item.name, /fa fa-eye/);
+    assert.match(item.name, /class="fa"/);
+    assert.doesNotMatch(item.name, /fa-eye/);
     assert.match(item.name, /&lt;img/);
     assert.doesNotMatch(item.name, /<img/i);
     assert.doesNotMatch(item.name, /onclick=/);
