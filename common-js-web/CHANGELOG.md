@@ -1,5 +1,10 @@
 # Changelog
 
+## 8.0.5 - ButtonBar dropdown caret polish
+
+- Added a scoped `More actions` trigger class and a larger, vertically centered dropup caret.
+
+
 ## 8.0.4 - Split DataTables toolbar placement
 
 - Toolbar actions with `placement: 'end'` are moved into a separate DataTables-generated button group after table initialization.

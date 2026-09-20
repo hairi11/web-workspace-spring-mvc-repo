@@ -83,3 +83,21 @@ pre {
     gap: 1rem;
     margin-right: auto;
 }
+
+.button-bar-more-actions.dropdown-toggle::after {
+    width: .5rem;
+    height: .5rem;
+    margin-left: .5rem;
+    vertical-align: .08rem;
+    border: 0;
+    border-top: 2px solid currentColor;
+    border-left: 2px solid currentColor;
+    transform: rotate(45deg);
+    transform-origin: center;
+}
+
+.button-bar-more-actions.dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}

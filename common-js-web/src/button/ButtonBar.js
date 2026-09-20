@@ -110,6 +110,7 @@ class ButtonBar {
         wrapper.style.minWidth = '140px';
 
         trigger.type = 'button';
+        trigger.classList.add('button-bar-more-actions');
         trigger.textContent = ButtonBar.DEFAULT_DROPDOWN_LABEL;
 
         menu.className = 'dropdown-menu w-100';
