@@ -241,7 +241,16 @@ class DataTableBuilder {
         return html + '</div></div>';
     }
 
+    renderActionLabel(action) {
+        var icon = SecurityUtil.sanitizeClassList(action.icon || '');
+        var text = SecurityUtil.escapeHtml(action.text || '');
+
+        return (icon ? '<i class="' + icon + '" aria-hidden="true"></i> ' : '')
+            + text;
+    }
+
     renderActionItems(actionClass) {
+        var self = this;
         var html = '';
 
         this.actions.forEach(function (action, index) {
@@ -250,7 +259,6 @@ class DataTableBuilder {
                 return;
             }
 
-            var icon = SecurityUtil.sanitizeClassList(action.icon || '');
             var extra = SecurityUtil.sanitizeClassList(action.className || '');
 
             html += '<button type="button" class="dropdown-item '
@@ -259,8 +267,7 @@ class DataTableBuilder {
                 + '" data-action-index="'
                 + index
                 + '">'
-                + (icon ? '<i class="' + icon + '"></i> ' : '')
-                + SecurityUtil.escapeHtml(action.text || '')
+                + self.renderActionLabel(action)
                 + '</button>';
         });
 
@@ -279,11 +286,10 @@ class DataTableBuilder {
                 return;
             }
 
-            var icon = SecurityUtil.sanitizeClassList(action.icon || '');
             var className = SecurityUtil.sanitizeClassList(action.className || '');
-            var item = {
-                name: action.text == null ? '' : String(action.text),
-                isHtmlName: false,
+            items[key] = {
+                name: self.renderActionLabel(action),
+                isHtmlName: true,
                 className: className,
                 callback: function (_key, options) {
                     var row = self.table.row(options.$trigger);
@@ -293,18 +299,6 @@ class DataTableBuilder {
                     }
                 }
             };
-
-            if (icon) {
-                item.icon = function (_options, $itemElement) {
-                    var element = document.createElement('i');
-                    element.className = icon;
-                    element.setAttribute('aria-hidden', 'true');
-                    $itemElement.prepend(element);
-                    return '';
-                };
-            }
-
-            items[key] = item;
         });
 
         return items;

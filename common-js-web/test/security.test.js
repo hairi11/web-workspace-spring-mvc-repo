@@ -100,7 +100,7 @@ test('DataTable action renderer escapes action text and filters classes', functi
     assert.match(html, / safe/);
 });
 
-test('DataTable context items use plain text and filter classes', function () {
+test('DataTable context items escape labels and filter classes', function () {
     var builder = new DataTableBuilder('#table');
     builder.menuAction({mode: 'context'}).addAction({
         text: '<img src=x onerror=alert(1)>',
@@ -109,8 +109,11 @@ test('DataTable context items use plain text and filter classes', function () {
     });
 
     var item = builder.buildContextItems().action0;
-    assert.equal(item.name, '<img src=x onerror=alert(1)>');
-    assert.equal(item.isHtmlName, false);
+    assert.equal(item.isHtmlName, true);
+    assert.match(item.name, /fa fa-eye/);
+    assert.match(item.name, /&lt;img/);
+    assert.doesNotMatch(item.name, /<img/i);
+    assert.doesNotMatch(item.name, /onclick=/);
     assert.equal(item.className, 'safe');
 });
 
