@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.4 - Split DataTables toolbar placement
+
+- Toolbar actions with `placement: 'end'` are moved into a separate DataTables-generated button group after table initialization.
+- Start actions stay compact on the left while end actions align reliably to the right without relying on auto margins inside Bootstrap `btn-group`.
+
+
 ## 8.0.3 - DataTables checkbox selection wrapper
 
 - Added `selectCheckbox()` to keep the native DataTables Select checkbox renderer and column setup inside `DataTableBuilder`.

@@ -1,6 +1,6 @@
 {
   "name": "@company/common-js-web",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "description": "Bootstrap-backed CommonJS wrapper library for HTTP, forms, DataTables and reusable UI helpers.",
   "main": "src/index.js",
   "types": "index.d.ts",

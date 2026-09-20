@@ -104,18 +104,27 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
     margin-bottom: .75rem;
 }
 
+.datatable-action-toolbar.dt-common-toolbar-split {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+}
+
 .datatable-action-toolbar .dt-buttons {
     display: flex;
     align-items: center;
-    width: 100%;
     gap: .5rem;
+    width: auto;
+    flex: 0 0 auto;
 }
 
 .datatable-action-toolbar .dt-buttons > .dt-common-toolbar-action {
     flex: 0 0 auto;
 }
 
-.datatable-action-toolbar .dt-buttons .dt-common-toolbar-end {
+.datatable-action-toolbar .dt-common-toolbar-end-group {
     margin-left: auto;
 }
 

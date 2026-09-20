@@ -79,6 +79,7 @@ class DataTableBuilder {
         this.actionTitle = 'Actions';
         this.actionMode = 'dropdown';
         this.toolbarClassName = 'datatable-action-toolbar';
+        this.toolbarEndContainer = null;
         this.selectCheckboxConfig = null;
         this.selectHeader = null;
         this.table = null;
@@ -279,6 +280,7 @@ class DataTableBuilder {
         }
 
         this.table = window.jQuery(this.selector).DataTable(this.options);
+        this.arrangeToolbarActions();
         this.bindActions();
         this.bindToolbarActions();
         this.bindSearch();
@@ -466,6 +468,33 @@ class DataTableBuilder {
         return action.onClick(null, null, dt);
     }
 
+    arrangeToolbarActions() {
+        if (!this.toolbarActions.length || !this.table) return;
+
+        var container = this.table.table().container();
+        var toolbar = container && container.querySelector('.datatable-action-toolbar');
+        var startGroup = toolbar && toolbar.querySelector('.dt-buttons');
+
+        if (!toolbar || !startGroup) return;
+
+        var endButtons = Array.prototype.slice.call(
+            startGroup.querySelectorAll('.dt-common-toolbar-end')
+        );
+
+        if (!endButtons.length) return;
+
+        var endGroup = document.createElement('div');
+        endGroup.className = startGroup.className + ' dt-common-toolbar-end-group';
+
+        endButtons.forEach(function (button) {
+            endGroup.appendChild(button);
+        });
+
+        toolbar.classList.add('dt-common-toolbar-split');
+        toolbar.appendChild(endGroup);
+        this.toolbarEndContainer = endGroup;
+    }
+
     bindToolbarActions() {
         if (!this.toolbarActions.length || !this.table) return;
 
@@ -610,6 +639,11 @@ class DataTableBuilder {
 
         if (this.table && this.toolbarActions.length) {
             this.table.off('.commonJsToolbar');
+        }
+
+        if (this.toolbarEndContainer) {
+            this.toolbarEndContainer.remove();
+            this.toolbarEndContainer = null;
         }
 
         if (this.table) {
