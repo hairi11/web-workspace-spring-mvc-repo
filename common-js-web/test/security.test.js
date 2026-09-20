@@ -100,7 +100,7 @@ test('DataTable action renderer escapes action text and filters classes', functi
     assert.match(html, / safe/);
 });
 
-test('DataTable context action renderer escapes action text and filters classes', function () {
+test('DataTable context items use plain text and filter classes', function () {
     var builder = new DataTableBuilder('#table');
     builder.menuAction({mode: 'context'}).addAction({
         text: '<img src=x onerror=alert(1)>',
@@ -108,11 +108,10 @@ test('DataTable context action renderer escapes action text and filters classes'
         className: 'safe bad<script>'
     });
 
-    var html = builder._renderContextActions();
-    assert.match(html, /&lt;img/);
-    assert.doesNotMatch(html, /<img/i);
-    assert.doesNotMatch(html, /onclick=/);
-    assert.match(html, / safe/);
+    var item = builder.buildContextItems().action0;
+    assert.equal(item.name, '<img src=x onerror=alert(1)>');
+    assert.equal(item.isHtmlName, false);
+    assert.equal(item.className, 'safe');
 });
 
 test('FileValidator enforces size and type on file-like values', function () {

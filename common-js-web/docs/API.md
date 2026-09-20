@@ -101,7 +101,7 @@ Runtime:
 - `search(value)`
 - `destroy()`
 
-`dropdown` adds a visible Bootstrap action column. `context` keeps the table columns unchanged and opens the same actions on right-click of a row.
+`dropdown` adds a visible Bootstrap action column. `context` keeps the table columns unchanged and delegates right-click menu rendering, positioning, keyboard behavior and lifecycle to `jquery-contextmenu`.
 
 ## HTTP
 

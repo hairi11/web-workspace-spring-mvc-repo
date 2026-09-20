@@ -25,6 +25,7 @@ Bootstrap 5 is the default UI foundation.
 - `ChoiceInput` radio mode → Bootstrap form-check
 - `DatePicker` → Flatpickr with Bootstrap input styling
 - `DataTableBuilder` → DataTables Bootstrap 5 integration
+- DataTable right-click actions → `jquery-contextmenu`
 
 ## FormAction
 
@@ -83,7 +84,7 @@ The wrapper intentionally exposes only the DataTable behavior currently used by 
 - `search()`
 - `destroy()`
 
-Row actions support both a visible Bootstrap dropdown column and a right-click Bootstrap-styled context menu. Use `menuAction({mode: 'context'})` for context-menu behavior.
+Row actions support both a visible Bootstrap dropdown column and a right-click context menu backed by `jquery-contextmenu`. Use `menuAction({mode: 'context'})`; feature modules do not depend on the third-party API directly.
 
 ## Decimal safety
 

@@ -33,6 +33,14 @@ function loadBootstrapDropdown() {
     require('bootstrap/js/dist/dropdown');
 }
 
+function loadContextMenu() {
+    require('jquery-contextmenu');
+
+    if (!window.jQuery || typeof window.jQuery.contextMenu !== 'function') {
+        throw new Error('DataTable context actions require jquery-contextmenu.');
+    }
+}
+
 class DataTableBuilder {
     constructor(selector) {
         this.selector = selector;
@@ -43,8 +51,7 @@ class DataTableBuilder {
         this.table = null;
         this.searchSelector = null;
         this.actionHeader = null;
-        this.contextMenu = null;
-        this.contextRow = null;
+        this.contextSelector = null;
     }
 
     data(rows) {
@@ -234,38 +241,47 @@ class DataTableBuilder {
         return html + '</div></div>';
     }
 
-    _renderContextActions() {
-        return this.renderContextActions();
-    }
-
-    renderContextActions() {
-        return this.renderActionItems('dt-common-context-action');
-    }
-
-    renderActionItems(actionClass) {
-        var html = '';
+    buildContextItems() {
+        var self = this;
+        var items = {};
 
         this.actions.forEach(function (action, index) {
+            var key = 'action' + index;
+
             if (action.divider) {
-                html += '<div class="dropdown-divider"></div>';
+                items[key] = '---------';
                 return;
             }
 
             var icon = SecurityUtil.sanitizeClassList(action.icon || '');
-            var extra = SecurityUtil.sanitizeClassList(action.className || '');
+            var className = SecurityUtil.sanitizeClassList(action.className || '');
+            var item = {
+                name: action.text == null ? '' : String(action.text),
+                isHtmlName: false,
+                className: className,
+                callback: function (_key, options) {
+                    var row = self.table.row(options.$trigger);
 
-            html += '<button type="button" class="dropdown-item '
-                + actionClass
-                + (extra ? ' ' + extra : '')
-                + '" data-action-index="'
-                + index
-                + '">'
-                + (icon ? '<i class="' + icon + '"></i> ' : '')
-                + SecurityUtil.escapeHtml(action.text || '')
-                + '</button>';
+                    if (row && row.data() && typeof action.onClick === 'function') {
+                        return action.onClick(row.data(), row, self.table);
+                    }
+                }
+            };
+
+            if (icon) {
+                item.icon = function (_options, $itemElement) {
+                    var element = document.createElement('i');
+                    element.className = icon;
+                    element.setAttribute('aria-hidden', 'true');
+                    $itemElement.prepend(element);
+                    return '';
+                };
+            }
+
+            items[key] = item;
         });
 
-        return html;
+        return items;
     }
 
     bindActions() {
@@ -292,104 +308,27 @@ class DataTableBuilder {
     }
 
     bindContextMenu() {
-        var self = this;
-        var tableElement = window.jQuery(this.selector);
+        loadContextMenu();
 
-        tableElement
-            .off('contextmenu.commonJsActions')
-            .on('contextmenu.commonJsActions', 'tbody tr', function (event) {
-                event.preventDefault();
-
-                var row = self.table.row(this);
-                if (!row || !row.data()) return;
-
-                self.contextRow = row;
-                self.showContextMenu(event.clientX, event.clientY);
-            });
-
-        window.jQuery(document)
-            .off('click.commonJsContextMenu keydown.commonJsContextMenu')
-            .on('click.commonJsContextMenu', function (event) {
-                if (!self.contextMenu || self.contextMenu.contains(event.target)) return;
-                self.hideContextMenu();
-            })
-            .on('keydown.commonJsContextMenu', function (event) {
-                if (event.key === 'Escape') self.hideContextMenu();
-            });
-
-        window.jQuery(window)
-            .off('blur.commonJsContextMenu resize.commonJsContextMenu scroll.commonJsContextMenu')
-            .on(
-                'blur.commonJsContextMenu resize.commonJsContextMenu scroll.commonJsContextMenu',
-                function () {
-                    self.hideContextMenu();
-                }
-            );
-    }
-
-    showContextMenu(x, y) {
-        this.ensureContextMenu();
-        this.contextMenu.innerHTML = this.renderContextActions();
-        this.contextMenu.style.position = 'fixed';
-        this.contextMenu.style.left = x + 'px';
-        this.contextMenu.style.top = y + 'px';
-        this.contextMenu.style.zIndex = '1080';
-        this.contextMenu.classList.add('show');
-
-        var rect = this.contextMenu.getBoundingClientRect();
-        var left = Math.min(x, Math.max(0, window.innerWidth - rect.width - 4));
-        var top = Math.min(y, Math.max(0, window.innerHeight - rect.height - 4));
-
-        this.contextMenu.style.left = left + 'px';
-        this.contextMenu.style.top = top + 'px';
-    }
-
-    ensureContextMenu() {
-        if (this.contextMenu) return;
-
-        var self = this;
-        var menu = document.createElement('div');
-
-        menu.className = 'dropdown-menu';
-        menu.setAttribute('role', 'menu');
-
-        menu.addEventListener('click', function (event) {
-            var button = event.target.closest('.dt-common-context-action');
-            if (!button || !self.contextRow) return;
-
-            var index = Number(button.getAttribute('data-action-index'));
-            var action = self.actions[index];
-            var row = self.contextRow;
-
-            self.hideContextMenu();
-
-            if (action && typeof action.onClick === 'function') {
-                action.onClick(row.data(), row, self.table);
-            }
+        this.contextSelector = this.selector + ' tbody tr';
+        window.jQuery.contextMenu('destroy', this.contextSelector);
+        window.jQuery.contextMenu({
+            selector: this.contextSelector,
+            trigger: 'right',
+            items: this.buildContextItems()
         });
-
-        document.body.appendChild(menu);
-        this.contextMenu = menu;
-    }
-
-    hideContextMenu() {
-        if (this.contextMenu) {
-            this.contextMenu.classList.remove('show');
-        }
-        this.contextRow = null;
     }
 
     destroyContextMenu() {
-        window.jQuery(this.selector).off('.commonJsActions');
-        window.jQuery(document).off('.commonJsContextMenu');
-        window.jQuery(window).off('.commonJsContextMenu');
-
-        if (this.contextMenu && this.contextMenu.parentNode) {
-            this.contextMenu.parentNode.removeChild(this.contextMenu);
+        if (
+            this.contextSelector
+            && window.jQuery
+            && typeof window.jQuery.contextMenu === 'function'
+        ) {
+            window.jQuery.contextMenu('destroy', this.contextSelector);
         }
 
-        this.contextMenu = null;
-        this.contextRow = null;
+        this.contextSelector = null;
     }
 
     bindSearch() {
@@ -414,7 +353,6 @@ class DataTableBuilder {
     replaceData(rows, resetPaging) {
         if (!this.table) return this;
 
-        this.hideContextMenu();
         this.table.clear();
         this.table.rows.add(Array.isArray(rows) ? rows : []);
         this.table.draw(resetPaging !== false);

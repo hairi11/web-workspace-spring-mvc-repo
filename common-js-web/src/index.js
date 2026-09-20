@@ -1,5 +1,5 @@
 module.exports = {
-    version: '8.0.0',
+    version: '8.0.1',
     Actions: require('./datatable/Actions'),
     Ajax: require('./ajax/Ajax'),
     AjaxError: require('./ajax/AjaxError'),

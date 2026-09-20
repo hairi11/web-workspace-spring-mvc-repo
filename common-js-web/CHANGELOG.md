@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.0.1 - Third-party DataTable context menu
+
+- Replaced custom right-click menu mechanics with `jquery-contextmenu` 2.10.2.
+- Kept `menuAction({mode: 'context'})` as the module-facing wrapper API.
+- Kept Bootstrap dropdown actions as the default `menuAction()` mode.
+
+
 ## 8.0.0 - Bootstrap wrapper refactor
 
 - Kept project wrapper APIs while moving UI mechanics to Bootstrap 5.

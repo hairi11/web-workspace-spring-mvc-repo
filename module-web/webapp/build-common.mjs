@@ -63,6 +63,7 @@ export async function copyStaticFiles(options) {
     await cp(path.join(root, 'node_modules', '@fortawesome', 'fontawesome-free', 'webfonts'), path.join(distRoot, 'webfonts'), { recursive: true });
     await cp(path.join(root, 'node_modules', 'select2', 'dist', 'css', 'select2.min.css'), path.join(distRoot, 'assets', 'select2.min.css'));
     await cp(path.join(root, 'node_modules', 'flatpickr', 'dist', 'flatpickr.min.css'), path.join(distRoot, 'assets', 'flatpickr.min.css'));
+    await cp(path.join(root, 'node_modules', 'jquery-contextmenu', 'dist', 'jquery.contextMenu.min.css'), path.join(distRoot, 'assets', 'jquery.contextMenu.min.css'));
 
     await bundleStyles(options.minifyCss === true);
 }

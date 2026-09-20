@@ -1,6 +1,6 @@
 {
   "name": "@company/common-js-web",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "Bootstrap-backed CommonJS wrapper library for HTTP, forms, DataTables and reusable UI helpers.",
   "main": "src/index.js",
   "types": "index.d.ts",
@@ -14,7 +14,8 @@
     "loglevel": "^1.9.2",
     "lru-cache": "^11.1.0",
     "unistore": "^3.5.2",
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "jquery-contextmenu": "2.10.2"
   },
   "license": "MIT",
   "type": "commonjs"

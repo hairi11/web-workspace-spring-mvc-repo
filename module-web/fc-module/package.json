@@ -13,7 +13,8 @@
     "datatables.net-select-bs5": "3.0.1",
     "flatpickr": "^4.6.13",
     "jquery": "3.7.1",
-    "select2": "4.1.0-rc.0"
+    "select2": "4.1.0-rc.0",
+    "jquery-contextmenu": "2.10.2"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"
