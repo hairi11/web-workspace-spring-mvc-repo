@@ -206,5 +206,9 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
 }
 
 #fxTable .dt-select-checkbox {
+    width: 1.125rem;
+    height: 1.125rem;
     margin: 0;
+    vertical-align: middle;
+    cursor: pointer;
 }

@@ -43,7 +43,7 @@ function buildTable() {
         })
         .option('select', {
             style: 'multi',
-            selector: 'td.dt-select-column',
+            selector: 'td',
             headerCheckbox: false
         })
         .searchInput('#searchInput')
@@ -61,6 +61,28 @@ function buildTable() {
         .renderer('fxType', 'FX Type', Renderers.property('fxTypeDescription'))
         .renderer('fxAmount', 'FX Amount', Renderers.amount())
         .renderer('fxDate', 'FX Date', Renderers.date())
+        .menuAction({ mode: 'context' })
+        .addAction({
+            text: 'View',
+            icon: 'fa fa-eye',
+            onClick: (row) => openTransaction(
+                TransactionMode.VIEW,
+                row.id,
+                null,
+                { page: 'enquiry' }
+            )
+        })
+        .addAction({
+            text: 'Edit',
+            icon: 'fa fa-pen',
+            onClick: (row) => openExistingTransaction(row.masterId, row.id)
+        })
+        .addAction({ divider: true })
+        .addAction({
+            text: 'Delete Transaction',
+            icon: 'fa fa-trash',
+            onClick: (row) => deleteTransactions([row])
+        })
         .build();
 }
 
