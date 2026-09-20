@@ -100,6 +100,21 @@ test('DataTable action renderer escapes action text and filters classes', functi
     assert.match(html, / safe/);
 });
 
+test('DataTable context action renderer escapes action text and filters classes', function () {
+    var builder = new DataTableBuilder('#table');
+    builder.menuAction({mode: 'context'}).addAction({
+        text: '<img src=x onerror=alert(1)>',
+        icon: 'fa fa-eye\" onclick=alert(1)',
+        className: 'safe bad<script>'
+    });
+
+    var html = builder._renderContextActions();
+    assert.match(html, /&lt;img/);
+    assert.doesNotMatch(html, /<img/i);
+    assert.doesNotMatch(html, /onclick=/);
+    assert.match(html, / safe/);
+});
+
 test('FileValidator enforces size and type on file-like values', function () {
     var sizeRule = FileValidator.maxSize(100);
     var typeRule = FileValidator.allowedTypes(['image/png']);

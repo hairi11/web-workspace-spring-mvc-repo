@@ -83,7 +83,7 @@ The wrapper intentionally exposes only the DataTable behavior currently used by 
 - `search()`
 - `destroy()`
 
-Row actions use a visible Bootstrap dropdown column.
+Row actions support both a visible Bootstrap dropdown column and a right-click Bootstrap-styled context menu. Use `menuAction({mode: 'context'})` for context-menu behavior.
 
 ## Decimal safety
 

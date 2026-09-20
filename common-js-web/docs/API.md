@@ -89,7 +89,7 @@ Supported configuration:
 - `serverPage(loader, config)`
 - `column(data, title, config?)`
 - `renderer(data, title, renderer, config?)`
-- `menuAction()`
+- `menuAction({mode?: 'dropdown' | 'context', title?})`
 - `addAction(action)`
 - `searchInput(selector)`
 
@@ -100,6 +100,8 @@ Runtime:
 - `replaceData(rows, resetPaging?)`
 - `search(value)`
 - `destroy()`
+
+`dropdown` adds a visible Bootstrap action column. `context` keeps the table columns unchanged and opens the same actions on right-click of a row.
 
 ## HTTP
 
