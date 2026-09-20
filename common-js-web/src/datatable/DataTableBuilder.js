@@ -241,6 +241,32 @@ class DataTableBuilder {
         return html + '</div></div>';
     }
 
+    renderActionItems(actionClass) {
+        var html = '';
+
+        this.actions.forEach(function (action, index) {
+            if (action.divider) {
+                html += '<div class="dropdown-divider"></div>';
+                return;
+            }
+
+            var icon = SecurityUtil.sanitizeClassList(action.icon || '');
+            var extra = SecurityUtil.sanitizeClassList(action.className || '');
+
+            html += '<button type="button" class="dropdown-item '
+                + actionClass
+                + (extra ? ' ' + extra : '')
+                + '" data-action-index="'
+                + index
+                + '">'
+                + (icon ? '<i class="' + icon + '"></i> ' : '')
+                + SecurityUtil.escapeHtml(action.text || '')
+                + '</button>';
+        });
+
+        return html;
+    }
+
     buildContextItems() {
         var self = this;
         var items = {};
