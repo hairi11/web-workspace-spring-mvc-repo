@@ -124,8 +124,58 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
     justify-content: flex-end;
 }
 
-.datatable-action-toolbar .btn {
-    min-width: 96px;
+.datatable-action-button {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    min-width: 0;
+    padding: .375rem .5rem;
+    border: 0;
+    background: transparent;
+    color: var(--app-button-secondary, #272833);
+    box-shadow: none;
+    text-decoration: none;
+}
+
+.datatable-action-button:hover,
+.datatable-action-button:focus,
+.datatable-action-button:active {
+    border: 0;
+    background: #f3f4f6;
+    color: var(--app-button-secondary, #272833);
+    box-shadow: none;
+}
+
+.datatable-action-button i {
+    width: 1rem;
+    text-align: center;
+}
+
+.datatable-action-button-primary {
+    color: var(--app-button-primary, #0e1826);
+}
+
+.datatable-action-button-primary:hover,
+.datatable-action-button-primary:focus,
+.datatable-action-button-primary:active {
+    color: var(--app-button-primary, #0e1826);
+}
+
+.datatable-action-button-danger {
+    color: #b42318;
+}
+
+.datatable-action-button-danger:hover,
+.datatable-action-button-danger:focus,
+.datatable-action-button-danger:active {
+    color: #912018;
+}
+
+.datatable-action-button:disabled {
+    border: 0;
+    background: transparent;
+    color: #adb5bd;
+    opacity: 1;
 }
 
 @media (max-width: 700px) {
