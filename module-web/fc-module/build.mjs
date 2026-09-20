@@ -8,6 +8,26 @@ const outputDir = path.join(root, 'target', 'classes', 'META-INF', 'resources', 
 const entry = path.join(resourceRoot, 'FcPage.js');
 const vendorEntry = path.join(resourceRoot, 'vendor.js');
 const nodeModules = path.join(root, 'node_modules');
+const commonJsEntry = path.resolve(
+    root,
+    '..',
+    '..',
+    'common-js-web',
+    'src',
+    'index.js'
+);
+
+function workspaceCommonJsPlugin() {
+    return {
+        name: 'fc-workspace-common-js',
+        setup(buildContext) {
+            buildContext.onResolve(
+                { filter: /^@company\\/common-js-web$/ },
+                () => ({ path: commonJsEntry })
+            );
+        }
+    };
+}
 
 function sharedVendorPlugin(entryFile) {
     const normalizedEntry = path.resolve(entryFile);
@@ -42,7 +62,10 @@ await build({
     minify: true,
     logLevel: 'info',
     nodePaths: [nodeModules],
-    plugins: [sharedVendorPlugin(entry)]
+    plugins: [
+        workspaceCommonJsPlugin(),
+        sharedVendorPlugin(entry)
+    ]
 });
 
 console.log('Built FC JavaScript into META-INF/resources/fc.');
