@@ -14,6 +14,19 @@ export function initEnquiry() {
     bindReloadButton();
 }
 
+function selectCheckboxRenderer() {
+    const render = window.jQuery
+        && window.jQuery.fn
+        && window.jQuery.fn.dataTable
+        && window.jQuery.fn.dataTable.render;
+
+    if (!render || typeof render.select !== 'function') {
+        throw new Error('DataTables Select checkbox renderer is not available.');
+    }
+
+    return render.select();
+}
+
 function buildTable() {
     return new DataTableBuilder('#fxTable')
         .serverPage((page, size, options) => FxService.enquiry(
@@ -22,14 +35,25 @@ function buildTable() {
             options.sort
         ), {
             pageLength: 20,
-            defaultOrder: [[0, 'desc'], [1, 'asc']],
+            defaultOrder: [[1, 'desc'], [2, 'asc']],
             onError: (error) => {
                 Toast.error('Failed to load FX records.');
                 console.error(error);
             }
         })
-        .option('select', { style: 'multi' })
+        .option('select', {
+            style: 'multi',
+            selector: 'td.dt-select-column',
+            headerCheckbox: false
+        })
         .searchInput('#searchInput')
+        .column(null, '', {
+            orderable: false,
+            searchable: false,
+            className: 'dt-select-column',
+            width: '36px',
+            render: selectCheckboxRenderer()
+        })
         .renderer('reportDate', 'Report Date', Renderers.date())
         .column('recordNo', 'Record No')
         .renderer('fxCategory', 'FX Category', Renderers.property('fxCategoryDescription'))

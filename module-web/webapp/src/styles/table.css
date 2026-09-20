@@ -189,3 +189,22 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
         flex: 0 0 auto;
     }
 }
+
+#fxTable th.dt-select-column,
+#fxTable td.dt-select-column {
+    width: 36px;
+    min-width: 36px;
+    max-width: 36px;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#fxTable td.dt-select-column {
+    cursor: pointer;
+}
+
+#fxTable .dt-select-checkbox {
+    margin: 0;
+}
