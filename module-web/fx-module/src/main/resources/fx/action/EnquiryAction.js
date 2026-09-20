@@ -12,19 +12,6 @@ export function initEnquiry() {
     bindReloadButton();
 }
 
-function selectCheckboxRenderer() {
-    const render = window.jQuery
-        && window.jQuery.fn
-        && window.jQuery.fn.dataTable
-        && window.jQuery.fn.dataTable.render;
-
-    if (!render || typeof render.select !== 'function') {
-        throw new Error('DataTables Select checkbox renderer is not available.');
-    }
-
-    return render.select();
-}
-
 function buildTable() {
     return new DataTableBuilder('#fxTable')
         .serverPage((page, size, options) => FxService.enquiry(
@@ -39,19 +26,12 @@ function buildTable() {
                 console.error(error);
             }
         })
-        .option('select', {
+        .selectCheckbox({
             style: 'multi',
             selector: 'td',
             headerCheckbox: false
         })
         .searchInput('#searchInput')
-        .column(null, '', {
-            orderable: false,
-            searchable: false,
-            className: 'dt-select-column',
-            width: '36px',
-            render: selectCheckboxRenderer()
-        })
         .renderer('reportDate', 'Report Date', Renderers.date())
         .column('recordNo', 'Record No')
         .renderer('fxCategory', 'FX Category', Renderers.property('fxCategoryDescription'))

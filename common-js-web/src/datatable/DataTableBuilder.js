@@ -54,6 +54,21 @@ function loadButtons() {
     }
 }
 
+function loadSelectCheckboxRenderer() {
+    var render = window.jQuery
+        && window.jQuery.fn
+        && window.jQuery.fn.dataTable
+        && window.jQuery.fn.dataTable.render;
+
+    if (!render || typeof render.select !== 'function') {
+        throw new Error(
+            'DataTable checkbox selection requires DataTables Select in the module vendor bundle.'
+        );
+    }
+
+    return render.select();
+}
+
 class DataTableBuilder {
     constructor(selector) {
         this.selector = selector;
@@ -64,6 +79,8 @@ class DataTableBuilder {
         this.actionTitle = 'Actions';
         this.actionMode = 'dropdown';
         this.toolbarClassName = 'datatable-action-toolbar';
+        this.selectCheckboxConfig = null;
+        this.selectHeader = null;
         this.table = null;
         this.searchSelector = null;
         this.actionHeader = null;
@@ -90,6 +107,19 @@ class DataTableBuilder {
 
     renderer(data, title, renderer, config) {
         return this.column(data, title, Object.assign({render: renderer}, config || {}));
+    }
+
+    selectCheckbox(config) {
+        this.selectCheckboxConfig = Object.assign({
+            style: 'multi',
+            selector: 'td',
+            headerCheckbox: false,
+            title: '',
+            className: 'dt-select-column',
+            width: '36px'
+        }, config || {});
+
+        return this;
     }
 
     menuAction(config) {
@@ -233,6 +263,10 @@ class DataTableBuilder {
             throw new Error('DataTableBuilder requires jQuery DataTables.');
         }
 
+        if (this.selectCheckboxConfig) {
+            this.prepareSelectCheckbox();
+        }
+
         if (this.toolbarActions.length) {
             loadButtons();
             this.prepareToolbarActions();
@@ -249,6 +283,43 @@ class DataTableBuilder {
         this.bindToolbarActions();
         this.bindSearch();
         return this;
+    }
+
+    prepareSelectCheckbox() {
+        var config = this.selectCheckboxConfig;
+
+        this.options.select = {
+            style: config.style,
+            selector: config.selector,
+            headerCheckbox: config.headerCheckbox
+        };
+
+        this.options.columns.unshift({
+            data: null,
+            title: config.title,
+            orderable: false,
+            searchable: false,
+            className: SecurityUtil.sanitizeClassList(config.className)
+                || 'dt-select-column',
+            width: config.width,
+            render: loadSelectCheckboxRenderer()
+        });
+
+        this.ensureSelectHeader();
+    }
+
+    ensureSelectHeader() {
+        var table = document.querySelector(this.selector);
+        var row = table && table.querySelector('thead tr');
+
+        if (!row || row.children.length >= this.options.columns.length) return;
+
+        this.selectHeader = document.createElement('th');
+        this.selectHeader.className = SecurityUtil.sanitizeClassList(
+            this.selectCheckboxConfig.className
+        ) || 'dt-select-column';
+        this.selectHeader.setAttribute('aria-label', 'Select row');
+        row.insertBefore(this.selectHeader, row.firstChild);
     }
 
     appendActionColumn() {
@@ -549,6 +620,11 @@ class DataTableBuilder {
         if (this.actionHeader) {
             this.actionHeader.remove();
             this.actionHeader = null;
+        }
+
+        if (this.selectHeader) {
+            this.selectHeader.remove();
+            this.selectHeader = null;
         }
 
         return this;

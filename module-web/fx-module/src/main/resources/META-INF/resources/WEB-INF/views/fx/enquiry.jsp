@@ -25,7 +25,6 @@
         <caption>FX enquiry records</caption>
         <thead>
             <tr>
-                <th class="dt-select-column" aria-label="Select row"></th>
                 <th>Report Date</th>
                 <th>Record No</th>
                 <th>FX Category</th>

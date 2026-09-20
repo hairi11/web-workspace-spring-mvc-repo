@@ -89,6 +89,7 @@ Supported configuration:
 - `serverPage(loader, config)`
 - `column(data, title, config?)`
 - `renderer(data, title, renderer, config?)`
+- `selectCheckbox({style?, selector?, headerCheckbox?, title?, className?, width?})`
 - `menuAction({mode?: 'dropdown' | 'context', title?})`
 - `toolbarAction({className?})`
 - `addAction(action)`
@@ -101,6 +102,8 @@ Runtime:
 - `replaceData(rows, resetPaging?)`
 - `search(value)`
 - `destroy()`
+
+`selectCheckbox()` adds the DataTables Select checkbox column at the start of the table and owns the native Select renderer/configuration, so feature modules do not call `dataTable.render.select()` directly.
 
 `dropdown` adds a visible Bootstrap action column. `context` keeps the table columns unchanged and delegates right-click menu rendering, positioning, keyboard behavior and lifecycle to `jquery-contextmenu`, which must be loaded by the feature module vendor bundle.
 

@@ -247,6 +247,15 @@ export interface DataTableToolbarConfig {
     className?: string;
 }
 
+export interface DataTableSelectCheckboxConfig {
+    style?: 'multi' | 'single' | 'os' | 'api';
+    selector?: string;
+    headerCheckbox?: boolean | 'select-all' | 'select-page';
+    title?: string;
+    className?: string;
+    width?: string;
+}
+
 export interface DataTableActionConfig {
     text?: string;
     icon?: string;
@@ -265,6 +274,7 @@ export class DataTableBuilder {
     serverPage(loader: (page: number, size: number, request: any) => Promise<any>, config?: ServerPageConfig): this;
     column(data: any, title: string, config?: any): this;
     renderer(data: any, title: string, renderer: Function, config?: any): this;
+    selectCheckbox(config?: DataTableSelectCheckboxConfig): this;
     menuAction(config?: DataTableActionMenuConfig): this;
     toolbarAction(config?: DataTableToolbarConfig): this;
     addAction(action: DataTableActionConfig): this;

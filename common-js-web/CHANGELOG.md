@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.0.3 - DataTables checkbox selection wrapper
+
+- Added `selectCheckbox()` to keep the native DataTables Select checkbox renderer and column setup inside `DataTableBuilder`.
+- Feature modules no longer need to call `dataTable.render.select()` directly.
+
+
 ## 8.0.2 - DataTables toolbar action wrapper
 
 - Added `toolbarAction()` so feature modules declare toolbar actions through `DataTableBuilder`, matching the existing `menuAction()` wrapper pattern.
