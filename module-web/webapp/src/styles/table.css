@@ -111,6 +111,10 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
     gap: .5rem;
 }
 
+.datatable-action-toolbar .dt-buttons > .dt-common-toolbar-action {
+    flex: 0 0 auto;
+}
+
 .datatable-action-toolbar .dt-buttons .dt-common-toolbar-end {
     margin-left: auto;
 }
