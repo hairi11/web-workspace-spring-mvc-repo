@@ -24,8 +24,13 @@ class Navigator {
     }
 
     prepare(element, className, offset) {
-        element.classList.remove('navigator-link', 'is-disabled');
-        element.classList.add('btn', 'btn-link', 'text-decoration-none', className);
+        element.classList.remove(
+            'btn',
+            'btn-link',
+            'text-decoration-none',
+            'is-disabled'
+        );
+        element.classList.add('navigator-link', className);
 
         var handler = (event) => {
             event.preventDefault();
