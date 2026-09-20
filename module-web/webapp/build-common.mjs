@@ -1,4 +1,4 @@
-import { access, mkdir, cp, readFile, writeFile } from 'node:fs/promises';
+import { access, mkdir, cp, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { transform } from 'esbuild';
 
@@ -94,6 +94,52 @@ async function copySpringViews() {
     const target = path.join(distRoot, 'WEB-INF', 'views');
     await mkdir(target, { recursive: true });
     await cp(path.join(springViews, 'home.jsp'), path.join(target, 'home.jsp'));
+}
+
+function relativeInside(parent, child) {
+    const relative = path.relative(path.resolve(parent), path.resolve(child));
+    if (relative.startsWith('..') || path.isAbsolute(relative)) return null;
+    return relative;
+}
+
+export async function removeWatchedResource(sourcePath) {
+    const source = path.resolve(sourcePath);
+    const mappings = [
+        {
+            source: path.join(root, 'src', 'styles'),
+            target: path.join(distRoot, 'assets', 'styles')
+        },
+        {
+            source: springViews,
+            target: path.join(distRoot, 'WEB-INF', 'views')
+        }
+    ];
+
+    featureResources.forEach((feature) => {
+        mappings.push(
+            {
+                source: feature.views,
+                target: path.join(distRoot, 'WEB-INF', 'views', feature.name)
+            },
+            {
+                source: feature.bundle,
+                target: path.join(distRoot, feature.name)
+            }
+        );
+    });
+
+    for (const mapping of mappings) {
+        const relative = relativeInside(mapping.source, source);
+        if (relative === null) continue;
+
+        await rm(path.join(mapping.target, relative), {
+            recursive: true,
+            force: true
+        });
+        return true;
+    }
+
+    return false;
 }
 
 export async function copyFeatureResources() {

@@ -100,27 +100,47 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
     }
 }
 
-.datatable-action-toolbar {
+.datatable-action-toolbar-start,
+.datatable-action-toolbar-end {
     margin-bottom: .75rem;
 }
 
-.datatable-action-toolbar.dt-common-toolbar-split {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 1rem;
-}
-
-.datatable-action-toolbar .dt-buttons {
+.datatable-action-toolbar-start .dt-buttons,
+.datatable-action-toolbar-end .dt-buttons {
     display: flex;
     align-items: center;
     gap: .5rem;
     width: auto;
+}
+
+.datatable-action-toolbar-end .dt-buttons {
+    justify-content: flex-end;
+}
+
+.datatable-action-toolbar-start .dt-buttons > .dt-common-toolbar-action,
+.datatable-action-toolbar-end .dt-buttons > .dt-common-toolbar-action {
     flex: 0 0 auto;
 }
 
-.datatable-action-toolbar .dt-buttons > .dt-common-toolbar-action {
+.datatable-footer-cell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.datatable-footer-cell > :nth-child(2) {
+    justify-self: center;
+    text-align: center;
+}
+
+.datatable-footer-cell > :last-child {
+    justify-self: end;
+}
+
+.dt-common-toolbar-action {
     flex: 0 0 auto;
 }
 
@@ -184,8 +204,18 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
 }
 
 @media (max-width: 700px) {
-    .datatable-action-toolbar .dt-buttons {
+    .datatable-action-toolbar-start .dt-buttons,
+    .datatable-action-toolbar-end .dt-buttons {
         flex-wrap: wrap;
+    }
+
+    .datatable-footer-cell {
+        grid-template-columns: 1fr;
+    }
+
+    .datatable-footer-cell > * {
+        justify-self: start !important;
+        text-align: left;
     }
 }
 

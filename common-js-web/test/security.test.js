@@ -136,6 +136,33 @@ test('DataTable toolbar items escape labels and filter classes', function () {
     assert.match(button.className, /safe/);
 });
 
+test('DataTable toolbar uses named buttons and native layout positions', function () {
+    var builder = new DataTableBuilder('#table');
+    builder
+        .toolbarAction()
+        .addAction({text: 'View', selection: 'single'})
+        .addAction({text: 'Create', placement: 'end'});
+
+    builder.prepareToolbarActions();
+
+    assert.equal(
+        builder.options.layout.topStart.features[0].buttons.name,
+        'commonToolbarStart'
+    );
+    assert.equal(
+        builder.options.layout.topEnd.features[0].buttons.name,
+        'commonToolbarEnd'
+    );
+    assert.equal(
+        builder.options.layout.topStart.features[0].buttons.buttons[0].name,
+        'commonToolbarAction0'
+    );
+    assert.equal(
+        builder.options.layout.topEnd.features[0].buttons.buttons[0].name,
+        'commonToolbarAction1'
+    );
+});
+
 test('FileValidator enforces size and type on file-like values', function () {
     var sizeRule = FileValidator.maxSize(100);
     var typeRule = FileValidator.allowedTypes(['image/png']);

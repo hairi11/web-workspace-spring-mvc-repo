@@ -44,25 +44,20 @@ function buildTable() {
             text: 'View',
             icon: 'fa fa-eye',
             selection: 'single',
-            onClick: (row) => openTransaction(
-                TransactionMode.VIEW,
-                row.id,
-                null,
-                { page: 'enquiry' }
-            )
+            onClick: viewTransaction
         })
         .addAction({
             text: 'Edit',
             icon: 'fa fa-pen',
             selection: 'single',
-            onClick: (row) => openExistingTransaction(row.masterId, row.id)
+            onClick: editTransaction
         })
         .addAction({
             text: 'Delete',
             icon: 'fa fa-trash',
             selection: 'multi',
             variant: 'danger',
-            onClick: (rows) => deleteTransactions(rows)
+            onClick: deleteTransactions
         })
         .addAction({
             text: 'Create',
@@ -70,31 +65,43 @@ function buildTable() {
             selection: 'none',
             placement: 'end',
             variant: 'primary',
-            onClick: () => createTransaction()
+            onClick: createTransaction
         })
         .menuAction({ mode: 'context' })
         .addAction({
             text: 'View',
             icon: 'fa fa-eye',
-            onClick: (row) => openTransaction(
-                TransactionMode.VIEW,
-                row.id,
-                null,
-                { page: 'enquiry' }
-            )
+            onClick: viewTransaction
         })
         .addAction({
             text: 'Edit',
             icon: 'fa fa-pen',
-            onClick: (row) => openExistingTransaction(row.masterId, row.id)
+            onClick: editTransaction
         })
         .addAction({ divider: true })
         .addAction({
             text: 'Delete Transaction',
             icon: 'fa fa-trash',
-            onClick: (row) => deleteTransactions([row])
+            onClick: deleteTransaction
         })
         .build();
+}
+
+function viewTransaction(row) {
+    openTransaction(
+        TransactionMode.VIEW,
+        row.id,
+        null,
+        { page: 'enquiry' }
+    );
+}
+
+function editTransaction(row) {
+    return openExistingTransaction(row.masterId, row.id);
+}
+
+function deleteTransaction(row) {
+    return deleteTransactions([row]);
 }
 
 function createTransaction() {
@@ -105,6 +112,46 @@ function createTransaction() {
         rows.rowsKey,
         { page: 'enquiry' }
     );
+}
+
+async function deleteTransactions(rows) {
+    const count = rows.length;
+    if (!count) return;
+
+    const confirmed = await Dialog.confirm({
+        title: count === 1 ? 'Delete FX Transaction' : 'Delete FX Transactions',
+        message: count === 1
+            ? 'Delete this FX transaction?'
+            : 'Delete the ' + count + ' selected FX transactions?',
+        yesLabel: 'Delete',
+        noLabel: 'Cancel'
+    });
+    if (!confirmed) return;
+
+    const results = await Promise.allSettled(
+        rows.map((row) => FxService.deleteTransaction(row.id))
+    );
+    const failed = results.filter((result) => result.status === 'rejected');
+    const deletedCount = count - failed.length;
+
+    failed.forEach((result) => console.error(result.reason));
+
+    if (deletedCount === count) {
+        Toast.success(
+            count === 1
+                ? 'FX transaction deleted.'
+                : count + ' FX transactions deleted.'
+        );
+    } else if (deletedCount === 0) {
+        Toast.error('Failed to delete selected FX transaction(s).');
+    } else {
+        Toast.warning(
+            deletedCount + ' FX transaction(s) deleted; '
+            + failed.length + ' failed.'
+        );
+    }
+
+    table.refresh(false);
 }
 
 async function openExistingTransaction(masterId, transactionId) {

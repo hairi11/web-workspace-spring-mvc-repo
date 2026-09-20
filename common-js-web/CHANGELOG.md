@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.0.6 - DataTable quality cleanup
+
+- Replaced deprecated `dom` toolbar composition and post-init button DOM moves with native DataTables 2 `layout` start/end button groups.
+- Toolbar state updates now target stable button names instead of numeric indexes.
+- Added an idempotent `build()` guard and kept `dom` / `layout` mutually exclusive when configured explicitly.
+- Cleaned FX action reuse and dev resource removal behavior.
+
+
 ## 8.0.5 - ButtonBar dropdown caret polish
 
 - Added a scoped `More actions` trigger class and a larger, vertically centered dropup caret.

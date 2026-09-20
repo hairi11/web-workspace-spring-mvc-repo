@@ -14,7 +14,16 @@ const DEFAULT_OPTIONS = {
             last: "<i class='fa fa-angle-double-right' aria-hidden='true'></i>"
         }
     },
-    dom: 't<"row align-items-center mt-3"<"col-12 col-md-4"l><"col-12 col-md-4 text-md-center mt-2 mt-md-0"i><"col-12 col-md-4 d-flex justify-content-md-end mt-2 mt-md-0"p>>'
+    layout: {
+        topStart: null,
+        topEnd: null,
+        bottom: {
+            className: 'datatable-footer-cell',
+            features: ['pageLength', 'info', 'paging']
+        },
+        bottomStart: null,
+        bottomEnd: null
+    }
 };
 
 function cloneDefaults() {
@@ -24,6 +33,16 @@ function cloneDefaults() {
             lengthMenu: DEFAULT_OPTIONS.language.lengthMenu,
             info: DEFAULT_OPTIONS.language.info,
             paginate: Object.assign({}, DEFAULT_OPTIONS.language.paginate)
+        },
+        layout: {
+            topStart: null,
+            topEnd: null,
+            bottom: {
+                className: DEFAULT_OPTIONS.layout.bottom.className,
+                features: DEFAULT_OPTIONS.layout.bottom.features.slice()
+            },
+            bottomStart: null,
+            bottomEnd: null
         },
         columns: []
     });
@@ -79,7 +98,6 @@ class DataTableBuilder {
         this.actionTitle = 'Actions';
         this.actionMode = 'dropdown';
         this.toolbarClassName = 'datatable-action-toolbar';
-        this.toolbarEndContainer = null;
         this.selectCheckboxConfig = null;
         this.selectHeader = null;
         this.table = null;
@@ -94,6 +112,12 @@ class DataTableBuilder {
     }
 
     option(name, value) {
+        if (name === 'dom') {
+            delete this.options.layout;
+        } else if (name === 'layout') {
+            delete this.options.dom;
+        }
+
         this.options[name] = value;
         return this;
     }
@@ -255,6 +279,8 @@ class DataTableBuilder {
     }
 
     build() {
+        if (this.table) return this;
+
         if (
             typeof window === 'undefined'
             || !window.jQuery
@@ -280,7 +306,6 @@ class DataTableBuilder {
         }
 
         this.table = window.jQuery(this.selector).DataTable(this.options);
-        this.arrangeToolbarActions();
         this.bindActions();
         this.bindToolbarActions();
         this.bindSearch();
@@ -403,22 +428,30 @@ class DataTableBuilder {
             classes.push('dt-common-toolbar-danger');
         }
 
-        if (action.placement === 'end') {
-            classes.push('dt-common-toolbar-end');
-        }
-
         var extra = SecurityUtil.sanitizeClassList(action.className || '');
         if (extra) classes.push(extra);
 
         return classes.join(' ');
     }
 
-    buildToolbarButtons() {
-        var self = this;
+    toolbarButtonName(index) {
+        return 'commonToolbarAction' + index;
+    }
 
-        return this.toolbarActions.map(function (action, index) {
+    buildToolbarButtons(entries) {
+        var self = this;
+        var source = Array.isArray(entries)
+            ? entries
+            : this.toolbarActions.map(function (action, index) {
+                return {action: action, index: index};
+            });
+
+        return source.map(function (entry) {
+            var action = entry.action;
+            var index = entry.index;
+
             return {
-                name: 'commonToolbarAction' + index,
+                name: self.toolbarButtonName(index),
                 text: self.renderActionLabel(action),
                 className: self.toolbarActionClass(action),
                 enabled: self.toolbarActionEnabled(action, 0),
@@ -429,13 +462,52 @@ class DataTableBuilder {
         });
     }
 
-    prepareToolbarActions() {
-        var className = SecurityUtil.sanitizeClassList(this.toolbarClassName)
-            || 'datatable-action-toolbar';
+    toolbarLayoutCell(placement, entries) {
+        if (!entries.length) return null;
 
-        this.options.dom = '<"' + className + '"B>'
-            + (this.options.dom || DEFAULT_OPTIONS.dom);
-        this.options.buttons = this.buildToolbarButtons();
+        var className = [
+            this.toolbarClassName,
+            placement === 'end'
+                ? 'datatable-action-toolbar-end'
+                : 'datatable-action-toolbar-start'
+        ].filter(Boolean).join(' ');
+
+        return {
+            className: className,
+            features: [{
+                buttons: {
+                    name: placement === 'end'
+                        ? 'commonToolbarEnd'
+                        : 'commonToolbarStart',
+                    buttons: this.buildToolbarButtons(entries)
+                }
+            }]
+        };
+    }
+
+    prepareToolbarActions() {
+        if (this.options.dom !== undefined) {
+            throw new Error(
+                'DataTable toolbar actions require the DataTables 2 layout option, not dom.'
+            );
+        }
+
+        var start = [];
+        var end = [];
+
+        this.toolbarActions.forEach(function (action, index) {
+            var entry = {action: action, index: index};
+            if (action.placement === 'end') {
+                end.push(entry);
+            } else {
+                start.push(entry);
+            }
+        });
+
+        var layout = Object.assign({}, this.options.layout || {});
+        layout.topStart = this.toolbarLayoutCell('start', start);
+        layout.topEnd = this.toolbarLayoutCell('end', end);
+        this.options.layout = layout;
     }
 
     toolbarActionEnabled(action, count) {
@@ -468,33 +540,6 @@ class DataTableBuilder {
         return action.onClick(null, null, dt);
     }
 
-    arrangeToolbarActions() {
-        if (!this.toolbarActions.length || !this.table) return;
-
-        var container = this.table.table().container();
-        var toolbar = container && container.querySelector('.datatable-action-toolbar');
-        var startGroup = toolbar && toolbar.querySelector('.dt-buttons');
-
-        if (!toolbar || !startGroup) return;
-
-        var endButtons = Array.prototype.slice.call(
-            startGroup.querySelectorAll('.dt-common-toolbar-end')
-        );
-
-        if (!endButtons.length) return;
-
-        var endGroup = document.createElement('div');
-        endGroup.className = startGroup.className + ' dt-common-toolbar-end-group';
-
-        endButtons.forEach(function (button) {
-            endGroup.appendChild(button);
-        });
-
-        toolbar.classList.add('dt-common-toolbar-split');
-        toolbar.appendChild(endGroup);
-        this.toolbarEndContainer = endGroup;
-    }
-
     bindToolbarActions() {
         if (!this.toolbarActions.length || !this.table) return;
 
@@ -504,7 +549,7 @@ class DataTableBuilder {
 
             self.toolbarActions.forEach(function (action, index) {
                 self.table
-                    .button(index)
+                    .buttons(self.toolbarButtonName(index) + ':name')
                     .enable(self.toolbarActionEnabled(action, count));
             });
         };
@@ -639,11 +684,6 @@ class DataTableBuilder {
 
         if (this.table && this.toolbarActions.length) {
             this.table.off('.commonJsToolbar');
-        }
-
-        if (this.toolbarEndContainer) {
-            this.toolbarEndContainer.remove();
-            this.toolbarEndContainer = null;
         }
 
         if (this.table) {

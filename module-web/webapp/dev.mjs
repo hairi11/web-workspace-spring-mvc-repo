@@ -5,6 +5,7 @@ import {
     copyFeatureResources,
     copyStaticFiles,
     featureResources,
+    removeWatchedResource,
     springViews
 } from './build-common.mjs';
 
@@ -60,13 +61,22 @@ function queueFeatureRefresh() {
     queueRefresh(copyFeatureResources, 'Feature resource');
 }
 
+function queueResourceRemove(sourcePath) {
+    queueRefresh(
+        () => removeWatchedResource(sourcePath),
+        'Removed resource'
+    );
+}
+
 copyWatch.on('add', queueWebappRefresh);
 copyWatch.on('change', queueWebappRefresh);
-copyWatch.on('unlink', queueWebappRefresh);
+copyWatch.on('unlink', queueResourceRemove);
+copyWatch.on('unlinkDir', queueResourceRemove);
 
 featureWatch.on('add', queueFeatureRefresh);
 featureWatch.on('change', queueFeatureRefresh);
-featureWatch.on('unlink', queueFeatureRefresh);
+featureWatch.on('unlink', queueResourceRemove);
+featureWatch.on('unlinkDir', queueResourceRemove);
 
 async function shutdown() {
     await Promise.all([
