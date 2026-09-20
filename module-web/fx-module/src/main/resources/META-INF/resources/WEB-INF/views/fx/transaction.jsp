@@ -10,8 +10,8 @@
 <body data-page="transaction" data-context-path="${pageContext.request.contextPath}">
 <main>
     <nav>
-        <a class="button" href="${pageContext.request.contextPath}/">Modules</a>
-        <a class="button" href="${pageContext.request.contextPath}/fx/enquiry">FX Enquiry</a>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/">Modules</a>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fx/enquiry">FX Enquiry</a>
     </nav>
 
     <h1>FX Transaction</h1>
@@ -92,8 +92,8 @@
                 </a>
             </div>
 
-            <button id="transactionSubmitButton" type="submit">Add</button>
-            <a id="cancelButton" class="button" href="${pageContext.request.contextPath}/fx/master">Cancel</a>
+            <button class="btn btn-outline-secondary" id="transactionSubmitButton" type="submit">Add</button>
+            <a id="cancelButton" class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fx/master">Cancel</a>
         </div>
     </form>
 </main>

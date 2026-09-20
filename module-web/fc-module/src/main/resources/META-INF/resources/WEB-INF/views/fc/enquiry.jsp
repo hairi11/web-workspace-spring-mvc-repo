@@ -10,15 +10,15 @@
 <body data-page="enquiry" data-context-path="${pageContext.request.contextPath}">
 <main>
     <nav>
-        <a class="button" href="${pageContext.request.contextPath}/">Modules</a>
-        <a class="button" href="${pageContext.request.contextPath}/fc/enquiry">FC Enquiry</a>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/">Modules</a>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fc/enquiry">FC Enquiry</a>
     </nav>
 
     <h1>FC Enquiry</h1>
 
     <div class="toolbar">
         <input id="searchInput" type="search" placeholder="Search FC record" aria-label="Search FC record">
-        <button id="reloadButton" type="button">Reload</button>
+        <button class="btn btn-outline-secondary" id="reloadButton" type="button">Reload</button>
     </div>
 
     <table id="fcTable">

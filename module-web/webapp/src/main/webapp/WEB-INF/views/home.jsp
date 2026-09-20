@@ -12,8 +12,8 @@
     <h1>Module Web</h1>
     <p>Feature modules are served through Spring MVC.</p>
     <nav>
-        <a class="button" href="${pageContext.request.contextPath}/fx/enquiry">FX Module</a>
-        <a class="button" href="${pageContext.request.contextPath}/fc/enquiry">FC Module</a>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fx/enquiry">FX Module</a>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fc/enquiry">FC Module</a>
     </nav>
 </main>
 </body>

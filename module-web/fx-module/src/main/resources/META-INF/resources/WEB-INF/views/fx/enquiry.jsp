@@ -10,16 +10,16 @@
 <body data-page="enquiry" data-context-path="${pageContext.request.contextPath}">
 <main>
     <nav>
-        <a class="button" href="${pageContext.request.contextPath}/">Modules</a>
-        <a class="button" href="${pageContext.request.contextPath}/fx/enquiry">FX Enquiry</a>
-        <button id="createFxButton" type="button">Create FX</button>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/">Modules</a>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fx/enquiry">FX Enquiry</a>
+        <button class="btn btn-outline-secondary" id="createFxButton" type="button">Create FX</button>
     </nav>
 
     <h1>FX Enquiry</h1>
 
     <div class="toolbar">
         <input id="searchInput" type="search" placeholder="Search FX record" aria-label="Search FX record">
-        <button id="reloadButton" type="button">Reload</button>
+        <button class="btn btn-outline-secondary" id="reloadButton" type="button">Reload</button>
     </div>
 
     <table id="fxTable">

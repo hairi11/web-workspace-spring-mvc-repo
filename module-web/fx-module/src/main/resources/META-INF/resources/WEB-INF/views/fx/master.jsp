@@ -10,8 +10,8 @@
 <body data-page="master" data-context-path="${pageContext.request.contextPath}">
 <main>
     <nav>
-        <a class="button" href="${pageContext.request.contextPath}/">Modules</a>
-        <a class="button" href="${pageContext.request.contextPath}/fx/enquiry">FX Enquiry</a>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/">Modules</a>
+        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fx/enquiry">FX Enquiry</a>
     </nav>
 
     <h1>FX Master</h1>
@@ -31,7 +31,7 @@
         </section>
 
         <div class="toolbar fx-create-toolbar">
-            <button id="addTransactionButton" type="button">Add Transaction</button>
+            <button class="btn btn-outline-secondary" id="addTransactionButton" type="button">Add Transaction</button>
         </div>
 
         <div class="table-responsive fx-create-table-wrap">
@@ -53,11 +53,11 @@
         </div>
 
         <div id="masterButtonBar" class="button-bar fx-create-actions">
-            <button id="submitButton" type="submit" name="action" value="submit">Submit</button>
-            <button id="saveButton" type="submit" name="action" value="save">Save Draft</button>
-            <button id="cancelButton" type="button">Cancel</button>
-            <button id="deleteButton" type="button">Delete</button>
-            <a id="backButton" class="button" href="${pageContext.request.contextPath}/fx/enquiry">Back</a>
+            <button class="btn btn-outline-secondary" id="submitButton" type="submit" name="action" value="submit">Submit</button>
+            <button class="btn btn-outline-secondary" id="saveButton" type="submit" name="action" value="save">Save Draft</button>
+            <button class="btn btn-outline-secondary" id="cancelButton" type="button">Cancel</button>
+            <button class="btn btn-outline-secondary" id="deleteButton" type="button">Delete</button>
+            <a id="backButton" class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fx/enquiry">Back</a>
         </div>
     </form>
 </main>
