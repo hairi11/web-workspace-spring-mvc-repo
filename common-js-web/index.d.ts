@@ -53,6 +53,7 @@ export class CurrencyInput {
     static countSignificant(value: any): number;
     static findCaret(formatted: string, significantCount: number): number;
     static isWithinLimit(value: any, options?: CurrencyInputOptions): boolean;
+    static maxLength(options?: CurrencyInputOptions): number;
     constructor(target: string | HTMLInputElement, options?: CurrencyInputOptions);
     build(): this;
     destroy(): this;
@@ -115,7 +116,6 @@ export interface ButtonDropdownOptions {
     menu: string | HTMLElement;
     variant?: 'primary' | 'secondary';
     hidden?: boolean;
-    action?: ButtonDropdownItemConfig;
     items: ButtonDropdownItemConfig[];
 }
 
@@ -163,13 +163,10 @@ export interface FormValidationResult {
 }
 
 export interface FormActionContext {
-    method: 'GET' | 'POST' | string;
-    url: string;
     form: HTMLFormElement | null;
     submitter?: HTMLElement | null;
     formValues: Record<string, any>;
     data: any;
-    requestOptions: any;
 }
 
 export class FormAction {
@@ -182,39 +179,20 @@ export class FormAction {
 
     serializeForm(): Record<string, any>;
     validateForm(formValues: Record<string, any>): Promise<FormValidationResult>;
-    confirmSubmission(formValues: Record<string, any>): Promise<boolean>;
-    createContext(formValues: Record<string, any>, submitter?: HTMLElement | null): Promise<FormActionContext>;
-    sendRequest(context: FormActionContext): Promise<any>;
     showValidationErrors(errors: Record<string, string>): void;
     clearValidationErrors(): void;
     setSubmitting(submitting: boolean): void;
 
-    getMethod(): string;
-    getUrl(): string;
     getValidationRules(): any;
-    getConfirmation(): any;
-    getConfirmationHandler(): Function;
     buildRequestData(formValues: Record<string, any>, form?: HTMLFormElement | null): any;
-    getRequestOptions(): any;
-    getErrorRenderer(): any;
     shouldTrackDirty(): boolean;
-    shouldResetOnSuccess(): boolean;
-    shouldDisableWhileSubmitting(): boolean;
+    sendRequest(context: FormActionContext): any;
 
-    beforeValidate(formValues: Record<string, any>, form?: HTMLFormElement | null): any;
-    afterValidate(validation: FormValidationResult, formValues: Record<string, any>, form?: HTMLFormElement | null): any;
-    beforeConfirm(formValues: Record<string, any>, form?: HTMLFormElement | null): any;
-    afterConfirm(confirmed: boolean, formValues: Record<string, any>, form?: HTMLFormElement | null): any;
     beforeSubmit(context: FormActionContext): any;
     onBuild(form: HTMLFormElement): any;
     onDestroy(form: HTMLFormElement): any;
-    onDirtyChange(dirty: boolean, state: any): any;
-    onValidationError(errors: Record<string, string>, formValues: Record<string, any>, form?: HTMLFormElement | null): any;
-    transformResponse(data: any, response: any, context: FormActionContext): any;
-    mapServerErrors(error: any, context: FormActionContext | null): any;
-    onSuccess(data: any, context: FormActionContext, response: any): any;
-    onError(error: any, context: FormActionContext | null): any;
-    onComplete(result: {context: FormActionContext | null; error: any; result: any}): any;
+    onSuccess(data: any, context: FormActionContext, response?: any): any;
+    onError(error: any, context?: FormActionContext | null): any;
 }
 
 export type FormDataType = 'text' | 'decimal' | 'date' | 'select';
@@ -262,17 +240,17 @@ export interface ServerPageConfig {
 
 export class DataTableBuilder {
     constructor(selector: string);
-    ajax(url: string, config?: any): this;
-    serverSide(config?: any): this;
+    data(rows: any[]): this;
+    option(name: string, value: any): this;
     serverPage(loader: (page: number, size: number, request: any) => Promise<any>, config?: ServerPageConfig): this;
     column(data: any, title: string, config?: any): this;
     renderer(data: any, title: string, renderer: Function, config?: any): this;
     menuAction(config?: any): this;
     addAction(action: any): this;
     searchInput(selector: string): this;
-    filter(selector: string, columnIndex: number): this;
     build(): any;
     refresh(resetPaging?: boolean): this;
+    replaceData(rows: any[], resetPaging?: boolean): this;
     search(value: string): this;
     destroy(): this;
 }

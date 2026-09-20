@@ -1,57 +1,40 @@
 const Button = require('./Button');
 
+function BootstrapDropdown() {
+    return require('bootstrap/js/dist/dropdown');
+}
+
 class ButtonDropdown {
     constructor(options) {
         this.options = options || {};
         this.trigger = null;
         this.menu = null;
-        this.triggerButton = null;
-        this.actionButton = null;
-        this.itemButtons = [];
-        this.triggerHandler = null;
-        this.documentHandler = null;
-        this.keydownHandler = null;
+        this.button = null;
+        this.instance = null;
+        this.bindings = [];
     }
 
     build() {
-        this.trigger = this.resolveElement(this.options.trigger);
-        this.menu = this.resolveElement(this.options.menu);
+        this.trigger = this.resolve(this.options.trigger);
+        this.menu = this.resolve(this.options.menu);
 
         if (!this.trigger || !this.menu) {
             throw new Error('ButtonDropdown trigger and menu are required.');
         }
 
-        this.trigger.setAttribute('aria-haspopup', 'true');
-        this.trigger.setAttribute('aria-expanded', 'false');
-        this.menu.hidden = true;
-
-        this.triggerButton = new Button(this.trigger, {
+        this.button = new Button(this.trigger, {
             variant: this.options.variant || Button.Variant.SECONDARY
         }).build();
 
-        this.actionButton = this.buildAction(this.options.action);
-        this.itemButtons = this.buildItems(this.options.items);
+        this.trigger.classList.add('dropdown-toggle');
+        this.trigger.dataset.bsToggle = 'dropdown';
+        this.trigger.setAttribute('aria-expanded', 'false');
 
-        this.triggerHandler = (event) => {
-            event.preventDefault();
-            this.toggle();
-        };
-        this.documentHandler = (event) => {
-            if (!this.contains(event.target)) {
-                this.close();
-            }
-        };
-        this.keydownHandler = (event) => {
-            if (event.key !== 'Escape' || this.menu.hidden) return;
+        this.menu.hidden = false;
+        this.menu.classList.add('dropdown-menu');
 
-            event.preventDefault();
-            this.close();
-            this.trigger.focus();
-        };
-
-        this.trigger.addEventListener('click', this.triggerHandler);
-        document.addEventListener('click', this.documentHandler);
-        document.addEventListener('keydown', this.keydownHandler);
+        this.bindings = (this.options.items || []).map((item) => this.bindItem(item));
+        this.instance = BootstrapDropdown().getOrCreateInstance(this.trigger);
 
         if (this.options.hidden !== undefined) {
             this.setHidden(this.options.hidden);
@@ -60,137 +43,62 @@ class ButtonDropdown {
         return this;
     }
 
+    bindItem(item) {
+        var element = this.resolve(item.target);
+
+        if (!element) {
+            throw new Error('ButtonDropdown item element not found.');
+        }
+
+        element.className = 'dropdown-item';
+        element.hidden = item.hidden === true;
+
+        if ('disabled' in element) {
+            element.disabled = item.disabled === true;
+        }
+
+        element.classList.toggle('disabled', item.disabled === true);
+
+        var handler = (event) => {
+            this.close();
+            if (typeof item.onClick === 'function') item.onClick(event);
+        };
+
+        element.addEventListener('click', handler);
+        return {element: element, handler: handler};
+    }
+
     destroy() {
-        if (this.trigger && this.triggerHandler) {
-            this.trigger.removeEventListener('click', this.triggerHandler);
-        }
+        this.bindings.forEach(function (binding) {
+            binding.element.removeEventListener('click', binding.handler);
+        });
+        this.bindings = [];
 
-        document.removeEventListener('click', this.documentHandler);
-        document.removeEventListener('keydown', this.keydownHandler);
+        if (this.instance) this.instance.dispose();
+        if (this.button) this.button.destroy();
 
-        if (this.triggerButton) {
-            this.triggerButton.destroy();
-            this.triggerButton = null;
-        }
-
-        if (this.actionButton) {
-            this.actionButton.destroy();
-            this.actionButton = null;
-        }
-
-        this.itemButtons.forEach((button) => button.destroy());
-        this.itemButtons = [];
-
+        this.instance = null;
+        this.button = null;
         this.trigger = null;
         this.menu = null;
-        this.triggerHandler = null;
-        this.documentHandler = null;
-        this.keydownHandler = null;
-
         return this;
     }
 
-    open() {
-        if (!this.menu || !this.trigger) return this;
-
-        this.menu.hidden = false;
-        this.trigger.setAttribute('aria-expanded', 'true');
-
-        return this;
-    }
-
-    close() {
-        if (!this.menu || !this.trigger) return this;
-
-        this.menu.hidden = true;
-        this.trigger.setAttribute('aria-expanded', 'false');
-        return this;
-    }
-
-    toggle() {
-        return this.menu && this.menu.hidden
-            ? this.open()
-            : this.close();
-    }
+    open() { if (this.instance) this.instance.show(); return this; }
+    close() { if (this.instance) this.instance.hide(); return this; }
+    toggle() { if (this.instance) this.instance.toggle(); return this; }
 
     setHidden(hidden) {
         var value = Boolean(hidden);
-
+        if (value) this.close();
         if (this.trigger) this.trigger.hidden = value;
-        if (this.actionButton) this.actionButton.setHidden(value);
-        if (this.menu) this.menu.hidden = true;
-
-        if (value && this.trigger) {
-            this.trigger.setAttribute('aria-expanded', 'false');
-        }
-
         return this;
     }
 
-    buildAction(config) {
-        if (!config) return null;
-
-        var target = config.target || config;
-        var element = this.resolveElement(target);
-
-        if (!element) {
-            throw new Error('ButtonDropdown action element not found.');
-        }
-
-        return new Button(
-            element,
-            this.createButtonOptions(config)
-        ).build();
-    }
-
-    buildItems(config) {
-        var configs = Array.isArray(config) ? config : [];
-
-        return configs.map((item) => {
-            var element = this.resolveElement(item.target);
-
-            if (!element) {
-                throw new Error('ButtonDropdown item element not found.');
-            }
-
-            element.classList.add('button-dropdown-item');
-
-            return new Button(
-                element,
-                this.createButtonOptions(item)
-            ).build();
-        });
-    }
-
-    createButtonOptions(config) {
-        return Object.assign({}, config, {
-            variant: Button.Variant.SECONDARY,
-            onClick: (event) => {
-                this.close();
-
-                if (typeof config.onClick === 'function') {
-                    config.onClick(event);
-                }
-            }
-        });
-    }
-
-    contains(target) {
-        return Boolean(
-            target
-            && (
-                (this.trigger && this.trigger.contains(target))
-                || (this.menu && this.menu.contains(target))
-            )
-        );
-    }
-
-    resolveElement(target) {
-        if (typeof target === 'string') {
-            return document.querySelector(target);
-        }
-
-        return target || null;
+    resolve(target) {
+        return typeof target === 'string'
+            ? document.querySelector(target)
+            : target || null;
     }
 }
 

@@ -1,105 +1,95 @@
 const SafeDom = require('../util/SafeDom');
-const SecurityUtil = require('../util/SecurityUtil');
 
-var modalCounter = 0;
+let modalId = 0;
+
+function BootstrapModal() {
+    return require('bootstrap/js/dist/modal');
+}
+
+function node(tag, className) {
+    var element = document.createElement(tag);
+    if (className) element.className = className;
+    return element;
+}
 
 class Modal {
     static open(config) {
         config = config || {};
 
-        var previousActiveElement = document.activeElement;
+        var root = node('div', 'modal fade');
+        var dialog = node('div', 'modal-dialog modal-dialog-centered');
+        var content = node('div', 'modal-content');
+        var header = node('div', 'modal-header');
+        var title = node('h5', 'modal-title');
+        var close = node('button', 'btn-close');
+        var body = node('div', 'modal-body');
+        var sizeClass = {
+            sm: 'modal-sm',
+            lg: 'modal-lg',
+            xl: 'modal-xl'
+        }[config.size];
 
-        var overlay = document.createElement('div');
-        overlay.className = 'common-modal-overlay';
+        root.tabIndex = -1;
+        if (sizeClass) dialog.classList.add(sizeClass);
 
-        var modal = document.createElement('div');
-        var size = SecurityUtil.sanitizeClassList(config.size || 'md').split(' ')[0] || 'md';
-        modal.className = 'common-modal common-modal-' + size;
-        modal.setAttribute('role', 'dialog');
-        modal.setAttribute('aria-modal', 'true');
-
-        var header = document.createElement('div');
-        header.className = 'common-modal-header';
-
-        var title = document.createElement('strong');
+        title.id = 'common-modal-title-' + (++modalId);
         title.textContent = config.title || '';
-        title.id = 'common-modal-title-' + (++modalCounter);
-        modal.setAttribute('aria-labelledby', title.id);
+        root.setAttribute('aria-labelledby', title.id);
 
-        var closeButton = document.createElement('button');
-        closeButton.type = 'button';
-        closeButton.className = 'common-modal-close';
-        closeButton.setAttribute('aria-label', 'Close');
-        closeButton.textContent = '×';
+        close.type = 'button';
+        close.setAttribute('aria-label', 'Close');
+        close.hidden = config.closable === false;
+        if (!close.hidden) close.dataset.bsDismiss = 'modal';
 
-        var body = document.createElement('div');
-        body.className = 'common-modal-body';
-        SafeDom.appendContent(body, config.content, {trustedHtml: config.trustedHtml === true});
+        SafeDom.appendContent(body, config.content, {
+            trustedHtml: config.trustedHtml === true
+        });
 
-        header.appendChild(title);
-        header.appendChild(closeButton);
-        modal.appendChild(header);
-        modal.appendChild(body);
+        header.append(title, close);
+        content.append(header, body);
 
         if (config.footer !== null && config.footer !== undefined) {
-            var footer = document.createElement('div');
-            footer.className = 'common-modal-footer';
+            var footer = node('div', 'modal-footer');
             SafeDom.appendContent(footer, config.footer, {
                 trustedHtml: config.trustedHtml === true
             });
-            modal.appendChild(footer);
+            content.appendChild(footer);
         }
 
-        overlay.appendChild(modal);
-        document.body.appendChild(overlay);
+        dialog.appendChild(content);
+        root.appendChild(dialog);
+        document.body.appendChild(root);
 
+        var instance = new (BootstrapModal())(root, {
+            backdrop: 'static',
+            keyboard: config.escapeClose !== false
+        });
+        var reason = 'close';
         var closed = false;
-        var keydownHandler = function (event) {
-            if (event.key === 'Escape') {
-                event.preventDefault();
-                api.close('escape');
-            }
-        };
 
         var api = {
-            element: overlay,
-            modal: modal,
-            close: function (reason) {
+            element: root,
+            modal: root,
+            instance: instance,
+            close: function (value) {
                 if (closed) return;
-                closed = true;
-
-                if (config.escapeClose !== false) {
-                    document.removeEventListener('keydown', keydownHandler);
-                }
-
-                if (overlay.parentNode) {
-                    overlay.parentNode.removeChild(overlay);
-                }
-
-                if (previousActiveElement
-                    && typeof previousActiveElement.focus === 'function'
-                    && document.contains(previousActiveElement)) {
-                    previousActiveElement.focus();
-                }
-
-                if (typeof config.onClose === 'function') {
-                    config.onClose(reason || 'close', api);
-                }
+                reason = value || 'close';
+                instance.hide();
             }
         };
 
-        if (config.closable === false) {
-            closeButton.hidden = true;
-        } else {
-            closeButton.addEventListener('click', function () {
-                api.close('close');
-            });
-        }
+        root.addEventListener('hidden.bs.modal', function () {
+            if (closed) return;
+            closed = true;
+            instance.dispose();
+            root.remove();
 
-        if (config.escapeClose !== false) {
-            document.addEventListener('keydown', keydownHandler);
-        }
+            if (typeof config.onClose === 'function') {
+                config.onClose(reason, api);
+            }
+        }, {once: true});
 
+        instance.show();
         return api;
     }
 }

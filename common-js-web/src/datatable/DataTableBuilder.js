@@ -3,11 +3,6 @@ const SecurityUtil = require('../util/SecurityUtil');
 const DEFAULT_OPTIONS = {
     searching: false,
     pagingType: 'full_numbers',
-    select: {
-        style: 'multi+shift',
-        selector: 'td:not(:first-child)',
-        info: false
-    },
     lengthMenu: [10, 20, 50, 100],
     language: {
         lengthMenu: 'Show _MENU_ entries',
@@ -22,53 +17,74 @@ const DEFAULT_OPTIONS = {
     dom: 't<"row align-items-center mt-3"<"col-12 col-md-4"l><"col-12 col-md-4 text-md-center mt-2 mt-md-0"i><"col-12 col-md-4 d-flex justify-content-md-end mt-2 mt-md-0"p>>'
 };
 
+function cloneDefaults() {
+    return Object.assign({}, DEFAULT_OPTIONS, {
+        lengthMenu: DEFAULT_OPTIONS.lengthMenu.slice(),
+        language: {
+            lengthMenu: DEFAULT_OPTIONS.language.lengthMenu,
+            info: DEFAULT_OPTIONS.language.info,
+            paginate: Object.assign({}, DEFAULT_OPTIONS.language.paginate)
+        },
+        columns: []
+    });
+}
+
+function loadBootstrapDropdown() {
+    require('bootstrap/js/dist/dropdown');
+}
+
 class DataTableBuilder {
     constructor(selector) {
         this.selector = selector;
-        this.options = Object.assign({}, DEFAULT_OPTIONS, {
-            select: Object.assign({}, DEFAULT_OPTIONS.select),
-            language: {
-                lengthMenu: DEFAULT_OPTIONS.language.lengthMenu,
-                info: DEFAULT_OPTIONS.language.info,
-                paginate: Object.assign({}, DEFAULT_OPTIONS.language.paginate)
-            },
-            lengthMenu: DEFAULT_OPTIONS.lengthMenu.slice(),
-            columns: []
-        });
+        this.options = cloneDefaults();
         this.actions = [];
-        this.bulkActions = [];
-        this.actionConfig = null;
+        this.actionTitle = 'Actions';
         this.table = null;
         this.searchSelector = null;
-        this.filterBindings = [];
-        this.contextMenu = null;
-        this.contextRow = null;
+        this.actionHeader = null;
     }
 
-    ajax(url, config) { this.options.ajax = Object.assign({url: url, dataSrc: ''}, config || {}); return this; }
-    data(rows) { this.options.data = Array.isArray(rows) ? rows : []; return this; }
-    option(name, value) { this.options[name] = value; return this; }
-    optionsConfig(config) { this.options = Object.assign(this.options, config || {}); return this; }
-    column(data, title, config) { this.options.columns.push(Object.assign({data: data, title: title}, config || {})); return this; }
-    renderer(data, title, renderer, config) { return this.column(data, title, Object.assign({render: renderer}, config || {})); }
-    menuAction(config) { this.actionConfig = Object.assign({title: '', orderable: false, searchable: false, mode: 'context'}, config || {}); return this; }
-    addAction(action) { if (!this.actionConfig) this.menuAction(); this.actions.push(action); return this; }
-    searchInput(selector) { this.searchSelector = selector; return this; }
-    filter(selector, columnIndex) { this.filterBindings.push({selector: selector, columnIndex: columnIndex}); return this; }
-    selectable(config) {
-        var cfg = Object.assign({}, DEFAULT_OPTIONS.select, config || {});
-        this.options.select = cfg;
+    data(rows) {
+        this.options.data = Array.isArray(rows) ? rows : [];
         return this;
     }
-    addBulkAction(action) { this.bulkActions.push(action); return this; }
-    serverSide(config) {
-        this.options.serverSide = true;
-        this.options.processing = true;
-        if (config) this.options.ajax = Object.assign({}, this.options.ajax || {}, config);
+
+    option(name, value) {
+        this.options[name] = value;
         return this;
     }
+
+    column(data, title, config) {
+        this.options.columns.push(Object.assign({
+            data: data,
+            title: title
+        }, config || {}));
+        return this;
+    }
+
+    renderer(data, title, renderer, config) {
+        return this.column(data, title, Object.assign({render: renderer}, config || {}));
+    }
+
+    menuAction(config) {
+        if (config && config.title) this.actionTitle = config.title;
+        return this;
+    }
+
+    addAction(action) {
+        this.actions.push(action);
+        return this;
+    }
+
+    searchInput(selector) {
+        this.searchSelector = selector;
+        return this;
+    }
+
     serverPage(loader, config) {
-        if (typeof loader !== 'function') throw new Error('serverPage requires a loader function.');
+        if (typeof loader !== 'function') {
+            throw new Error('serverPage requires a loader function.');
+        }
 
         config = Object.assign({
             pageLength: 20,
@@ -82,21 +98,28 @@ class DataTableBuilder {
         this.options.serverSide = true;
         this.options.processing = true;
         this.options.pageLength = config.pageLength;
-        if (Array.isArray(config.defaultOrder)) this.options.order = config.defaultOrder;
+
+        if (Array.isArray(config.defaultOrder)) {
+            this.options.order = config.defaultOrder;
+        }
 
         this.options.ajax = async function (request, callback) {
-            var size = Number(request.length) > 0 ? Number(request.length) : Number(config.pageLength) || 20;
-            var start = Number(request.start) > 0 ? Number(request.start) : 0;
-            var page = Math.floor(start / size);
-            var orders = Array.isArray(request.order) ? request.order : [];
+            var size = Number(request.length) > 0
+                ? Number(request.length)
+                : Number(config.pageLength) || 20;
+            var page = Math.floor(Math.max(0, Number(request.start) || 0) / size);
             var columns = Array.isArray(request.columns) ? request.columns : [];
-            var sort = orders.map(function (order) {
+            var sort = (request.order || []).map(function (order) {
                 var column = columns[Number(order.column)];
-                if (!column || !column.data) return null;
-                return {
-                    field: column.data,
-                    dir: String(order.dir).toLowerCase() === 'desc' ? 'desc' : 'asc'
-                };
+
+                return column && column.data
+                    ? {
+                        field: column.data,
+                        dir: String(order.dir).toLowerCase() === 'desc'
+                            ? 'desc'
+                            : 'asc'
+                    }
+                    : null;
             }).filter(Boolean);
 
             try {
@@ -104,22 +127,28 @@ class DataTableBuilder {
                     sort: sort,
                     request: request
                 });
-                var result = response && response.data !== undefined ? response.data : (response || {});
-                var rows = Array.isArray(result[config.contentProperty]) ? result[config.contentProperty] : [];
+                var result = response && response.data !== undefined
+                    ? response.data
+                    : (response || {});
+                var rows = Array.isArray(result[config.contentProperty])
+                    ? result[config.contentProperty]
+                    : [];
                 var total = Number(result[config.totalProperty]) || 0;
-                var filteredTotal = config.filteredTotalProperty
+                var filtered = config.filteredTotalProperty
                     ? Number(result[config.filteredTotalProperty]) || 0
                     : total;
 
                 callback({
                     draw: request.draw,
                     recordsTotal: total,
-                    recordsFiltered: filteredTotal,
+                    recordsFiltered: filtered,
                     data: rows
                 });
-            }
-            catch (error) {
-                if (typeof config.onError === 'function') config.onError(error, request);
+            } catch (error) {
+                if (typeof config.onError === 'function') {
+                    config.onError(error, request);
+                }
+
                 callback({
                     draw: request.draw,
                     recordsTotal: 0,
@@ -128,222 +157,150 @@ class DataTableBuilder {
                 });
             }
         };
+
         return this;
     }
 
     build() {
-        if (typeof window === 'undefined' || !window.jQuery || !window.jQuery.fn || !window.jQuery.fn.DataTable) {
+        if (
+            typeof window === 'undefined'
+            || !window.jQuery
+            || !window.jQuery.fn
+            || !window.jQuery.fn.DataTable
+        ) {
             throw new Error('DataTableBuilder requires jQuery DataTables.');
         }
 
-        if (window.jQuery.fn.DataTable.ext && window.jQuery.fn.DataTable.ext.pager) {
-            window.jQuery.fn.DataTable.ext.pager.numbers_length = 3;
+        if (this.actions.length) {
+            loadBootstrapDropdown();
+            this.appendActionColumn();
+            this.ensureActionHeader();
         }
 
-        if (this.actionConfig && this.actionConfig.mode !== 'context') this._appendActionColumn();
         this.table = window.jQuery(this.selector).DataTable(this.options);
-        this._bindActions();
-        this._bindSearch();
-        this._bindFilters();
+        this.bindActions();
+        this.bindSearch();
         return this;
     }
 
-    refresh(resetPaging) { if (this.table) this.table.ajax.reload(null, resetPaging !== false); return this; }
-    replaceData(rows, resetPaging) {
-        if (!this.table) return this;
-        this._hideContextMenu();
-        this.table.clear();
-        this.table.rows.add(Array.isArray(rows) ? rows : []);
-        this.table.draw(resetPaging !== false);
-        return this;
-    }
-    search(value) { if (this.table) this.table.search(value || '').draw(); return this; }
-    destroy() {
-        this._destroyContextMenu();
-        if (this.table) { this.table.destroy(); this.table = null; }
-        return this;
-    }
-    selectedData() {
-        if (!this.table || typeof this.table.rows !== 'function') return [];
-        try { return this.table.rows({selected: true}).data().toArray(); }
-        catch (error) { return []; }
-    }
-    runBulkAction(index) {
-        var action = this.bulkActions[index];
-        if (!action || typeof action.onClick !== 'function') return;
-        return action.onClick(this.selectedData(), this.table);
-    }
-
-    _appendActionColumn() {
-        var self = this;
-        var config = Object.assign({}, this.actionConfig);
-        delete config.mode;
-        this.options.columns.push(Object.assign(config, {data: null, render: function () { return self._renderActions(); }}));
-    }
-
-    _renderActions() {
-        var self = this;
-
-        if (this.actionConfig && this.actionConfig.mode === 'inline') {
-            var inlineHtml = '<div class="dt-common-actions">';
-            this.actions.forEach(function (action, index) {
-                if (action.divider) return;
-                inlineHtml += self._renderActionButton(action, index, 'dt-common-action');
-            });
-            return inlineHtml + '</div>';
-        }
-
-        var html = '<div class="dropdown"><button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">Actions</button><div class="dropdown-menu">';
-        this.actions.forEach(function (action, index) {
-            if (action.divider) { html += '<div class="dropdown-divider"></div>'; return; }
-            html += self._renderActionButton(action, index, 'dropdown-item dt-common-action');
+    appendActionColumn() {
+        this.options.columns.push({
+            data: null,
+            title: this.actionTitle,
+            orderable: false,
+            searchable: false,
+            render: () => this.renderActions()
         });
-        return html + '</div></div>';
     }
 
-    _renderContextActions() {
-        var self = this;
-        var html = '';
+    ensureActionHeader() {
+        var table = document.querySelector(this.selector);
+        var row = table && table.querySelector('thead tr');
+
+        if (!row || row.children.length >= this.options.columns.length) return;
+
+        this.actionHeader = document.createElement('th');
+        this.actionHeader.textContent = this.actionTitle;
+        row.appendChild(this.actionHeader);
+    }
+
+    renderActions() {
+        var html = '<div class="dropdown">'
+            + '<button class="btn btn-sm btn-outline-secondary dropdown-toggle" '
+            + 'type="button" data-bs-toggle="dropdown" aria-expanded="false">'
+            + SecurityUtil.escapeHtml(this.actionTitle)
+            + '</button><div class="dropdown-menu dropdown-menu-end">';
+
         this.actions.forEach(function (action, index) {
             if (action.divider) {
                 html += '<div class="dropdown-divider"></div>';
                 return;
             }
-            html += self._renderActionButton(action, index, 'dropdown-item dt-common-context-action');
+
+            var icon = SecurityUtil.sanitizeClassList(action.icon || '');
+            var extra = SecurityUtil.sanitizeClassList(action.className || '');
+
+            html += '<button type="button" class="dropdown-item dt-common-action '
+                + extra
+                + '" data-action-index="'
+                + index
+                + '">'
+                + (icon ? '<i class="' + icon + '"></i> ' : '')
+                + SecurityUtil.escapeHtml(action.text || '')
+                + '</button>';
         });
-        return html;
+
+        return html + '</div></div>';
     }
 
-    _renderActionButton(action, index, baseClass) {
-        var safeClass = SecurityUtil.sanitizeClassList(action.className || '');
-        var safeIcon = SecurityUtil.sanitizeClassList(action.icon || '');
-        var className = safeClass ? ' ' + safeClass : '';
-        var icon = safeIcon ? '<i class="' + safeIcon + '"></i> ' : '';
-        var text = SecurityUtil.escapeHtml(action.text || '');
-        return '<button type="button" class="' + baseClass + className + '" data-action-index="' + index + '">' + icon + text + '</button>';
-    }
-
-    _bindActions() {
-        if (this.actionConfig && this.actionConfig.mode === 'context') {
-            this._bindContextMenu();
-            return;
-        }
+    bindActions() {
+        if (!this.actions.length) return;
 
         var self = this;
-        window.jQuery(this.selector).off('click.commonJsActions').on('click.commonJsActions', '.dt-common-action', function () {
-            var button = window.jQuery(this);
-            var index = Number(button.attr('data-action-index'));
-            var action = self.actions[index];
-            if (!action || typeof action.onClick !== 'function') return;
-            var row = self.table.row(button.closest('tr'));
-            action.onClick(row.data(), row, self.table);
-        });
-    }
 
-    _bindContextMenu() {
-        var self = this;
-        var tableElement = window.jQuery(this.selector);
+        window.jQuery(this.selector)
+            .off('click.commonJsActions')
+            .on('click.commonJsActions', '.dt-common-action', function () {
+                var button = window.jQuery(this);
+                var action = self.actions[Number(button.attr('data-action-index'))];
+                var row = self.table.row(button.closest('tr'));
 
-        tableElement.off('contextmenu.commonJsActions').on('contextmenu.commonJsActions', 'tbody tr', function (event) {
-            event.preventDefault();
-
-            var row = self.table.row(this);
-            if (!row || !row.data()) return;
-
-            self.contextRow = row;
-            self._showContextMenu(event.clientX, event.clientY);
-        });
-
-        window.jQuery(document)
-            .off('click.commonJsContextMenu keydown.commonJsContextMenu')
-            .on('click.commonJsContextMenu', function (event) {
-                if (!self.contextMenu || self.contextMenu.contains(event.target)) return;
-                self._hideContextMenu();
-            })
-            .on('keydown.commonJsContextMenu', function (event) {
-                if (event.key === 'Escape') self._hideContextMenu();
-            });
-
-        window.jQuery(window)
-            .off('blur.commonJsContextMenu resize.commonJsContextMenu scroll.commonJsContextMenu')
-            .on('blur.commonJsContextMenu resize.commonJsContextMenu scroll.commonJsContextMenu', function () {
-                self._hideContextMenu();
+                if (action && typeof action.onClick === 'function') {
+                    action.onClick(row.data(), row, self.table);
+                }
             });
     }
 
-    _showContextMenu(x, y) {
-        this._ensureContextMenu();
-        this.contextMenu.innerHTML = this._renderContextActions();
-        this.contextMenu.style.position = 'fixed';
-        this.contextMenu.style.left = x + 'px';
-        this.contextMenu.style.top = y + 'px';
-        this.contextMenu.style.zIndex = '1080';
-        this.contextMenu.classList.add('show');
-
-        var rect = this.contextMenu.getBoundingClientRect();
-        var left = Math.min(x, Math.max(0, window.innerWidth - rect.width - 4));
-        var top = Math.min(y, Math.max(0, window.innerHeight - rect.height - 4));
-        this.contextMenu.style.left = left + 'px';
-        this.contextMenu.style.top = top + 'px';
-    }
-
-    _ensureContextMenu() {
-        if (this.contextMenu) return;
-
-        var self = this;
-        var menu = document.createElement('div');
-        menu.className = 'dropdown-menu';
-        menu.setAttribute('role', 'menu');
-        menu.addEventListener('click', function (event) {
-            var button = event.target.closest('.dt-common-context-action');
-            if (!button || !self.contextRow) return;
-
-            var index = Number(button.getAttribute('data-action-index'));
-            var action = self.actions[index];
-            var row = self.contextRow;
-            self._hideContextMenu();
-
-            if (!action || typeof action.onClick !== 'function') return;
-            action.onClick(row.data(), row, self.table);
-        });
-
-        document.body.appendChild(menu);
-        this.contextMenu = menu;
-    }
-
-    _hideContextMenu() {
-        if (this.contextMenu) this.contextMenu.classList.remove('show');
-        this.contextRow = null;
-    }
-
-    _destroyContextMenu() {
-        window.jQuery(this.selector).off('.commonJsActions');
-        window.jQuery(document).off('.commonJsContextMenu');
-        window.jQuery(window).off('.commonJsContextMenu');
-
-        if (this.contextMenu && this.contextMenu.parentNode) {
-            this.contextMenu.parentNode.removeChild(this.contextMenu);
-        }
-
-        this.contextMenu = null;
-        this.contextRow = null;
-    }
-
-    _bindSearch() {
+    bindSearch() {
         if (!this.searchSelector) return;
+
         var self = this;
-        window.jQuery(this.searchSelector).off('input.commonJsSearch').on('input.commonJsSearch', function () {
-            self.table.search(this.value || '').draw();
-        });
+
+        window.jQuery(this.searchSelector)
+            .off('input.commonJsSearch')
+            .on('input.commonJsSearch', function () {
+                self.table.search(this.value || '').draw();
+            });
     }
 
-    _bindFilters() {
-        var self = this;
-        this.filterBindings.forEach(function (binding) {
-            window.jQuery(binding.selector).off('change.commonJsFilter').on('change.commonJsFilter', function () {
-                self.table.column(binding.columnIndex).search(this.value || '').draw();
-            });
-        });
+    refresh(resetPaging) {
+        if (this.table && this.table.ajax) {
+            this.table.ajax.reload(null, resetPaging !== false);
+        }
+        return this;
+    }
+
+    replaceData(rows, resetPaging) {
+        if (!this.table) return this;
+
+        this.table.clear();
+        this.table.rows.add(Array.isArray(rows) ? rows : []);
+        this.table.draw(resetPaging !== false);
+        return this;
+    }
+
+    search(value) {
+        if (this.table) this.table.search(value || '').draw();
+        return this;
+    }
+
+    destroy() {
+        window.jQuery(this.selector).off('.commonJsActions');
+        if (this.searchSelector) {
+            window.jQuery(this.searchSelector).off('.commonJsSearch');
+        }
+
+        if (this.table) {
+            this.table.destroy();
+            this.table = null;
+        }
+
+        if (this.actionHeader) {
+            this.actionHeader.remove();
+            this.actionHeader = null;
+        }
+
+        return this;
     }
 }
 
