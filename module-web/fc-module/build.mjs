@@ -22,7 +22,7 @@ function workspaceCommonJsPlugin() {
         name: 'fc-workspace-common-js',
         setup(buildContext) {
             buildContext.onResolve(
-                { filter: /^@company\\/common-js-web$/ },
+                { filter: new RegExp('^@company/common-js-web$') },
                 () => ({ path: commonJsEntry })
             );
         }
