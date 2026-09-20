@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import 'jquery-contextmenu';
 import 'datatables.net-bs5';
 import 'datatables.net-select-bs5';
 import flatpickr from 'flatpickr';

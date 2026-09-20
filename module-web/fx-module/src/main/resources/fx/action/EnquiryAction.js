@@ -3,7 +3,7 @@ import { TransactionMode } from '../FxConstants.js';
 import FxRows from '../FxRows.js';
 import FxService from '../FxService.js';
 
-const { DataTableBuilder, NavigationState, Renderers, Toast } = Common;
+const { DataTableBuilder, Dialog, NavigationState, Renderers, Toast } = Common;
 
 let table = null;
 
@@ -55,7 +55,13 @@ function buildTable() {
             text: 'Delete Transaction',
             icon: 'fa fa-trash',
             onClick: async (row) => {
-                if (!window.confirm('Delete this FX transaction?')) return;
+                const confirmed = await Dialog.confirm({
+                    title: 'Delete FX Transaction',
+                    message: 'Delete this FX transaction?',
+                    yesLabel: 'Delete',
+                    noLabel: 'Cancel'
+                });
+                if (!confirmed) return;
 
                 try {
                     await FxService.deleteTransaction(row.id);

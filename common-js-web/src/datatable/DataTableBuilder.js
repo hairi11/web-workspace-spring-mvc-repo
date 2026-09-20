@@ -34,10 +34,10 @@ function loadBootstrapDropdown() {
 }
 
 function loadContextMenu() {
-    require('jquery-contextmenu');
-
     if (!window.jQuery || typeof window.jQuery.contextMenu !== 'function') {
-        throw new Error('DataTable context actions require jquery-contextmenu.');
+        throw new Error(
+            'DataTable context actions require jquery-contextmenu in the module vendor bundle.'
+        );
     }
 }
 
