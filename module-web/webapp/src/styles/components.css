@@ -52,6 +52,7 @@ pre {
 .navigator-link {
     display: inline-flex;
     align-items: center;
+    gap: .25rem;
     padding: 0;
     border: 0;
     background: transparent;
@@ -79,6 +80,6 @@ pre {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 8px;
+    gap: 1rem;
     margin-right: auto;
 }

@@ -82,8 +82,14 @@
 
         <div id="transactionButtonBar" class="button-bar">
             <div class="button-bar-nav">
-                <a id="previousButton" class="navigator-link" href="#" aria-label="Previous record" title="Previous record">&lt;&lt; Previous Record</a>
-                <a id="nextButton" class="navigator-link" href="#" aria-label="Next record" title="Next record">Next Record &gt;&gt;</a>
+                <a id="previousButton" class="navigator-link" href="#" aria-label="Previous record" title="Previous record">
+                    <span aria-hidden="true">&lt;&lt;</span>
+                    <span>Previous Record</span>
+                </a>
+                <a id="nextButton" class="navigator-link" href="#" aria-label="Next record" title="Next record">
+                    <span>Next Record</span>
+                    <span aria-hidden="true">&gt;&gt;</span>
+                </a>
             </div>
 
             <button class="btn btn-outline-secondary" id="transactionSubmitButton" type="submit">Add</button>
