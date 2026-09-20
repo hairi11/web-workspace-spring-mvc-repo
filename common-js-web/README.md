@@ -84,7 +84,7 @@ The wrapper intentionally exposes only the DataTable behavior currently used by 
 - `search()`
 - `destroy()`
 
-Row actions support both a visible Bootstrap dropdown column and a right-click context menu backed by `jquery-contextmenu`. Use `menuAction({mode: 'context'})`; feature modules do not depend on the third-party API directly.
+Row actions support both a visible Bootstrap dropdown column and a right-click context menu backed by `jquery-contextmenu`. Each feature module loads the plugin in its vendor bundle, while business code only uses `menuAction({mode: 'context'})`.
 
 ## Decimal safety
 
