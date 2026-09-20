@@ -142,23 +142,23 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
     text-align: center;
 }
 
-.dt-common-toolbar-action-primary {
+.dt-common-toolbar-primary {
     color: var(--app-button-primary, #0e1826);
 }
 
-.dt-common-toolbar-action-primary:hover,
-.dt-common-toolbar-action-primary:focus,
-.dt-common-toolbar-action-primary:active {
+.dt-common-toolbar-primary:hover,
+.dt-common-toolbar-primary:focus,
+.dt-common-toolbar-primary:active {
     color: var(--app-button-primary, #0e1826);
 }
 
-.dt-common-toolbar-action-danger {
+.dt-common-toolbar-danger {
     color: #b42318;
 }
 
-.dt-common-toolbar-action-danger:hover,
-.dt-common-toolbar-action-danger:focus,
-.dt-common-toolbar-action-danger:active {
+.dt-common-toolbar-danger:hover,
+.dt-common-toolbar-danger:focus,
+.dt-common-toolbar-danger:active {
     color: #912018;
 }
 
