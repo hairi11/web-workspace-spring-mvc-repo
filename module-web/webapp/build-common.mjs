@@ -1,10 +1,62 @@
-import { mkdir, cp, readFile, writeFile } from 'node:fs/promises';
+import { access, mkdir, cp, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { transform } from 'esbuild';
 
 const root = process.cwd();
 const distRoot = path.join(root, 'dist', 'module-web');
 const springViews = path.join(root, 'src', 'main', 'webapp', 'WEB-INF', 'views');
+const moduleRoot = path.resolve(root, '..');
+
+const featureResources = [
+    {
+        name: 'fx',
+        views: path.join(
+            moduleRoot,
+            'fx-module',
+            'src',
+            'main',
+            'resources',
+            'META-INF',
+            'resources',
+            'WEB-INF',
+            'views',
+            'fx'
+        ),
+        bundle: path.join(
+            moduleRoot,
+            'fx-module',
+            'target',
+            'classes',
+            'META-INF',
+            'resources',
+            'fx'
+        )
+    },
+    {
+        name: 'fc',
+        views: path.join(
+            moduleRoot,
+            'fc-module',
+            'src',
+            'main',
+            'resources',
+            'META-INF',
+            'resources',
+            'WEB-INF',
+            'views',
+            'fc'
+        ),
+        bundle: path.join(
+            moduleRoot,
+            'fc-module',
+            'target',
+            'classes',
+            'META-INF',
+            'resources',
+            'fc'
+        )
+    }
+];
 
 async function inlineCssImports(filePath, seen) {
     const absolutePath = path.resolve(filePath);
@@ -29,10 +81,36 @@ async function inlineCssImports(filePath, seen) {
     return output;
 }
 
+async function exists(target) {
+    try {
+        await access(target);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 async function copySpringViews() {
     const target = path.join(distRoot, 'WEB-INF', 'views');
     await mkdir(target, { recursive: true });
     await cp(path.join(springViews, 'home.jsp'), path.join(target, 'home.jsp'));
+}
+
+export async function copyFeatureResources() {
+    for (const feature of featureResources) {
+        const viewTarget = path.join(distRoot, 'WEB-INF', 'views', feature.name);
+        const bundleTarget = path.join(distRoot, feature.name);
+
+        if (await exists(feature.views)) {
+            await mkdir(viewTarget, { recursive: true });
+            await cp(feature.views, viewTarget, { recursive: true });
+        }
+
+        if (await exists(feature.bundle)) {
+            await mkdir(bundleTarget, { recursive: true });
+            await cp(feature.bundle, bundleTarget, { recursive: true });
+        }
+    }
 }
 
 export async function bundleStyles(minify) {
@@ -53,6 +131,7 @@ export async function copyStaticFiles(options) {
     await mkdir(path.join(distRoot, 'webfonts'), { recursive: true });
 
     await copySpringViews();
+    await copyFeatureResources();
 
     await cp(path.join(root, 'src', 'module-web.css'), path.join(distRoot, 'assets', 'module-web.css'));
     await cp(path.join(root, 'src', 'styles'), path.join(distRoot, 'assets', 'styles'), { recursive: true });
@@ -68,4 +147,4 @@ export async function copyStaticFiles(options) {
     await bundleStyles(options.minifyCss === true);
 }
 
-export { distRoot, springViews };
+export { distRoot, springViews, featureResources };
