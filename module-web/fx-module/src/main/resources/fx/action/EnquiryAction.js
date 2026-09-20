@@ -94,10 +94,13 @@ function bindTableActions() {
     if (!view || !edit || !remove || !table || !table.table) return;
 
     const updateState = () => {
-        const enabled = selectedRows().length > 0;
-        view.disabled = !enabled;
-        edit.disabled = !enabled;
-        remove.disabled = !enabled;
+        const count = selectedRows().length;
+        const singleSelected = count === 1;
+        const multiSelected = count > 1;
+
+        view.disabled = !singleSelected;
+        edit.disabled = !singleSelected;
+        remove.disabled = !multiSelected;
     };
 
     table.table.on('select deselect draw', updateState);
