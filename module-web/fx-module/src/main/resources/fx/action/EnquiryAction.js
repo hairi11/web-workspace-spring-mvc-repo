@@ -28,7 +28,7 @@ function buildTable() {
                 console.error(error);
             }
         })
-        .option('select', { style: 'single' })
+        .option('select', { style: 'multi' })
         .searchInput('#searchInput')
         .renderer('reportDate', 'Report Date', Renderers.date())
         .column('recordNo', 'Record No')
@@ -48,7 +48,7 @@ function bindTableActions() {
     if (!view || !edit || !remove || !table || !table.table) return;
 
     const updateState = () => {
-        const enabled = Boolean(selectedRow());
+        const enabled = selectedRows().length > 0;
         view.disabled = !enabled;
         edit.disabled = !enabled;
         remove.disabled = !enabled;
@@ -57,7 +57,7 @@ function bindTableActions() {
     table.table.on('select deselect draw', updateState);
 
     view.addEventListener('click', () => {
-        const row = selectedRow();
+        const row = selectedRows()[0];
         if (!row) return;
 
         openTransaction(
@@ -69,45 +69,53 @@ function bindTableActions() {
     });
 
     edit.addEventListener('click', () => {
-        const row = selectedRow();
+        const row = selectedRows()[0];
         if (!row) return;
         openExistingTransaction(row.masterId, row.id);
     });
 
     remove.addEventListener('click', async () => {
-        const row = selectedRow();
-        if (!row) return;
-        await deleteTransaction(row);
+        const rows = selectedRows();
+        if (!rows.length) return;
+        await deleteTransactions(rows);
     });
 
     updateState();
 }
 
-function selectedRow() {
-    if (!table || !table.table) return null;
+function selectedRows() {
+    if (!table || !table.table) return [];
 
-    const rows = table.table.rows({ selected: true });
-    if (rows.count() !== 1) return null;
-
-    return rows.data()[0] || null;
+    return table.table
+        .rows({ selected: true })
+        .data()
+        .toArray();
 }
 
-async function deleteTransaction(row) {
+async function deleteTransactions(rows) {
+    const count = rows.length;
     const confirmed = await Dialog.confirm({
-        title: 'Delete FX Transaction',
-        message: 'Delete this FX transaction?',
+        title: count === 1 ? 'Delete FX Transaction' : 'Delete FX Transactions',
+        message: count === 1
+            ? 'Delete this FX transaction?'
+            : 'Delete the ' + count + ' selected FX transactions?',
         yesLabel: 'Delete',
         noLabel: 'Cancel'
     });
     if (!confirmed) return;
 
     try {
-        await FxService.deleteTransaction(row.id);
-        Toast.success('FX transaction deleted.');
+        await Promise.all(rows.map((row) => FxService.deleteTransaction(row.id)));
+        Toast.success(
+            count === 1
+                ? 'FX transaction deleted.'
+                : count + ' FX transactions deleted.'
+        );
         table.refresh(false);
     } catch (error) {
-        Toast.error('Failed to delete FX transaction.');
+        Toast.error('Failed to delete selected FX transaction(s).');
         console.error(error);
+        table.refresh(false);
     }
 }
 
