@@ -78,8 +78,7 @@ pre {
 .button-bar-nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: min(100%, 420px);
-    gap: 48px;
+    justify-content: flex-start;
+    gap: 8px;
     margin-right: auto;
 }
