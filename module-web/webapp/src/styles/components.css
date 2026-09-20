@@ -1,3 +1,41 @@
+:root {
+    --app-button-primary: #0e1826;
+    --app-button-primary-hover: #0a121d;
+    --app-button-secondary: #272833;
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--app-button-primary);
+    --bs-btn-border-color: var(--app-button-primary);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--app-button-primary-hover);
+    --bs-btn-hover-border-color: var(--app-button-primary-hover);
+    --bs-btn-focus-shadow-rgb: 14, 24, 38;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--app-button-primary-hover);
+    --bs-btn-active-border-color: var(--app-button-primary-hover);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--app-button-primary);
+    --bs-btn-disabled-border-color: var(--app-button-primary);
+}
+
+.btn-outline-secondary {
+    --bs-btn-color: var(--app-button-secondary);
+    --bs-btn-border-color: var(--app-button-secondary);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--app-button-secondary);
+    --bs-btn-hover-border-color: var(--app-button-secondary);
+    --bs-btn-focus-shadow-rgb: 39, 40, 51;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--app-button-secondary);
+    --bs-btn-active-border-color: var(--app-button-secondary);
+    --bs-btn-disabled-color: var(--app-button-secondary);
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: var(--app-button-secondary);
+}
+
+
 .note {
     padding: 12px;
     border: 1px solid #ddd;
