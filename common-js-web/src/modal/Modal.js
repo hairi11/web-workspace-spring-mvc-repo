@@ -25,6 +25,8 @@ class Modal {
         var body = node('div', 'modal-body');
         var sizeClass = {
             sm: 'modal-sm',
+            md: null,
+            medium: null,
             lg: 'modal-lg',
             xl: 'modal-xl'
         }[config.size];

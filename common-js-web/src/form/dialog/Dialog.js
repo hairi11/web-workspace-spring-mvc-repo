@@ -82,7 +82,7 @@ class Dialog {
                 title: config.title || (confirm ? 'Confirm' : LEVEL_CONFIG[level][0]),
                 content: content(level, config.message),
                 footer: actions,
-                size: config.size || 'sm',
+                size: config.size || 'md',
                 closable: config.closable,
                 escapeClose: config.escapeClose,
                 onClose: function (reason) {

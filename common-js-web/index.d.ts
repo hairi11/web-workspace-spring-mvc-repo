@@ -364,7 +364,7 @@ export const Dialog: {
         okLabel?: string;
         yesLabel?: string;
         noLabel?: string;
-        size?: string;
+        size?: 'sm' | 'md' | 'medium' | 'lg' | 'xl';
         closable?: boolean;
         escapeClose?: boolean;
     }): Promise<boolean>;
@@ -374,7 +374,7 @@ export const Dialog: {
         message?: string;
         yesLabel?: string;
         noLabel?: string;
-        size?: string;
+        size?: 'sm' | 'md' | 'medium' | 'lg' | 'xl';
         closable?: boolean;
         escapeClose?: boolean;
     }): Promise<boolean>;
