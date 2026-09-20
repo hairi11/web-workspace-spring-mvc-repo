@@ -9,6 +9,7 @@ let table = null;
 
 export function initEnquiry() {
     table = buildTable();
+    bindTableActions();
     bindCreateButton();
     bindReloadButton();
 }
@@ -27,6 +28,8 @@ function buildTable() {
                 console.error(error);
             }
         })
+        .option('select', { style: 'single' })
+        .searchInput('#searchInput')
         .renderer('reportDate', 'Report Date', Renderers.date())
         .column('recordNo', 'Record No')
         .renderer('fxCategory', 'FX Category', Renderers.property('fxCategoryDescription'))
@@ -34,46 +37,78 @@ function buildTable() {
         .renderer('fxType', 'FX Type', Renderers.property('fxTypeDescription'))
         .renderer('fxAmount', 'FX Amount', Renderers.amount())
         .renderer('fxDate', 'FX Date', Renderers.date())
-        .menuAction({ mode: 'context' })
-        .addAction({
-            text: 'View',
-            icon: 'fa fa-eye',
-            onClick: (row) => openTransaction(
-                TransactionMode.VIEW,
-                row.id,
-                null,
-                { page: 'enquiry' }
-            )
-        })
-        .addAction({
-            text: 'Edit',
-            icon: 'fa fa-pen',
-            onClick: (row) => openExistingTransaction(row.masterId, row.id)
-        })
-        .addAction({ divider: true })
-        .addAction({
-            text: 'Delete Transaction',
-            icon: 'fa fa-trash',
-            onClick: async (row) => {
-                const confirmed = await Dialog.confirm({
-                    title: 'Delete FX Transaction',
-                    message: 'Delete this FX transaction?',
-                    yesLabel: 'Delete',
-                    noLabel: 'Cancel'
-                });
-                if (!confirmed) return;
-
-                try {
-                    await FxService.deleteTransaction(row.id);
-                    Toast.success('FX transaction deleted.');
-                    table.refresh(false);
-                } catch (error) {
-                    Toast.error('Failed to delete FX transaction.');
-                    console.error(error);
-                }
-            }
-        })
         .build();
+}
+
+function bindTableActions() {
+    const view = document.querySelector('#viewFxButton');
+    const edit = document.querySelector('#editFxButton');
+    const remove = document.querySelector('#deleteFxButton');
+
+    if (!view || !edit || !remove || !table || !table.table) return;
+
+    const updateState = () => {
+        const enabled = Boolean(selectedRow());
+        view.disabled = !enabled;
+        edit.disabled = !enabled;
+        remove.disabled = !enabled;
+    };
+
+    table.table.on('select deselect draw', updateState);
+
+    view.addEventListener('click', () => {
+        const row = selectedRow();
+        if (!row) return;
+
+        openTransaction(
+            TransactionMode.VIEW,
+            row.id,
+            null,
+            { page: 'enquiry' }
+        );
+    });
+
+    edit.addEventListener('click', () => {
+        const row = selectedRow();
+        if (!row) return;
+        openExistingTransaction(row.masterId, row.id);
+    });
+
+    remove.addEventListener('click', async () => {
+        const row = selectedRow();
+        if (!row) return;
+        await deleteTransaction(row);
+    });
+
+    updateState();
+}
+
+function selectedRow() {
+    if (!table || !table.table) return null;
+
+    const rows = table.table.rows({ selected: true });
+    if (rows.count() !== 1) return null;
+
+    return rows.data()[0] || null;
+}
+
+async function deleteTransaction(row) {
+    const confirmed = await Dialog.confirm({
+        title: 'Delete FX Transaction',
+        message: 'Delete this FX transaction?',
+        yesLabel: 'Delete',
+        noLabel: 'Cancel'
+    });
+    if (!confirmed) return;
+
+    try {
+        await FxService.deleteTransaction(row.id);
+        Toast.success('FX transaction deleted.');
+        table.refresh(false);
+    } catch (error) {
+        Toast.error('Failed to delete FX transaction.');
+        console.error(error);
+    }
 }
 
 function bindCreateButton() {
