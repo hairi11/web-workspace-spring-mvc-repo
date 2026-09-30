@@ -1,12 +1,17 @@
 package com.company.web.common.rest;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 public final class RestTemplateFactory {
+
+    private static final String OAUTH_PROPERTY_PREFIX =
+            "web.oauth";
 
     private RestTemplateFactory() {
     }
@@ -16,16 +21,9 @@ public final class RestTemplateFactory {
         JsonCaseConverter caseConverter =
                 new JsonCaseConverter();
 
-        SimpleClientHttpRequestFactory requestFactory =
-                new SimpleClientHttpRequestFactory();
-
-        requestFactory.setConnectTimeout(
-                settings.getConnectTimeoutMs());
-        requestFactory.setReadTimeout(
-                settings.getReadTimeoutMs());
-
         RestTemplate restTemplate =
-                new RestTemplate(requestFactory);
+                new RestTemplate(
+                        createRequestFactory(settings));
 
         restTemplate.getMessageConverters().add(
                 0,
@@ -36,16 +34,55 @@ public final class RestTemplateFactory {
                 new RestGatewayErrorHandler(
                         caseConverter));
 
-        restTemplate.setInterceptors(
-                Collections.singletonList(
-                        new RestGatewayInterceptor(
-                                settings.getGetAttempts(),
-                                settings.getRetryDelayMs())));
+        List<ClientHttpRequestInterceptor> interceptors =
+                new ArrayList<>();
+
+        OAuthClientCredentialsSettings oauthSettings =
+                OAuthClientCredentialsSettings
+                        .fromSystemProperties(
+                                OAUTH_PROPERTY_PREFIX);
+
+        if (oauthSettings.isConfigured()) {
+            RestTemplate tokenRestTemplate =
+                    new RestTemplate(
+                            createRequestFactory(
+                                    settings));
+
+            OAuthTokenProvider tokenProvider =
+                    new OAuthTokenProvider(
+                            tokenRestTemplate,
+                            oauthSettings);
+
+            interceptors.add(
+                    new BearerTokenInterceptor(
+                            tokenProvider));
+        }
+
+        interceptors.add(
+                new RestGatewayInterceptor(
+                        settings.getGetAttempts(),
+                        settings.getRetryDelayMs()));
+
+        restTemplate.setInterceptors(interceptors);
 
         restTemplate.setUriTemplateHandler(
                 new DefaultUriBuilderFactory(
                         settings.getBaseUrl()));
 
         return restTemplate;
+    }
+
+    private static SimpleClientHttpRequestFactory
+            createRequestFactory(
+                    RestClientSettings settings) {
+        SimpleClientHttpRequestFactory requestFactory =
+                new SimpleClientHttpRequestFactory();
+
+        requestFactory.setConnectTimeout(
+                settings.getConnectTimeoutMs());
+        requestFactory.setReadTimeout(
+                settings.getReadTimeoutMs());
+
+        return requestFactory;
     }
 }
