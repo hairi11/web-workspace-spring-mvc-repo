@@ -3,8 +3,10 @@ package com.company.web.fc.config;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 
+import com.company.web.common.rest.OAuthClientCredentialsSettings;
 import com.company.web.common.rest.RestClientSettings;
 import com.company.web.common.rest.RestTemplateFactory;
 
@@ -15,8 +17,10 @@ public class FcRestClientConfig {
             "http://localhost:8080/api";
 
     @Bean(name = "fcRestClientSettings")
-    public RestClientSettings fcRestClientSettings() {
-        return RestClientSettings.fromSystemProperties(
+    public RestClientSettings fcRestClientSettings(
+            Environment environment) {
+        return RestClientSettings.fromEnvironment(
+                environment,
                 "fc.api",
                 DEFAULT_BASE_URL);
     }
@@ -24,7 +28,10 @@ public class FcRestClientConfig {
     @Bean(name = "fcRestTemplate")
     public RestTemplate fcRestTemplate(
             @Qualifier("fcRestClientSettings")
-            RestClientSettings settings) {
-        return RestTemplateFactory.create(settings);
+            RestClientSettings settings,
+            OAuthClientCredentialsSettings oauthSettings) {
+        return RestTemplateFactory.create(
+                settings,
+                oauthSettings);
     }
 }

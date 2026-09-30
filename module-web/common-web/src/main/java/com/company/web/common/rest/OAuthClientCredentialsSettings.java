@@ -1,5 +1,7 @@
 package com.company.web.common.rest;
 
+import org.springframework.core.env.Environment;
+
 public final class OAuthClientCredentialsSettings {
 
     private static final String DEFAULT_SCOPE =
@@ -26,63 +28,76 @@ public final class OAuthClientCredentialsSettings {
         this.clientSecret = clientSecret;
         this.scope = scope;
         this.refreshSkewSeconds =
-                Math.max(0, refreshSkewSeconds);
+                Math.max(
+                        0,
+                        refreshSkewSeconds);
         this.configured = configured;
     }
 
     public static OAuthClientCredentialsSettings
-            fromSystemProperties(String prefix) {
-        String tokenUrl =
-                stringProperty(
-                        prefix + ".token-url");
-        String clientId =
-                stringProperty(
-                        prefix + ".client-id");
-        String clientSecret =
-                stringProperty(
-                        prefix + ".client-secret");
-
-        boolean anyConfigured =
-                tokenUrl != null
-                        || clientId != null
-                        || clientSecret != null;
-
-        if (!anyConfigured) {
-            return new OAuthClientCredentialsSettings(
-                    null,
-                    null,
-                    null,
-                    DEFAULT_SCOPE,
-                    DEFAULT_REFRESH_SKEW_SECONDS,
-                    false);
+            fromEnvironment(
+                    Environment environment,
+                    String prefix) {
+        if (environment == null) {
+            throw new IllegalArgumentException(
+                    "Spring Environment is required.");
         }
 
-        require(
-                prefix + ".token-url",
-                tokenUrl);
-        require(
-                prefix + ".client-id",
-                clientId);
-        require(
-                prefix + ".client-secret",
-                clientSecret);
+        boolean enabled =
+                Boolean.TRUE.equals(
+                        environment.getProperty(
+                                prefix + ".enabled",
+                                Boolean.class,
+                                Boolean.FALSE));
+
+        if (!enabled) {
+            return disabled();
+        }
+
+        String tokenUrl =
+                requiredProperty(
+                        environment,
+                        prefix + ".token-url");
+        String clientId =
+                requiredProperty(
+                        environment,
+                        prefix + ".client-id");
+        String clientSecret =
+                requiredProperty(
+                        environment,
+                        prefix + ".client-secret");
 
         String scope =
-                stringProperty(
-                        prefix + ".scope");
+                environment.getProperty(
+                        prefix + ".scope",
+                        DEFAULT_SCOPE);
+
+        Integer refreshSkewSeconds =
+                environment.getProperty(
+                        prefix
+                                + ".refresh-skew-seconds",
+                        Integer.class);
 
         return new OAuthClientCredentialsSettings(
                 tokenUrl,
                 clientId,
                 clientSecret,
-                scope != null
-                        ? scope
-                        : DEFAULT_SCOPE,
-                intProperty(
-                        prefix
-                                + ".refresh-skew-seconds",
-                        DEFAULT_REFRESH_SKEW_SECONDS),
+                scope,
+                refreshSkewSeconds != null
+                        ? refreshSkewSeconds
+                        : DEFAULT_REFRESH_SKEW_SECONDS,
                 true);
+    }
+
+    public static OAuthClientCredentialsSettings
+            disabled() {
+        return new OAuthClientCredentialsSettings(
+                null,
+                null,
+                null,
+                DEFAULT_SCOPE,
+                DEFAULT_REFRESH_SKEW_SECONDS,
+                false);
     }
 
     public boolean isConfigured() {
@@ -109,45 +124,20 @@ public final class OAuthClientCredentialsSettings {
         return refreshSkewSeconds;
     }
 
-    private static String stringProperty(
+    private static String requiredProperty(
+            Environment environment,
             String name) {
         String value =
-                System.getProperty(name);
+                environment.getProperty(name);
 
         if (value == null
                 || value.isBlank()) {
-            return null;
-        }
-
-        return value.trim();
-    }
-
-    private static int intProperty(
-            String name,
-            int defaultValue) {
-        String value =
-                System.getProperty(name);
-
-        if (value == null
-                || value.isBlank()) {
-            return defaultValue;
-        }
-
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException exception) {
-            return defaultValue;
-        }
-    }
-
-    private static void require(
-            String name,
-            String value) {
-        if (value == null) {
             throw new IllegalArgumentException(
                     "OAuth configuration is incomplete: "
                             + name
                             + " is required.");
         }
+
+        return value.trim();
     }
 }

@@ -10,14 +10,20 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 public final class RestTemplateFactory {
 
-    private static final String OAUTH_PROPERTY_PREFIX =
-            "web.oauth";
-
     private RestTemplateFactory() {
     }
 
     public static RestTemplate create(
             RestClientSettings settings) {
+        return create(
+                settings,
+                OAuthClientCredentialsSettings
+                        .disabled());
+    }
+
+    public static RestTemplate create(
+            RestClientSettings settings,
+            OAuthClientCredentialsSettings oauthSettings) {
         JsonCaseConverter caseConverter =
                 new JsonCaseConverter();
 
@@ -37,12 +43,8 @@ public final class RestTemplateFactory {
         List<ClientHttpRequestInterceptor> interceptors =
                 new ArrayList<>();
 
-        OAuthClientCredentialsSettings oauthSettings =
-                OAuthClientCredentialsSettings
-                        .fromSystemProperties(
-                                OAUTH_PROPERTY_PREFIX);
-
-        if (oauthSettings.isConfigured()) {
+        if (oauthSettings != null
+                && oauthSettings.isConfigured()) {
             RestTemplate tokenRestTemplate =
                     new RestTemplate(
                             createRequestFactory(
