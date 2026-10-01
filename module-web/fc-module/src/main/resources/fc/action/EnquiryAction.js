@@ -1,6 +1,6 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
-import EnquiryCriteria from '../EnquiryCriteria.js';
+import FcFormValues from '../FcFormValues.js';
 import FcService from '../FcService.js';
 
 const { DataTableBuilder, DatePicker, Renderers, Select2, Toast } = Common;
@@ -50,7 +50,7 @@ function prepareEnquiryTable() {
             page,
             size,
             options.sort,
-            EnquiryCriteria.values()
+            FcFormValues.values()
         ), {
             pageLength: 20,
             defaultOrder: [[0, 'asc']],
