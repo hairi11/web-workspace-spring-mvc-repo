@@ -17,8 +17,11 @@
     <h1>FC Enquiry</h1>
 
     <div class="toolbar">
-        <select id="parameterSelect" aria-label="Enquiry type" disabled>
-            <option value="">Loading types...</option>
+        <select id="parameterSelect" aria-label="FC code" disabled>
+            <option value="">Loading FC codes...</option>
+        </select>
+        <select id="fxCodeSelect" aria-label="FX code" disabled>
+            <option value="">Loading FX codes...</option>
         </select>
         <input id="searchInput" type="search" placeholder="Search FC record" aria-label="Search FC record">
         <button class="btn btn-outline-secondary" id="reloadButton" type="button">Reload</button>
