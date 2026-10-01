@@ -26,7 +26,7 @@ public class FcApiController {
             MultiValueMap<String, String> query) {
         return restClient.get(
                 query,
-                "fc",
+                "enq",
                 "find-by-search");
     }
 
