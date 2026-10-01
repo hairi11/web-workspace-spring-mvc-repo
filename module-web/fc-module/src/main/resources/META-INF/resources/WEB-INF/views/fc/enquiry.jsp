@@ -31,6 +31,17 @@
         </div>
     </div>
 
+    <div class="form-row form-row-2">
+        <div class="form-group">
+            <label for="dateFrom">Date From</label>
+            <input id="dateFrom" name="dateFrom" type="text" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label for="dateTo">Date To</label>
+            <input id="dateTo" name="dateTo" type="text" autocomplete="off">
+        </div>
+    </div>
+
     <div class="toolbar">
         <input id="searchInput" type="search" placeholder="Search FC record" aria-label="Search FC record">
         <button class="btn btn-outline-secondary" id="reloadButton" type="button">Reload</button>
