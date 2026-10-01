@@ -1,4 +1,4 @@
-package com.company.web.common.rest;
+package com.company.web.common.rest.auth;
 
 import java.io.IOException;
 

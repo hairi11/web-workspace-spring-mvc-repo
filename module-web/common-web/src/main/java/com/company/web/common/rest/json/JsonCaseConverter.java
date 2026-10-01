@@ -1,4 +1,4 @@
-package com.company.web.common.rest;
+package com.company.web.common.rest.json;
 
 import java.util.Locale;
 import java.util.Map;

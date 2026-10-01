@@ -1,4 +1,4 @@
-package com.company.web.common.rest;
+package com.company.web.common.rest.json;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -1,4 +1,4 @@
-package com.company.web.common.rest;
+package com.company.web.common.rest.config;
 
 import org.springframework.core.env.Environment;
 
