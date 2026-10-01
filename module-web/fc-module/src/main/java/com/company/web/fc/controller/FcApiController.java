@@ -27,6 +27,7 @@ public class FcApiController {
         return restClient.get(
                 "enq",
                 query,
+                "fc",
                 "find-by-search");
     }
 
@@ -39,8 +40,9 @@ public class FcApiController {
         query.add("form_type", formType);
 
         return restClient.get(
-                "common",
+                null,
                 query,
+                "common",
                 "get-parameter-list");
     }
 }
