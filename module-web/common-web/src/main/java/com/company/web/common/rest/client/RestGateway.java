@@ -1,5 +1,6 @@
 package com.company.web.common.rest.client;
 
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,6 +84,17 @@ public class RestGateway {
             String path,
             HttpMethod method,
             HttpEntity<?> request) {
+        URI requestUri =
+                restTemplate
+                        .getUriTemplateHandler()
+                        .expand(path);
+
+        logger.info(
+                "[REST] "
+                        + method
+                        + " "
+                        + requestUri);
+
         try {
             return restTemplate.exchange(
                     path,
