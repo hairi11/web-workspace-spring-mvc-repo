@@ -2,7 +2,7 @@ import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
 import FcService from '../FcService.js';
 
-const { DataTableBuilder, Renderers, Select2, Toast } = Common;
+const { DataTableBuilder, DatePicker, Renderers, Select2, Toast } = Common;
 
 let table = null;
 
@@ -13,6 +13,8 @@ export function initEnquiry() {
 }
 
 async function prepareEnquiryCriteria() {
+    DatePicker.range('#dateFrom', '#dateTo');
+
     const parameterSelects = {
         '#fcCodeSelect': {
             list: 'fcCode',
