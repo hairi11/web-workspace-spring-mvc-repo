@@ -45,20 +45,29 @@ public class RestGateway {
     }
 
     public ResponseEntity<String> get(
+            String service,
             String... pathSegments) {
-        return get(null, pathSegments);
+        return get(
+                service,
+                null,
+                pathSegments);
     }
 
     public ResponseEntity<String> get(
+            String service,
             MultiValueMap<String, String> query,
             String... pathSegments) {
         return exchange(
-                buildPath(query, pathSegments),
+                buildPath(
+                        service,
+                        query,
+                        pathSegments),
                 HttpMethod.GET,
                 HttpEntity.EMPTY);
     }
 
     public ResponseEntity<String> post(
+            String service,
             String body,
             String... pathSegments) {
         String requestBody =
@@ -78,7 +87,10 @@ public class RestGateway {
                 MediaType.APPLICATION_JSON);
 
         return exchange(
-                buildPath(null, pathSegments),
+                buildPath(
+                        service,
+                        null,
+                        pathSegments),
                 HttpMethod.POST,
                 new HttpEntity<>(
                         requestBody,
@@ -141,26 +153,17 @@ public class RestGateway {
     }
 
     protected String buildPath(
+            String service,
             MultiValueMap<String, String> query,
             String... pathSegments) {
-        if (pathSegments == null
-                || pathSegments.length == 0) {
-            throw new IllegalArgumentException(
-                    "REST service is required.");
-        }
-
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromUriString(
-                        settings.getBaseUrl())
-                        .pathSegment(
-                                pathSegments[0])
-                        .pathSegment("v1");
+                        settings.resolveBaseUrl(
+                                service));
 
-        for (int i = 1;
-                i < pathSegments.length;
-                i++) {
+        for (String pathSegment : pathSegments) {
             builder.pathSegment(
-                    pathSegments[i]);
+                    pathSegment);
         }
 
         if (query != null) {
