@@ -4,6 +4,7 @@ import FcService from '../FcService.js';
 const { DataTableBuilder, Renderers, Select2, Toast } = Common;
 
 const FORM_TYPE = 'FC_ENQUIRY';
+const PARAMETER_LIST = 'fcCode';
 
 let parameterSelect = null;
 let table = null;
@@ -53,7 +54,10 @@ async function loadParameterDropdown() {
     if (!select || !parameterSelect) return;
 
     try {
-        const parameters = await FcService.findParameters(FORM_TYPE);
+        const parameters = await FcService.findParameters(
+            FORM_TYPE,
+            PARAMETER_LIST
+        );
 
         parameterSelect.destroy();
 
@@ -85,11 +89,9 @@ function parameterValue(parameter) {
     if (typeof parameter !== 'object') return String(parameter);
 
     return firstValue(
+        parameter.id,
         parameter.value,
-        parameter.code,
-        parameter.parameterCode,
-        parameter.parameterValue,
-        parameter.id
+        parameter.code
     );
 }
 
@@ -98,10 +100,9 @@ function parameterLabel(parameter, fallback) {
     if (typeof parameter !== 'object') return String(parameter);
 
     return firstValue(
+        parameter.text,
         parameter.label,
         parameter.description,
-        parameter.parameterDescription,
-        parameter.parameterName,
         parameter.name,
         fallback
     );
