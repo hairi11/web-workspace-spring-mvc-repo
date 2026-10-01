@@ -121,3 +121,42 @@ textarea:disabled {
     outline-offset: 3px;
     border-radius: 4px;
 }
+
+
+.datepicker-input-group {
+    position: relative;
+}
+
+.datepicker-input-group .form-control {
+    padding-right: 68px;
+}
+
+.datepicker-icon {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    transform: translateY(-50%);
+    color: #666;
+    cursor: pointer;
+}
+
+.datepicker-icon:hover {
+    color: #222;
+}
+
+.datepicker-calendar {
+    right: 4px;
+}
+
+.datepicker-clear {
+    right: 34px;
+}
+
+.datepicker-clear[hidden] {
+    display: none;
+}
