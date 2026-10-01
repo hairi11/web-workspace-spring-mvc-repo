@@ -90,6 +90,16 @@ public class RestGateway {
                     request,
                     String.class);
         } catch (RestGatewayException exception) {
+            logger.warning(
+                    "REST request failed: "
+                            + method
+                            + " "
+                            + path
+                            + " -> HTTP "
+                            + exception.getStatusCode()
+                            + " body="
+                            + exception.getResponseBody());
+
             HttpStatus status =
                     HttpStatus.resolve(
                             exception.getStatusCode());
