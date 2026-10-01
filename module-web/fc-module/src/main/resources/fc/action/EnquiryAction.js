@@ -43,12 +43,22 @@ async function prepareEnquiryCriteria() {
     }
 }
 
+function enquiryCriteria() {
+    return {
+        dateFrom: document.querySelector('#dateFrom')?.value || '',
+        dateTo: document.querySelector('#dateTo')?.value || '',
+        fcCode: document.querySelector('#fcCodeSelect')?.value || '',
+        fxCode: document.querySelector('#fxCodeSelect')?.value || ''
+    };
+}
+
 function prepareEnquiryTable() {
     return new DataTableBuilder('#fcTable')
         .serverPage((page, size, options) => FcService.enquiry(
             page,
             size,
-            options.sort
+            options.sort,
+            enquiryCriteria()
         ), {
             pageLength: 20,
             defaultOrder: [[0, 'asc']],
