@@ -10,6 +10,18 @@ export class Ajax {
     static clearCache(): typeof Ajax;
 }
 
+export class AjaxResponse {
+    data: any;
+    response: any;
+    config: any;
+    status: number;
+    ok: boolean;
+    headers: any;
+    object(): Record<string, any> | null;
+    array(): any[];
+    path(path: string, fallback?: any): any;
+}
+
 export interface ChoiceInputItem {
     id: string | number;
     text: string;
