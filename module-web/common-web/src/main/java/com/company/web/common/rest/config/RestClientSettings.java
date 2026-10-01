@@ -132,8 +132,9 @@ public final class RestClientSettings {
             String service) {
         if (service == null
                 || service.isBlank()) {
-            throw new IllegalArgumentException(
-                    "REST service is required.");
+            return baseUrl.replace(
+                    "{0}/",
+                    "");
         }
 
         return baseUrl.replace(
