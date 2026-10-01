@@ -16,7 +16,7 @@
 
     <h1>FC Enquiry</h1>
 
-    <div class="form-row form-row-4">
+    <div class="form-row enquiry-criteria-row">
         <div class="form-group">
             <label for="dateFrom">Date From</label>
             <input id="dateFrom" name="dateFrom" type="text" autocomplete="off">
@@ -37,11 +37,16 @@
                 <option value="">Loading FX codes...</option>
             </select>
         </div>
-    </div>
-
-    <div class="toolbar">
-        <input id="searchInput" type="search" placeholder="Search FC record" aria-label="Search FC record">
-        <button class="btn btn-outline-secondary" id="reloadButton" type="button">Reload</button>
+        <div class="form-group enquiry-search-action">
+            <button
+                class="btn btn-outline-secondary"
+                id="searchButton"
+                type="button"
+                aria-label="Search"
+                title="Search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </div>
     </div>
 
     <table id="fcTable">
