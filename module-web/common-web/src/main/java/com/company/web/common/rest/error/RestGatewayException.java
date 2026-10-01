@@ -1,4 +1,4 @@
-package com.company.web.common.rest;
+package com.company.web.common.rest.error;
 
 import org.springframework.web.client.RestClientException;
 

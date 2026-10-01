@@ -1,4 +1,4 @@
-package com.company.web.common.rest;
+package com.company.web.common.rest.client;
 
 import java.io.IOException;
 import java.util.Collections;

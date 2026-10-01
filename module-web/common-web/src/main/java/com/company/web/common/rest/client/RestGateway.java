@@ -1,4 +1,4 @@
-package com.company.web.common.rest;
+package com.company.web.common.rest.client;
 
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
@@ -14,6 +14,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.company.web.common.rest.error.RestGatewayException;
+import com.company.web.common.rest.json.JsonCaseConverter;
 
 public class RestGateway {
 

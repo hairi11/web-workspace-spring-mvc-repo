@@ -1,4 +1,4 @@
-package com.company.web.common.rest;
+package com.company.web.common.rest.client;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,14 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+
+import com.company.web.common.rest.auth.BearerTokenInterceptor;
+import com.company.web.common.rest.auth.OAuthClientCredentialsSettings;
+import com.company.web.common.rest.auth.OAuthTokenProvider;
+import com.company.web.common.rest.config.RestClientSettings;
+import com.company.web.common.rest.error.RestGatewayErrorHandler;
+import com.company.web.common.rest.json.JsonCaseConverter;
+import com.company.web.common.rest.json.JsonCaseHttpMessageConverter;
 
 public final class RestTemplateFactory {
 

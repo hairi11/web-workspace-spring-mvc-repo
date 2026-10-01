@@ -1,4 +1,4 @@
-package com.company.web.common.rest;
+package com.company.web.common.rest.error;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -6,6 +6,8 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.client.DefaultResponseErrorHandler;
+
+import com.company.web.common.rest.json.JsonCaseConverter;
 
 public class RestGatewayErrorHandler
         extends DefaultResponseErrorHandler {
