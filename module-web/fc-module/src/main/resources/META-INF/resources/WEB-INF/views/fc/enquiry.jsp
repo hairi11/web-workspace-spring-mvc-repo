@@ -18,8 +18,8 @@
 
     <div class="form-row form-row-2">
         <div class="form-group">
-            <label for="parameterSelect">FC Code</label>
-            <select id="parameterSelect" aria-label="FC code" disabled>
+            <label for="fcCodeSelect">FC Code</label>
+            <select id="fcCodeSelect" aria-label="FC code" disabled>
                 <option value="">Loading FC codes...</option>
             </select>
         </div>
