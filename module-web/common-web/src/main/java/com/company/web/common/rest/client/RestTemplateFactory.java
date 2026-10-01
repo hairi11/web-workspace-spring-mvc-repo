@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriBuilderFactory;
-
 import com.company.web.common.rest.auth.BearerTokenInterceptor;
 import com.company.web.common.rest.auth.OAuthClientCredentialsSettings;
 import com.company.web.common.rest.auth.OAuthTokenProvider;
@@ -74,10 +72,6 @@ public final class RestTemplateFactory {
                         settings.getRetryDelayMs()));
 
         restTemplate.setInterceptors(interceptors);
-
-        restTemplate.setUriTemplateHandler(
-                new DefaultUriBuilderFactory(
-                        settings.getBaseUrl()));
 
         return restTemplate;
     }
