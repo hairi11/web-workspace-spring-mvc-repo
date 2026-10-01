@@ -14,15 +14,11 @@ const FcService = {
         return Ajax.get(FcApi.enquiry, {
             cache: false,
             dedupe: true,
-            query: {
+            query: Object.assign({
                 page: page,
                 size: size,
-                sort: sortParams,
-                dateFrom: criteria.dateFrom || '',
-                dateTo: criteria.dateTo || '',
-                fcCode: criteria.fcCode || '',
-                fxCode: criteria.fxCode || ''
-            }
+                sort: sortParams
+            }, criteria)
         }).then((response) => response.object());
     },
 
