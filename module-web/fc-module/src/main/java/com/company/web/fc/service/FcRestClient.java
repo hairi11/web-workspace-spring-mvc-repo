@@ -17,6 +17,6 @@ public class FcRestClient extends RestGateway {
             RestClientSettings settings) {
         super(
                 restTemplate,
-                settings.getMaxBodyLength());
+                settings);
     }
 }
