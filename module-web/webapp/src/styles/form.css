@@ -165,3 +165,26 @@ textarea:disabled {
 .datepicker-clear[hidden] {
     display: none;
 }
+
+
+.enquiry-criteria-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+    align-items: end;
+}
+
+.enquiry-search-action {
+    display: flex;
+    align-items: flex-end;
+}
+
+.enquiry-search-action .btn {
+    width: var(--form-control-height);
+    height: var(--form-control-height);
+    padding: 0;
+}
+
+@media (max-width: 700px) {
+    .enquiry-criteria-row {
+        grid-template-columns: 1fr;
+    }
+}
