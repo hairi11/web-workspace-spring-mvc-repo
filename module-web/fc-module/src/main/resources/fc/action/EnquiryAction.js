@@ -6,13 +6,13 @@ const { DataTableBuilder, Renderers, Select2, Toast } = Common;
 
 let table = null;
 
-export async function initEnquiry() {
-    table = buildTable();
-    await loadParameterSelects();
-    bindReloadButton();
+export function initEnquiry() {
+    table = prepareEnquiryTable();
+    prepareEnquiryCriteria();
+    prepareEnquiryActions();
 }
 
-async function loadParameterSelects() {
+async function prepareEnquiryCriteria() {
     const parameterSelects = {
         '#parameterSelect': {
             list: 'fcCode',
@@ -41,7 +41,7 @@ async function loadParameterSelects() {
     }
 }
 
-function buildTable() {
+function prepareEnquiryTable() {
     return new DataTableBuilder('#fcTable')
         .serverPage((page, size, options) => FcService.enquiry(
             page,
@@ -65,7 +65,7 @@ function buildTable() {
         .build();
 }
 
-function bindReloadButton() {
+function prepareEnquiryActions() {
     const reload = document.querySelector('#reloadButton');
     if (!reload) return;
 
