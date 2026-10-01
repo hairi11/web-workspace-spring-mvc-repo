@@ -14,14 +14,14 @@ import com.company.web.common.rest.client.RestTemplateFactory;
 public class FcRestClientConfig {
 
     private static final String DEFAULT_BASE_URL =
-            "http://localhost:8080/api";
+            "http://localhost:8080/service/{0}/v1";
 
     @Bean(name = "fcRestClientSettings")
     public RestClientSettings fcRestClientSettings(
             Environment environment) {
         return RestClientSettings.fromEnvironment(
                 environment,
-                "fc.api",
+                "web.api",
                 DEFAULT_BASE_URL);
     }
 
