@@ -128,6 +128,19 @@ public final class RestClientSettings {
         return baseUrl;
     }
 
+    public String resolveBaseUrl(
+            String service) {
+        if (service == null
+                || service.isBlank()) {
+            throw new IllegalArgumentException(
+                    "REST service is required.");
+        }
+
+        return baseUrl.replace(
+                "{0}",
+                service);
+    }
+
     public int getConnectTimeoutMs() {
         return connectTimeoutMs;
     }
