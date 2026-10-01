@@ -25,8 +25,8 @@ public class FcApiController {
             @RequestParam
             MultiValueMap<String, String> query) {
         return restClient.get(
-                query,
                 "enq",
+                query,
                 "find-by-search");
     }
 
@@ -39,8 +39,8 @@ public class FcApiController {
         query.add("form_type", formType);
 
         return restClient.get(
-                query,
                 "common",
+                query,
                 "get-parameter-list");
     }
 }
