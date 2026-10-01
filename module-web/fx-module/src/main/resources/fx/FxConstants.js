@@ -21,10 +21,6 @@ export const TransactionMode = Object.freeze({
     }
 });
 
-export const FormType = Object.freeze({
-    ENQUIRY: 'FX_ENQUIRY'
-});
-
 export const ReferenceType = Object.freeze({
     CATEGORY: 'FX_CATEGORY',
     CODE: 'FX_CODE',

@@ -1,6 +1,7 @@
 package com.company.web.fc.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,5 +28,19 @@ public class FcApiController {
                 query,
                 "fc",
                 "enquiry");
+    }
+
+    @GetMapping("/parameters")
+    public ResponseEntity<String> parameters(
+            @RequestParam("form_type") String formType) {
+        MultiValueMap<String, String> query =
+                new LinkedMultiValueMap<>();
+
+        query.add("form_type", formType);
+
+        return restClient.get(
+                query,
+                "common",
+                "get-parameter-list");
     }
 }

@@ -17,19 +17,6 @@ function responseArray(response) {
     return Array.isArray(data) ? data : [];
 }
 
-function responseParameterArray(response) {
-    const data = responseData(response);
-
-    if (Array.isArray(data)) return data;
-    if (!data || typeof data !== 'object') return [];
-
-    if (Array.isArray(data.items)) return data.items;
-    if (Array.isArray(data.data)) return data.data;
-    if (Array.isArray(data.parameterList)) return data.parameterList;
-
-    return [];
-}
-
 const FxService = {
     enquiry: function (page, size, sort) {
         const sortParams = Array.isArray(sort)
@@ -45,16 +32,6 @@ const FxService = {
                 sort: sortParams
             }
         }).then(responseObject);
-    },
-
-    findParameters: function (formType) {
-        return Ajax.get(FxApi.parameters, {
-            cache: true,
-            dedupe: true,
-            query: {
-                form_type: formType
-            }
-        }).then(responseParameterArray);
     },
 
     findReferences: function (type) {

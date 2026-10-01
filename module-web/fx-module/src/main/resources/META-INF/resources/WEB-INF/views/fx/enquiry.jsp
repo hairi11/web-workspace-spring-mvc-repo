@@ -17,9 +17,6 @@
     <h1>FX Enquiry</h1>
 
     <div class="toolbar">
-        <select id="parameterSelect" aria-label="Enquiry type" disabled>
-            <option value="">Loading types...</option>
-        </select>
         <input id="searchInput" type="search" placeholder="Search FX record" aria-label="Search FX record">
         <button class="btn btn-outline-secondary" id="reloadButton" type="button">Reload</button>
     </div>

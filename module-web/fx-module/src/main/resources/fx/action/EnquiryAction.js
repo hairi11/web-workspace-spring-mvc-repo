@@ -1,5 +1,5 @@
 import Common from '@company/common-js-web';
-import { FormType, TransactionMode } from '../FxConstants.js';
+import { TransactionMode } from '../FxConstants.js';
 import FxRows from '../FxRows.js';
 import FxService from '../FxService.js';
 
@@ -9,7 +9,6 @@ let table = null;
 
 export function initEnquiry() {
     table = buildTable();
-    loadParameterDropdown();
     bindReloadButton();
 }
 
@@ -86,71 +85,6 @@ function buildTable() {
             onClick: deleteTransaction
         })
         .build();
-}
-
-async function loadParameterDropdown() {
-    const select = document.querySelector('#parameterSelect');
-    if (!select) return;
-
-    select.disabled = true;
-
-    try {
-        const parameters = await FxService.findParameters(FormType.ENQUIRY);
-
-        select.options.length = 0;
-        select.add(new Option('Select type', ''));
-
-        parameters.forEach((parameter) => {
-            const value = parameterValue(parameter);
-            const label = parameterLabel(parameter, value);
-
-            select.add(new Option(label, value));
-        });
-    } catch (error) {
-        Toast.error('Failed to load parameter list.');
-        console.error(error);
-    } finally {
-        select.disabled = false;
-    }
-}
-
-function parameterValue(parameter) {
-    if (parameter === null || parameter === undefined) return '';
-    if (typeof parameter !== 'object') return String(parameter);
-
-    return firstValue(
-        parameter.value,
-        parameter.code,
-        parameter.parameterCode,
-        parameter.parameterValue,
-        parameter.id
-    );
-}
-
-function parameterLabel(parameter, fallback) {
-    if (parameter === null || parameter === undefined) return fallback;
-    if (typeof parameter !== 'object') return String(parameter);
-
-    return firstValue(
-        parameter.label,
-        parameter.description,
-        parameter.parameterDescription,
-        parameter.parameterName,
-        parameter.name,
-        fallback
-    );
-}
-
-function firstValue() {
-    for (let index = 0; index < arguments.length; index += 1) {
-        const value = arguments[index];
-
-        if (value !== null && value !== undefined && value !== '') {
-            return String(value);
-        }
-    }
-
-    return '';
 }
 
 function viewTransaction(row) {
