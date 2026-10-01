@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;
 
-import com.company.web.common.rest.OAuthClientCredentialsSettings;
-import com.company.web.common.rest.RestClientSettings;
-import com.company.web.common.rest.RestTemplateFactory;
+import com.company.web.common.rest.auth.OAuthClientCredentialsSettings;
+import com.company.web.common.rest.config.RestClientSettings;
+import com.company.web.common.rest.client.RestTemplateFactory;
 
 @Configuration
 public class FcRestClientConfig {

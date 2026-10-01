@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.company.web.common.rest.OAuthClientCredentialsSettings;
+import com.company.web.common.rest.auth.OAuthClientCredentialsSettings;
 
 @Configuration
 @EnableWebMvc
