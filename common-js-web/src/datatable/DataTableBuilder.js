@@ -208,7 +208,6 @@ class DataTableBuilder {
         config = Object.assign({
             pageLength: 20,
             contentProperty: 'content',
-            totalProperty: 'totalElements',
             filteredTotalProperty: null,
             defaultOrder: null,
             onError: null
@@ -252,17 +251,7 @@ class DataTableBuilder {
                 var rows = Array.isArray(result[config.contentProperty])
                     ? result[config.contentProperty]
                     : [];
-                var totalValue = result[config.totalProperty];
-
-                if (totalValue === undefined || totalValue === null) {
-                    totalValue = result.total;
-                }
-
-                if (totalValue === undefined || totalValue === null) {
-                    totalValue = result.total_elements;
-                }
-
-                var total = Number(totalValue) || 0;
+                var total = Number(result.total) || 0;
                 var filtered = config.filteredTotalProperty
                     ? Number(result[config.filteredTotalProperty]) || 0
                     : total;
