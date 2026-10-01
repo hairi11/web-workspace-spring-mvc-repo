@@ -4,22 +4,25 @@ import FcService from '../FcService.js';
 
 const { DataTableBuilder, Renderers, Select2, Toast } = Common;
 
-
-const parameterSelects = {
-    '#parameterSelect': {
-        list: 'fcCode',
-        placeholder: 'Select FC code'
-    },
-    '#fxCodeSelect': {
-        list: 'fxCode',
-        placeholder: 'Select FX code'
-    }
-};
-
 let table = null;
 
 export async function initEnquiry() {
     table = buildTable();
+    await loadParameterSelects();
+    bindReloadButton();
+}
+
+async function loadParameterSelects() {
+    const parameterSelects = {
+        '#parameterSelect': {
+            list: 'fcCode',
+            placeholder: 'Select FC code'
+        },
+        '#fxCodeSelect': {
+            list: 'fxCode',
+            placeholder: 'Select FX code'
+        }
+    };
 
     try {
         const parameters = await FcService.findParameters(FormType.ENQUIRY);
@@ -36,8 +39,6 @@ export async function initEnquiry() {
         Toast.error('Failed to load parameter list.');
         console.error(error);
     }
-
-    bindReloadButton();
 }
 
 function buildTable() {
