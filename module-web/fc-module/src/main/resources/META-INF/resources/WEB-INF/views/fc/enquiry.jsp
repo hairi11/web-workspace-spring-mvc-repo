@@ -48,9 +48,9 @@
         <caption>FC enquiry records</caption>
         <thead>
             <tr>
-                <th>Record No</th>
-                <th>Category</th>
-                <th>Status</th>
+                <th>String</th>
+                <th>Date</th>
+                <th>Currency</th>
             </tr>
         </thead>
         <tbody>
