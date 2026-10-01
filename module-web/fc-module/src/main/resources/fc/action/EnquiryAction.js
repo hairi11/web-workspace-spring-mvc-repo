@@ -59,9 +59,59 @@ function prepareEnquiryTable() {
                 console.error(error);
             }
         })
+        .selectCheckbox({
+            style: 'multi',
+            selector: 'td',
+            headerCheckbox: false
+        })
         .column('stringValue', 'String')
         .renderer('dateValue', 'Date', Renderers.date())
         .renderer('currencyValue', 'Currency', Renderers.amount())
+        .toolbarAction()
+        .addAction({
+            text: 'View',
+            icon: 'fa fa-eye',
+            selection: 'single',
+            onClick: () => {}
+        })
+        .addAction({
+            text: 'Edit',
+            icon: 'fa fa-pen',
+            selection: 'single',
+            onClick: () => {}
+        })
+        .addAction({
+            text: 'Delete',
+            icon: 'fa fa-trash',
+            selection: 'multi',
+            variant: 'danger',
+            onClick: () => {}
+        })
+        .addAction({
+            text: 'Create',
+            icon: 'fa fa-plus',
+            selection: 'none',
+            placement: 'end',
+            variant: 'primary',
+            onClick: () => {}
+        })
+        .menuAction({ mode: 'context' })
+        .addAction({
+            text: 'View',
+            icon: 'fa fa-eye',
+            onClick: () => {}
+        })
+        .addAction({
+            text: 'Edit',
+            icon: 'fa fa-pen',
+            onClick: () => {}
+        })
+        .addAction({ divider: true })
+        .addAction({
+            text: 'Delete',
+            icon: 'fa fa-trash',
+            onClick: () => {}
+        })
         .build();
 }
 
