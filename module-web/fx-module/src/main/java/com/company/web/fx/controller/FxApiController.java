@@ -2,6 +2,7 @@ package com.company.web.fx.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,20 @@ public class FxApiController {
     @GetMapping("/enquiry")
     public ResponseEntity<String> enquiry(@RequestParam MultiValueMap<String, String> query) {
         return restClient.get(query, "fx", "enquiry");
+    }
+
+    @GetMapping("/parameters")
+    public ResponseEntity<String> parameters(
+            @RequestParam("form_type") String formType) {
+        MultiValueMap<String, String> query =
+                new LinkedMultiValueMap<>();
+
+        query.add("form_type", formType);
+
+        return restClient.get(
+                query,
+                "common",
+                "get-parameter-list");
     }
 
     @GetMapping("/references")

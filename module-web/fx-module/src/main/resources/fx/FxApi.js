@@ -3,6 +3,7 @@ const BASE_URL = contextPath + '/fx/api';
 
 const FxApi = {
     enquiry: BASE_URL + '/enquiry',
+    parameters: BASE_URL + '/parameters',
     references: BASE_URL + '/references',
     validateDate: BASE_URL + '/validate-date',
     masters: BASE_URL + '/masters',
