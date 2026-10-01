@@ -27,7 +27,7 @@ public class FcApiController {
         return restClient.get(
                 query,
                 "fc",
-                "enquiry");
+                "find-by-search");
     }
 
     @GetMapping("/parameters")
