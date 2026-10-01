@@ -53,7 +53,7 @@ function prepareEnquiryTable() {
             FcFormValues.values()
         ), {
             pageLength: 20,
-            defaultOrder: [[0, 'asc']],
+            totalProperty: 'total_elements',
             onError: (error) => {
                 Toast.error('Failed to load FC records.');
                 console.error(error);
