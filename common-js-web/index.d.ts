@@ -300,6 +300,11 @@ export class DataTableBuilder {
 
 export class DatePicker {
     static maskDateInput(value: any): string;
+    static range(
+        fromSelector: string | HTMLElement,
+        toSelector: string | HTMLElement,
+        options?: {from?: any; to?: any}
+    ): {from: DatePicker; to: DatePicker};
     constructor(selector: string | HTMLElement, options?: any);
     option(name: string, value: any): this;
     optionsConfig(config?: any): this;
