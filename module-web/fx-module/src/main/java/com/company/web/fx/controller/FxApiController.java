@@ -25,55 +25,55 @@ public class FxApiController {
 
     @GetMapping("/enquiry")
     public ResponseEntity<String> enquiry(@RequestParam MultiValueMap<String, String> query) {
-        return restClient.get(query, "fx", "enquiry");
+        return restClient.get(query, "enq", "enquiry");
     }
 
     @GetMapping("/references")
     public ResponseEntity<String> references(@RequestParam MultiValueMap<String, String> query) {
-        return restClient.get(query, "fx", "references");
+        return restClient.get(query, "enq", "references");
     }
 
     @GetMapping("/validate-date")
     public ResponseEntity<String> validateDate(@RequestParam MultiValueMap<String, String> query) {
-        return restClient.get(query, "fx", "validate-date");
+        return restClient.get(query, "enq", "validate-date");
     }
 
     @GetMapping("/masters/{id}")
     public ResponseEntity<String> masterById(@PathVariable String id) {
-        return restClient.get("fx-masters", id);
+        return restClient.get("enq", "fx-masters", id);
     }
 
     @GetMapping("/masters/{id}/transactions")
     public ResponseEntity<String> transactionsByMasterId(@PathVariable String id) {
-        return restClient.get("fx-masters", id, "transactions");
+        return restClient.get("enq", "fx-masters", id, "transactions");
     }
 
     @GetMapping("/transactions/{id}")
     public ResponseEntity<String> transactionById(@PathVariable String id) {
-        return restClient.get("fx-transactions", id);
+        return restClient.get("enq", "fx-transactions", id);
     }
 
     @PostMapping(value = "/transactions/{id}/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteTransaction(
             @PathVariable String id,
             @RequestBody(required = false) String body) {
-        return restClient.post(body, "fx-transactions", id, "delete");
+        return restClient.post(body, "enq", "fx-transactions", id, "delete");
     }
 
     @PostMapping(value = "/masters/{id}/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteMaster(
             @PathVariable String id,
             @RequestBody(required = false) String body) {
-        return restClient.post(body, "fx-masters", id, "delete");
+        return restClient.post(body, "enq", "fx-masters", id, "delete");
     }
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> save(@RequestBody String body) {
-        return restClient.post(body, "fx", "save");
+        return restClient.post(body, "enq", "save");
     }
 
     @PostMapping(value = "/submit", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> submit(@RequestBody String body) {
-        return restClient.post(body, "fx", "submit");
+        return restClient.post(body, "enq", "submit");
     }
 }
