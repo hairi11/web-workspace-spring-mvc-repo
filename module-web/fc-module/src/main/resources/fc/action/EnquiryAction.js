@@ -14,7 +14,7 @@ export function initEnquiry() {
 
 async function prepareEnquiryCriteria() {
     const parameterSelects = {
-        '#parameterSelect': {
+        '#fcCodeSelect': {
             list: 'fcCode',
             placeholder: 'Select FC code'
         },
