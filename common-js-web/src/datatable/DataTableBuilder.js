@@ -1,6 +1,7 @@
 const SecurityUtil = require('../util/SecurityUtil');
 
 const DEFAULT_OPTIONS = {
+    order: [],
     searching: false,
     pagingType: 'full_numbers',
     lengthMenu: [10, 20, 50, 100],
@@ -28,6 +29,7 @@ const DEFAULT_OPTIONS = {
 
 function cloneDefaults() {
     return Object.assign({}, DEFAULT_OPTIONS, {
+        order: DEFAULT_OPTIONS.order.slice(),
         lengthMenu: DEFAULT_OPTIONS.lengthMenu.slice(),
         language: {
             lengthMenu: DEFAULT_OPTIONS.language.lengthMenu,
