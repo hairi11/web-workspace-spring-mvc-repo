@@ -12,7 +12,6 @@ import com.company.web.common.rest.auth.OAuthTokenProvider;
 import com.company.web.common.rest.config.RestClientSettings;
 import com.company.web.common.rest.error.RestGatewayErrorHandler;
 import com.company.web.common.rest.json.JsonCaseConverter;
-import com.company.web.common.rest.json.JsonCaseHttpMessageConverter;
 
 public final class RestTemplateFactory {
 
@@ -36,11 +35,6 @@ public final class RestTemplateFactory {
         RestTemplate restTemplate =
                 new RestTemplate(
                         createRequestFactory(settings));
-
-        restTemplate.getMessageConverters().add(
-                0,
-                new JsonCaseHttpMessageConverter(
-                        caseConverter));
 
         restTemplate.setErrorHandler(
                 new RestGatewayErrorHandler(
