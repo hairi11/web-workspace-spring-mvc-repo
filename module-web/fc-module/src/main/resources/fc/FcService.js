@@ -14,17 +14,16 @@ function responseObject(response) {
         : null;
 }
 
-function responseParameterArray(response) {
-    const data = responseData(response);
+function responseParameterList(response, listName) {
+    const payload = responseData(response);
+    const data = payload && typeof payload === 'object' ? payload.data : null;
 
-    if (Array.isArray(data)) return data;
-    if (!data || typeof data !== 'object') return [];
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+        return [];
+    }
 
-    if (Array.isArray(data.items)) return data.items;
-    if (Array.isArray(data.data)) return data.data;
-    if (Array.isArray(data.parameterList)) return data.parameterList;
-
-    return [];
+    const list = data[listName];
+    return Array.isArray(list) ? list : [];
 }
 
 const FcService = {
@@ -44,14 +43,14 @@ const FcService = {
         }).then(responseObject);
     },
 
-    findParameters: function (formType) {
+    findParameters: function (formType, listName) {
         return Ajax.get(FcApi.parameters, {
             cache: true,
             dedupe: true,
             query: {
                 form_type: formType
             }
-        }).then(responseParameterArray);
+        }).then((response) => responseParameterList(response, listName));
     }
 };
 
