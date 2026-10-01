@@ -1,14 +1,16 @@
 import Common from '@company/common-js-web';
 import FcService from '../FcService.js';
 
-const { DataTableBuilder, Renderers, Toast } = Common;
+const { DataTableBuilder, Renderers, Select2, Toast } = Common;
 
 const FORM_TYPE = 'FC_ENQUIRY';
 
+let parameterSelect = null;
 let table = null;
 
 export function initEnquiry() {
     table = buildTable();
+    parameterSelect = buildParameterSelect();
     loadParameterDropdown();
     bindReloadButton();
 }
@@ -37,17 +39,26 @@ function buildTable() {
         .build();
 }
 
+function buildParameterSelect() {
+    return new Select2('#parameterSelect', {
+        placeholder: 'Select type',
+        allowClear: true
+    })
+        .build()
+        .disable();
+}
+
 async function loadParameterDropdown() {
     const select = document.querySelector('#parameterSelect');
-    if (!select) return;
-
-    select.disabled = true;
+    if (!select || !parameterSelect) return;
 
     try {
         const parameters = await FcService.findParameters(FORM_TYPE);
 
+        parameterSelect.destroy();
+
         select.options.length = 0;
-        select.add(new Option('Select type', ''));
+        select.add(new Option('', ''));
 
         parameters.forEach((parameter) => {
             const value = parameterValue(parameter);
@@ -55,11 +66,17 @@ async function loadParameterDropdown() {
 
             select.add(new Option(label, value));
         });
+
+        parameterSelect = new Select2('#parameterSelect', {
+            placeholder: 'Select type',
+            allowClear: true
+        })
+            .build()
+            .enable();
     } catch (error) {
+        parameterSelect.enable();
         Toast.error('Failed to load parameter list.');
         console.error(error);
-    } finally {
-        select.disabled = false;
     }
 }
 
