@@ -10,7 +10,7 @@ let table = null;
 export function initEnquiry() {
     table = prepareEnquiryTable();
     prepareEnquiryCriteria();
-    prepareEnquiryActions();
+    prepareEnquirySearch();
 }
 
 async function prepareEnquiryCriteria() {
@@ -65,19 +65,19 @@ function prepareEnquiryTable() {
         .build();
 }
 
-function prepareEnquiryActions() {
-    const reload = document.querySelector('#reloadButton');
-    if (!reload) return;
+function prepareEnquirySearch() {
+    const search = document.querySelector('#searchButton');
+    if (!search) return;
 
-    reload.addEventListener('click', () => {
-        reload.disabled = true;
+    search.addEventListener('click', () => {
+        search.disabled = true;
 
         try {
             table.refresh(false);
-            Toast.success('FC records reloaded.');
+            Toast.success('FC records searched.');
         } finally {
             window.setTimeout(() => {
-                reload.disabled = false;
+                search.disabled = false;
             }, 300);
         }
     });
