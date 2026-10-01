@@ -37,6 +37,8 @@ class Ajax {
         original.url = UrlUtil.appendQuery(original.url, original.query);
         UrlUtil.assertSafeRequestUrl(original.url, {allowedProtocols: original.allowedProtocols});
 
+        console.log('[Ajax]', original.method, original.url);
+
         if (original.method !== 'GET' && original.method !== 'POST') {
             throw new Error('Ajax supports GET and POST only.');
         }
