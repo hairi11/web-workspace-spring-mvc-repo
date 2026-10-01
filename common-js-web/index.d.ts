@@ -305,6 +305,8 @@ export class Select2 {
     option(name: string, value: any): this;
     optionsConfig(config?: any): this;
     build(): this;
+    setData(data?: any[]): this;
+    load(dataOrPromise: any[] | Promise<any[]>): Promise<any[]>;
     value(): any;
     setValue(value: any, triggerChange?: boolean): this;
     clear(triggerChange?: boolean): this;

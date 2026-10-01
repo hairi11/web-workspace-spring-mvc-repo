@@ -2,6 +2,50 @@ const DEFAULT_OPTIONS = {
     width: '100%'
 };
 
+function firstValue() {
+    for (var index = 0; index < arguments.length; index += 1) {
+        var value = arguments[index];
+
+        if (value !== null && value !== undefined && value !== '') {
+            return String(value);
+        }
+    }
+
+    return '';
+}
+
+function normalizeItem(item) {
+    if (item === null || item === undefined) {
+        return {id: '', text: ''};
+    }
+
+    if (typeof item !== 'object') {
+        var value = String(item);
+        return {id: value, text: value};
+    }
+
+    var id = firstValue(
+        item.id,
+        item.value,
+        item.code,
+        item.parameterCode,
+        item.parameterValue
+    );
+
+    return {
+        id: id,
+        text: firstValue(
+            item.text,
+            item.label,
+            item.description,
+            item.parameterDescription,
+            item.parameterName,
+            item.name,
+            id
+        )
+    };
+}
+
 class Select2 {
     constructor(selector, options) {
         this.selector = selector;
@@ -34,6 +78,56 @@ class Select2 {
         this.element.select2(this.options);
         this.instance = this.element.data('select2') || null;
         return this;
+    }
+
+    setData(data) {
+        if (!this.element || !this.element.length) {
+            this.build();
+        }
+
+        if (!this.element || !this.element.length) {
+            return this;
+        }
+
+        var element = this.element;
+        var placeholder = this.options.placeholder || '';
+        var items = Array.isArray(data)
+            ? data.map(normalizeItem)
+            : [];
+
+        if (element.hasClass('select2-hidden-accessible')) {
+            element.select2('destroy');
+        }
+
+        element.empty();
+
+        if (placeholder || this.options.allowClear) {
+            element.append(new Option('', ''));
+        }
+
+        items.forEach(function (item) {
+            element.append(new Option(item.text, item.id));
+        });
+
+        element.select2(this.options);
+        this.instance = element.data('select2') || null;
+        return this;
+    }
+
+    async load(dataOrPromise) {
+        if (!this.element || !this.element.length) {
+            this.build();
+        }
+
+        this.disable();
+
+        try {
+            var data = await Promise.resolve(dataOrPromise);
+            this.setData(data);
+            return data;
+        } finally {
+            this.enable();
+        }
     }
 
     value() {
@@ -88,5 +182,6 @@ class Select2 {
 }
 
 Select2.DEFAULT_OPTIONS = DEFAULT_OPTIONS;
+Select2.normalizeItem = normalizeItem;
 
 module.exports = Select2;
