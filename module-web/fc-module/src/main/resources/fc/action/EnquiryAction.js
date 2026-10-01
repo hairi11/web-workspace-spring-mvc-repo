@@ -57,13 +57,9 @@ function prepareEnquiryTable() {
                 console.error(error);
             }
         })
-        .column('recordNo', 'Record No')
-        .renderer(
-            'category',
-            'Category',
-            Renderers.property('categoryDescription')
-        )
-        .column('status', 'Status')
+        .column('stringValue', 'String')
+        .renderer('dateValue', 'Date', Renderers.date())
+        .renderer('currencyValue', 'Currency', Renderers.amount())
         .build();
 }
 
