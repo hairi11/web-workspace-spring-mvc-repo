@@ -4,10 +4,12 @@ import FcApi from './FcApi.js';
 const { Ajax } = Common;
 
 const FcService = {
-    enquiry: function (page, size, sort) {
+    enquiry: function (page, size, sort, criteria) {
         const sortParams = Array.isArray(sort)
             ? sort.map((item) => item.field + ',' + item.dir)
             : [];
+
+        criteria = criteria || {};
 
         return Ajax.get(FcApi.enquiry, {
             cache: false,
@@ -15,7 +17,11 @@ const FcService = {
             query: {
                 page: page,
                 size: size,
-                sort: sortParams
+                sort: sortParams,
+                dateFrom: criteria.dateFrom || '',
+                dateTo: criteria.dateTo || '',
+                fcCode: criteria.fcCode || '',
+                fxCode: criteria.fxCode || ''
             }
         }).then((response) => response.object());
     },
