@@ -100,6 +100,71 @@ class DatePicker {
     }
 }
 
+DatePicker.range = function (fromSelector, toSelector, options) {
+    options = options || {};
+
+    var fromOptions = Object.assign({}, options.from || {});
+    var toOptions = Object.assign({}, options.to || {});
+    var fromOnChange = fromOptions.onChange;
+    var toOnChange = toOptions.onChange;
+    var fromPicker = null;
+    var toPicker = null;
+
+    fromOptions.onChange = function (selectedDates, dateStr, instance) {
+        if (toPicker && toPicker.instance) {
+            toPicker.instance.set(
+                'minDate',
+                selectedDates.length ? selectedDates[0] : null
+            );
+        }
+
+        if (typeof fromOnChange === 'function') {
+            fromOnChange(selectedDates, dateStr, instance);
+        }
+    };
+
+    toOptions.onChange = function (selectedDates, dateStr, instance) {
+        if (fromPicker && fromPicker.instance) {
+            fromPicker.instance.set(
+                'maxDate',
+                selectedDates.length ? selectedDates[0] : null
+            );
+        }
+
+        if (typeof toOnChange === 'function') {
+            toOnChange(selectedDates, dateStr, instance);
+        }
+    };
+
+    fromPicker = new DatePicker(fromSelector, fromOptions).build();
+    toPicker = new DatePicker(toSelector, toOptions).build();
+
+    if (fromPicker.instance
+            && fromPicker.instance.selectedDates
+            && fromPicker.instance.selectedDates.length
+            && toPicker.instance) {
+        toPicker.instance.set(
+            'minDate',
+            fromPicker.instance.selectedDates[0]
+        );
+    }
+
+    if (toPicker.instance
+            && toPicker.instance.selectedDates
+            && toPicker.instance.selectedDates.length
+            && fromPicker.instance) {
+        fromPicker.instance.set(
+            'maxDate',
+            toPicker.instance.selectedDates[0]
+        );
+    }
+
+    return {
+        from: fromPicker,
+        to: toPicker
+    };
+};
+
 DatePicker.maskDateInput = function (value) {
     var digits = String(value || '').replace(/\D/g, '').slice(0, 8);
     var parts = [];
