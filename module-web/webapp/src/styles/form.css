@@ -86,6 +86,10 @@ textarea:disabled {
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.form-row-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .checkbox-row {
     display: flex;
     align-items: center;
@@ -106,7 +110,8 @@ textarea:disabled {
 
 @media (max-width: 700px) {
     .form-row-2,
-    .form-row-3 {
+    .form-row-3,
+    .form-row-4 {
         grid-template-columns: 1fr;
     }
 }
