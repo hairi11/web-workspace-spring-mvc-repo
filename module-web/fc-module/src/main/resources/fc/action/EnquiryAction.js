@@ -1,14 +1,18 @@
 import Common from '@company/common-js-web';
+import { FormType } from '../FcConstants.js';
 import FcService from '../FcService.js';
 
 const { DataTableBuilder, Renderers, Select2, Toast } = Common;
 
-const FORM_TYPE = 'FC_ENQUIRY';
 
 const parameterSelects = {
     '#parameterSelect': {
         list: 'fcCode',
-        placeholder: 'Select type'
+        placeholder: 'Select FC code'
+    },
+    '#fxCodeSelect': {
+        list: 'fxCode',
+        placeholder: 'Select FX code'
     }
 };
 
@@ -18,7 +22,7 @@ export async function initEnquiry() {
     table = buildTable();
 
     try {
-        const parameters = await FcService.findParameters(FORM_TYPE);
+        const parameters = await FcService.findParameters(FormType.ENQUIRY);
 
         Object.entries(parameterSelects).forEach(([selector, config]) => {
             new Select2(selector, {
