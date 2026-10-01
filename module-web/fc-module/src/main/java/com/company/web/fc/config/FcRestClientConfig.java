@@ -14,7 +14,7 @@ import com.company.web.common.rest.client.RestTemplateFactory;
 public class FcRestClientConfig {
 
     private static final String DEFAULT_BASE_URL =
-            "http://localhost:8080/service/{0}/v1";
+            "http://localhost:8080/service";
 
     @Bean(name = "fcRestClientSettings")
     public RestClientSettings fcRestClientSettings(
