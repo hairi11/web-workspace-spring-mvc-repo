@@ -1,5 +1,6 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
+import EnquiryCriteria from '../EnquiryCriteria.js';
 import FcService from '../FcService.js';
 
 const { DataTableBuilder, DatePicker, Renderers, Select2, Toast } = Common;
@@ -43,22 +44,13 @@ async function prepareEnquiryCriteria() {
     }
 }
 
-function enquiryCriteria() {
-    return {
-        dateFrom: document.querySelector('#dateFrom')?.value || '',
-        dateTo: document.querySelector('#dateTo')?.value || '',
-        fcCode: document.querySelector('#fcCodeSelect')?.value || '',
-        fxCode: document.querySelector('#fxCodeSelect')?.value || ''
-    };
-}
-
 function prepareEnquiryTable() {
     return new DataTableBuilder('#fcTable')
         .serverPage((page, size, options) => FcService.enquiry(
             page,
             size,
             options.sort,
-            enquiryCriteria()
+            EnquiryCriteria.values()
         ), {
             pageLength: 20,
             defaultOrder: [[0, 'asc']],
