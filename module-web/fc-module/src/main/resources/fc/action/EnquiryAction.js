@@ -4,26 +4,34 @@ import FcService from '../FcService.js';
 const { DataTableBuilder, Renderers, Select2, Toast } = Common;
 
 const FORM_TYPE = 'FC_ENQUIRY';
-const PARAMETER_LIST = 'fcCode';
+
+const parameterSelects = {
+    '#parameterSelect': {
+        list: 'fcCode',
+        placeholder: 'Select type'
+    }
+};
 
 let table = null;
 
-export function initEnquiry() {
+export async function initEnquiry() {
     table = buildTable();
 
-    new Select2('#parameterSelect', {
-        placeholder: 'Select type',
-        allowClear: true
-    })
-        .build()
-        .load(FcService.findParameters(
-            FORM_TYPE,
-            PARAMETER_LIST
-        ))
-        .catch((error) => {
-            Toast.error('Failed to load parameter list.');
-            console.error(error);
+    try {
+        const parameters = await FcService.findParameters(FORM_TYPE);
+
+        Object.entries(parameterSelects).forEach(([selector, config]) => {
+            new Select2(selector, {
+                placeholder: config.placeholder,
+                allowClear: true
+            })
+                .build()
+                .load(parameters[config.list] || []);
         });
+    } catch (error) {
+        Toast.error('Failed to load parameter list.');
+        console.error(error);
+    }
 
     bindReloadButton();
 }
