@@ -14,6 +14,10 @@ class DatePicker {
         this.element = null;
         this.instance = null;
         this.maskHandler = null;
+        this.inputGroup = null;
+        this.calendarButton = null;
+        this.clearButton = null;
+        this.changeHandler = null;
     }
 
     option(name, value) {
@@ -40,6 +44,7 @@ class DatePicker {
         this.element.classList.add('form-control');
         this.instance = window.flatpickr(this.element, this.options);
         this.bindMask();
+        this.decorateInput();
         return this;
     }
 
@@ -58,15 +63,81 @@ class DatePicker {
         input.addEventListener('input', this.maskHandler);
     }
 
+    decorateInput() {
+        var input = this.instance && this.instance.altInput;
+        if (!input || !input.parentNode) return;
+
+        var wrapper = document.createElement('div');
+        var calendarButton = document.createElement('button');
+        var clearButton = document.createElement('button');
+        var self = this;
+
+        wrapper.className = 'datepicker-input-group';
+
+        calendarButton.type = 'button';
+        calendarButton.className = 'datepicker-icon datepicker-calendar';
+        calendarButton.setAttribute('aria-label', 'Open calendar');
+        calendarButton.innerHTML = '<i class="fa fa-calendar" aria-hidden="true"></i>';
+        calendarButton.addEventListener('click', function () {
+            self.open();
+        });
+
+        clearButton.type = 'button';
+        clearButton.className = 'datepicker-icon datepicker-clear';
+        clearButton.setAttribute('aria-label', 'Clear date');
+        clearButton.innerHTML = '<i class="fa fa-times" aria-hidden="true"></i>';
+        clearButton.addEventListener('click', function () {
+            self.clear();
+            self.updateClearButton();
+        });
+
+        input.parentNode.insertBefore(wrapper, input);
+        wrapper.appendChild(input);
+        wrapper.appendChild(clearButton);
+        wrapper.appendChild(calendarButton);
+
+        this.inputGroup = wrapper;
+        this.calendarButton = calendarButton;
+        this.clearButton = clearButton;
+
+        this.changeHandler = function () {
+            self.updateClearButton();
+        };
+
+        if (this.instance.config
+                && Array.isArray(this.instance.config.onChange)) {
+            this.instance.config.onChange.push(this.changeHandler);
+        }
+
+        this.updateClearButton();
+    }
+
+    updateClearButton() {
+        if (!this.clearButton) return this;
+
+        var hasValue = Boolean(
+            this.instance
+            && this.instance.selectedDates
+            && this.instance.selectedDates.length
+        );
+
+        this.clearButton.hidden = !hasValue;
+        return this;
+    }
+
     setDate(value, triggerChange) {
         if (this.instance) {
             this.instance.setDate(value, triggerChange === true);
+            this.updateClearButton();
         }
         return this;
     }
 
     clear() {
-        if (this.instance) this.instance.clear();
+        if (this.instance) {
+            this.instance.clear();
+            this.updateClearButton();
+        }
         return this;
     }
 
@@ -92,6 +163,10 @@ class DatePicker {
         this.element = null;
         this.instance = null;
         this.maskHandler = null;
+        this.inputGroup = null;
+        this.calendarButton = null;
+        this.clearButton = null;
+        this.changeHandler = null;
         return this;
     }
 
