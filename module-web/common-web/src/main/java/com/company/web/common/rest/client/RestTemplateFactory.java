@@ -49,6 +49,9 @@ public final class RestTemplateFactory {
         List<ClientHttpRequestInterceptor> interceptors =
                 new ArrayList<>();
 
+        interceptors.add(
+                new CommonApiHeaderInterceptor());
+
         if (oauthSettings != null
                 && oauthSettings.isConfigured()) {
             RestTemplate tokenRestTemplate =
