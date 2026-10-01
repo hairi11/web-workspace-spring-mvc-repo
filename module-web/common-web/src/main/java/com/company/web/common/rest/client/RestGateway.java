@@ -16,6 +16,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.company.web.common.rest.config.RestClientSettings;
 import com.company.web.common.rest.error.RestGatewayException;
 import com.company.web.common.rest.json.JsonCaseConverter;
 
@@ -24,14 +25,18 @@ public class RestGateway {
     private final Logger logger;
     private final RestTemplate restTemplate;
     private final JsonCaseConverter caseConverter;
+    private final RestClientSettings settings;
     private final int maxBodyLength;
 
     public RestGateway(
             RestTemplate restTemplate,
-            int maxBodyLength) {
+            RestClientSettings settings) {
         this.restTemplate = restTemplate;
+        this.settings = settings;
         this.maxBodyLength =
-                Math.max(1, maxBodyLength);
+                Math.max(
+                        1,
+                        settings.getMaxBodyLength());
         this.caseConverter =
                 new JsonCaseConverter();
         this.logger =
@@ -85,9 +90,7 @@ public class RestGateway {
             HttpMethod method,
             HttpEntity<?> request) {
         URI requestUri =
-                restTemplate
-                        .getUriTemplateHandler()
-                        .expand(path);
+                URI.create(path);
 
         logger.info(
                 "[REST] "
@@ -140,23 +143,31 @@ public class RestGateway {
     protected String buildPath(
             MultiValueMap<String, String> query,
             String... pathSegments) {
-        UriComponentsBuilder builder =
-                UriComponentsBuilder.newInstance();
+        if (pathSegments == null
+                || pathSegments.length == 0) {
+            throw new IllegalArgumentException(
+                    "REST service is required.");
+        }
 
-        for (String pathSegment : pathSegments) {
-            builder.pathSegment(pathSegment);
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromUriString(
+                        settings.resolveBaseUrl(
+                                pathSegments[0]));
+
+        for (int i = 1;
+                i < pathSegments.length;
+                i++) {
+            builder.pathSegment(
+                    pathSegments[i]);
         }
 
         if (query != null) {
             builder.queryParams(query);
         }
 
-        String path =
-                builder.build().toUriString();
-
-        return path.startsWith("/")
-                ? path.substring(1)
-                : path;
+        return builder
+                .build()
+                .toUriString();
     }
 
     protected ResponseEntity<String> jsonError(
