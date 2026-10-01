@@ -151,8 +151,10 @@ public class RestGateway {
 
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromUriString(
-                        settings.resolveBaseUrl(
-                                pathSegments[0]));
+                        settings.getBaseUrl())
+                        .pathSegment(
+                                pathSegments[0])
+                        .pathSegment("v1");
 
         for (int i = 1;
                 i < pathSegments.length;
