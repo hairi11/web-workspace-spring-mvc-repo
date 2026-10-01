@@ -61,6 +61,7 @@
         </div>
     </form>
 </main>
+<script src="${pageContext.request.contextPath}/assets/vendor.js"></script>
 <script src="${pageContext.request.contextPath}/fx/fx.js"></script>
 </body>
 </html>

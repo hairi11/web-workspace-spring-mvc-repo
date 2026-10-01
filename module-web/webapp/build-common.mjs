@@ -1,11 +1,12 @@
 import { access, mkdir, cp, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { transform } from 'esbuild';
+import { build, transform } from 'esbuild';
 
 const root = process.cwd();
 const distRoot = path.join(root, 'dist', 'module-web');
 const springViews = path.join(root, 'src', 'main', 'webapp', 'WEB-INF', 'views');
 const moduleRoot = path.resolve(root, '..');
+const vendorEntry = path.join(root, 'src', 'vendor.js');
 
 const featureResources = [
     {
@@ -170,6 +171,19 @@ export async function copyFeatureResources() {
     }
 }
 
+export async function bundleVendor(minify) {
+    await build({
+        entryPoints: [vendorEntry],
+        bundle: true,
+        platform: 'browser',
+        format: 'iife',
+        outfile: path.join(distRoot, 'assets', 'vendor.js'),
+        sourcemap: minify !== true,
+        minify: minify === true,
+        logLevel: 'silent'
+    });
+}
+
 export async function bundleStyles(minify) {
     const entry = path.join(distRoot, 'assets', 'module-web.css');
     const bundled = await inlineCssImports(entry);
@@ -189,6 +203,7 @@ export async function copyStaticFiles(options) {
 
     await copySpringViews();
     await copyFeatureResources();
+    await bundleVendor(options.minifyCss === true);
 
     await cp(path.join(root, 'src', 'module-web.css'), path.join(distRoot, 'assets', 'module-web.css'));
     await cp(path.join(root, 'src', 'styles'), path.join(distRoot, 'assets', 'styles'), { recursive: true });
@@ -205,4 +220,4 @@ export async function copyStaticFiles(options) {
     await bundleStyles(options.minifyCss === true);
 }
 
-export { distRoot, springViews, featureResources };
+export { distRoot, springViews, featureResources, vendorEntry };

@@ -6,7 +6,8 @@ import {
     copyStaticFiles,
     featureResources,
     removeWatchedResource,
-    springViews
+    springViews,
+    vendorEntry
 } from './build-common.mjs';
 
 const browserSync = browserSyncFactory.create();
@@ -34,6 +35,7 @@ const watcherOptions = {
 const copyWatch = chokidar.watch([
     path.join(root, 'src', 'module-web.css'),
     path.join(root, 'src', 'styles'),
+    vendorEntry,
     springViews
 ], watcherOptions);
 
@@ -92,4 +94,4 @@ process.on('SIGTERM', shutdown);
 
 console.log('Spring MVC app expected at http://localhost:8081/module-web/');
 console.log('BrowserSync proxy: http://localhost:3000/module-web/');
-console.log('Watching shared CSS/JSP plus FX/FC JSP and frontend bundles for live refresh.');
+console.log('Watching shared vendor/CSS/JSP plus FX/FC JSP and frontend bundles for live refresh.');
