@@ -2,6 +2,8 @@ package com.company.web.common.rest.client;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +40,7 @@ public class RestGatewayInterceptor
             ClientHttpRequestExecution execution)
             throws IOException {
         applyDefaultHeaders(request.getHeaders());
+        logRequest(request);
 
         int attempts =
                 request.getMethod() == HttpMethod.GET
@@ -49,11 +52,20 @@ public class RestGatewayInterceptor
         for (int attempt = 1;
                 attempt <= attempts;
                 attempt++) {
+            long startedAt =
+                    System.nanoTime();
+
             try {
                 ClientHttpResponse response =
                         execution.execute(
                                 request,
                                 body);
+
+                logResponse(
+                        request,
+                        response,
+                        startedAt,
+                        attempt);
 
                 if (shouldRetry(
                         request.getMethod(),
@@ -93,6 +105,67 @@ public class RestGatewayInterceptor
                 ? lastException
                 : new IOException(
                         "REST request failed.");
+    }
+
+    private void logRequest(
+            HttpRequest request) {
+        LOGGER.info(
+                "[API] Request "
+                        + request.getMethod()
+                        + " "
+                        + request.getURI()
+                        + " headers="
+                        + safeHeaders(
+                                request.getHeaders()));
+    }
+
+    private void logResponse(
+            HttpRequest request,
+            ClientHttpResponse response,
+            long startedAt,
+            int attempt)
+            throws IOException {
+        long elapsedMs =
+                (System.nanoTime() - startedAt)
+                        / 1_000_000L;
+
+        LOGGER.info(
+                "[API] Response "
+                        + request.getMethod()
+                        + " "
+                        + request.getURI()
+                        + " -> "
+                        + response.getRawStatusCode()
+                        + " in "
+                        + elapsedMs
+                        + " ms"
+                        + (attempt > 1
+                                ? " attempt=" + attempt
+                                : ""));
+    }
+
+    private Map<String, String> safeHeaders(
+            HttpHeaders headers) {
+        Map<String, String> safe =
+                new LinkedHashMap<>();
+
+        headers.forEach((name, values) -> {
+            if (HttpHeaders.AUTHORIZATION
+                            .equalsIgnoreCase(name)
+                    || HttpHeaders.COOKIE
+                            .equalsIgnoreCase(name)
+                    || HttpHeaders.SET_COOKIE
+                            .equalsIgnoreCase(name)) {
+                safe.put(name, "[REDACTED]");
+                return;
+            }
+
+            safe.put(
+                    name,
+                    String.join(",", values));
+        });
+
+        return safe;
     }
 
     private void applyDefaultHeaders(
