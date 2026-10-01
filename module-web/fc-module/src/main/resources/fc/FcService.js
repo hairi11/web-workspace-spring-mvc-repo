@@ -3,29 +3,6 @@ import FcApi from './FcApi.js';
 
 const { Ajax } = Common;
 
-function responseData(response) {
-    return response ? response.data : null;
-}
-
-function responseObject(response) {
-    const data = responseData(response);
-    return data && typeof data === 'object' && !Array.isArray(data)
-        ? data
-        : null;
-}
-
-function responseParameterList(response, listName) {
-    const payload = responseData(response);
-    const data = payload && typeof payload === 'object' ? payload.data : null;
-
-    if (!data || typeof data !== 'object' || Array.isArray(data)) {
-        return [];
-    }
-
-    const list = data[listName];
-    return Array.isArray(list) ? list : [];
-}
-
 const FcService = {
     enquiry: function (page, size, sort) {
         const sortParams = Array.isArray(sort)
@@ -40,17 +17,17 @@ const FcService = {
                 size: size,
                 sort: sortParams
             }
-        }).then(responseObject);
+        }).then((response) => response.object());
     },
 
-    findParameters: function (formType, listName) {
+    findParameters: function (formType) {
         return Ajax.get(FcApi.parameters, {
             cache: true,
             dedupe: true,
             query: {
                 form_type: formType
             }
-        }).then((response) => responseParameterList(response, listName));
+        }).then((response) => response.path('data', {}));
     }
 };
 
