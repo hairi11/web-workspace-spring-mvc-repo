@@ -25,17 +25,17 @@ public class FxApiController {
 
     @GetMapping("/enquiry")
     public ResponseEntity<String> enquiry(@RequestParam MultiValueMap<String, String> query) {
-        return restClient.get(query, "enq", "enquiry");
+        return restClient.get("enq", query, "enquiry");
     }
 
     @GetMapping("/references")
     public ResponseEntity<String> references(@RequestParam MultiValueMap<String, String> query) {
-        return restClient.get(query, "enq", "references");
+        return restClient.get("enq", query, "references");
     }
 
     @GetMapping("/validate-date")
     public ResponseEntity<String> validateDate(@RequestParam MultiValueMap<String, String> query) {
-        return restClient.get(query, "enq", "validate-date");
+        return restClient.get("enq", query, "validate-date");
     }
 
     @GetMapping("/masters/{id}")
@@ -57,23 +57,23 @@ public class FxApiController {
     public ResponseEntity<String> deleteTransaction(
             @PathVariable String id,
             @RequestBody(required = false) String body) {
-        return restClient.post(body, "enq", "fx-transactions", id, "delete");
+        return restClient.post("enq", body, "fx-transactions", id, "delete");
     }
 
     @PostMapping(value = "/masters/{id}/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteMaster(
             @PathVariable String id,
             @RequestBody(required = false) String body) {
-        return restClient.post(body, "enq", "fx-masters", id, "delete");
+        return restClient.post("enq", body, "fx-masters", id, "delete");
     }
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> save(@RequestBody String body) {
-        return restClient.post(body, "enq", "save");
+        return restClient.post("enq", body, "save");
     }
 
     @PostMapping(value = "/submit", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> submit(@RequestBody String body) {
-        return restClient.post(body, "enq", "submit");
+        return restClient.post("enq", body, "submit");
     }
 }
