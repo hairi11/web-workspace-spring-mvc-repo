@@ -16,7 +16,7 @@
 
     <h1>FC Enquiry</h1>
 
-    <div class="form-row form-row-2">
+    <div class="form-row form-row-4">
         <div class="form-group">
             <label for="dateFrom">Date From</label>
             <input id="dateFrom" name="dateFrom" type="text" autocomplete="off">
@@ -25,9 +25,6 @@
             <label for="dateTo">Date To</label>
             <input id="dateTo" name="dateTo" type="text" autocomplete="off">
         </div>
-    </div>
-
-    <div class="form-row form-row-2">
         <div class="form-group">
             <label for="fcCodeSelect">FC Code</label>
             <select id="fcCodeSelect" aria-label="FC code" disabled>
