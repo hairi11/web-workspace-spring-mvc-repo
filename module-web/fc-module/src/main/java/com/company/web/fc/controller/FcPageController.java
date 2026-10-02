@@ -20,8 +20,8 @@ public class FcPageController {
             "/fc/transaction/create",
             "/fc/transaction/edit"
     })
-    public String form() {
-        return "fc/form";
+    public String transaction() {
+        return "fc/transaction";
     }
 
     @GetMapping("/fc/enquiry.html")
