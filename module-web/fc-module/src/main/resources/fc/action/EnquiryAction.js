@@ -3,7 +3,7 @@ import { FormType } from '../FcConstants.js';
 import FcFormValues from '../FcFormValues.js';
 import FcService from '../FcService.js';
 
-const { DataTableBuilder, DatePicker, Renderers, Select2, Toast } = Common;
+const { DataTableBuilder, DatePicker, NavigationState, Renderers, Select2, Toast } = Common;
 
 let table = null;
 
@@ -76,7 +76,7 @@ function prepareEnquiryTable() {
             text: 'View',
             icon: 'fa fa-eye',
             selection: 'single',
-            onClick: openTransaction
+            onClick: viewTransaction
         })
         .addAction({
             text: 'Edit',
@@ -103,7 +103,7 @@ function prepareEnquiryTable() {
         .addAction({
             text: 'View',
             icon: 'fa fa-eye',
-            onClick: openTransaction
+            onClick: viewTransaction
         })
         .addAction({
             text: 'Edit',
@@ -137,6 +137,19 @@ function prepareEnquirySearch() {
     });
 }
 
+
+function viewTransaction(row) {
+    NavigationState.set({
+        page: 'transaction',
+        action: 'view',
+        key: row.string_value_1,
+        returnTo: {
+            page: 'enquiry'
+        }
+    });
+
+    window.location.href = './transaction';
+}
 
 function openTransaction() {
     window.location.href = './transaction';
