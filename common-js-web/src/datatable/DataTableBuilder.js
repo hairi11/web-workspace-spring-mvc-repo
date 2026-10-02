@@ -108,6 +108,7 @@ class DataTableBuilder {
         this.toolbarClassName = 'datatable-action-toolbar';
         this.selectCheckboxConfig = null;
         this.selectHeader = null;
+        this.responsiveHeader = null;
         this.table = null;
         this.searchSelector = null;
         this.actionHeader = null;
@@ -326,20 +327,33 @@ class DataTableBuilder {
             !this.options.responsive
             || !this.options.responsive.details
             || this.options.responsive.details.type !== 'column'
-            || !this.options.columns.length
         ) {
             return;
         }
 
-        var column = this.options.columns[0];
-        var classes = [
-            column.className || '',
-            'dtr-control'
-        ].filter(Boolean).join(' ');
+        this.options.columns.unshift({
+            data: null,
+            title: '',
+            orderable: false,
+            searchable: false,
+            className: 'dtr-control dt-responsive-control',
+            width: '32px',
+            defaultContent: ''
+        });
 
-        column.className =
-                SecurityUtil.sanitizeClassList(classes)
-                || 'dtr-control';
+        this.ensureResponsiveHeader();
+    }
+
+    ensureResponsiveHeader() {
+        var table = document.querySelector(this.selector);
+        var row = table && table.querySelector('thead tr');
+
+        if (!row || row.children.length >= this.options.columns.length) return;
+
+        this.responsiveHeader = document.createElement('th');
+        this.responsiveHeader.className = 'dtr-control dt-responsive-control';
+        this.responsiveHeader.setAttribute('aria-label', 'Expand row');
+        row.insertBefore(this.responsiveHeader, row.firstChild);
     }
 
     prepareSelectCheckbox() {
@@ -729,6 +743,11 @@ class DataTableBuilder {
         if (this.selectHeader) {
             this.selectHeader.remove();
             this.selectHeader = null;
+        }
+
+        if (this.responsiveHeader) {
+            this.responsiveHeader.remove();
+            this.responsiveHeader = null;
         }
 
         return this;
