@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,10 +31,10 @@ public class FcApiController {
                 "find-by-search");
     }
 
-    @GetMapping("/detail/{path}/{id}")
+    @GetMapping("/detail")
     public ResponseEntity<String> detail(
-            @PathVariable("path") String path,
-            @PathVariable("id") String id) {
+            @RequestParam("path") String path,
+            @RequestParam("id") String id) {
         return restClient.get(
                 "enq",
                 "fc",
