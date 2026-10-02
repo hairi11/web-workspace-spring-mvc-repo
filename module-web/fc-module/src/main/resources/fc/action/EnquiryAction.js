@@ -148,7 +148,7 @@ function viewRecord(row) {
         }
     });
 
-    window.location.href = './view';
+    window.location.href = './transaction/view';
 }
 
 function editRecord(row) {
@@ -161,7 +161,7 @@ function editRecord(row) {
         }
     });
 
-    window.location.href = './form';
+    window.location.href = './transaction/edit';
 }
 
 function createRecord() {
@@ -173,5 +173,5 @@ function createRecord() {
         }
     });
 
-    window.location.href = './form';
+    window.location.href = './transaction/create';
 }
