@@ -139,16 +139,17 @@ function prepareEnquirySearch() {
 
 
 function viewRecord(row) {
-    const form = document.querySelector('#viewForm');
-    const path = document.querySelector('#viewPath');
-    const id = document.querySelector('#viewId');
+    NavigationState.set({
+        page: 'view',
+        action: 'view',
+        path: row.path,
+        id: row.id,
+        returnTo: {
+            page: 'enquiry'
+        }
+    });
 
-    if (!form || !path || !id) return;
-
-    path.value = row.path || '';
-    id.value = row.id || '';
-
-    form.submit();
+    window.location.href = './transaction/view';
 }
 
 function editRecord(row) {
