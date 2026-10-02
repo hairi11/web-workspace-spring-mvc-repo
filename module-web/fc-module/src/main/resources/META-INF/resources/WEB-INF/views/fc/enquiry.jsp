@@ -54,8 +54,14 @@
         <thead>
             <tr>
                 <th>String</th>
+                <th>String</th>
                 <th>Date</th>
-                <th>Currency</th>
+                <th>String</th>
+                <th>String</th>
+                <th>Amount</th>
+                <th>String</th>
+                <th>Date</th>
+                <th>String</th>
             </tr>
         </thead>
         <tbody>
