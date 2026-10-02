@@ -76,13 +76,13 @@ function prepareEnquiryTable() {
             text: 'View',
             icon: 'fa fa-eye',
             selection: 'single',
-            onClick: viewTransaction
+            onClick: viewRecord
         })
         .addAction({
             text: 'Edit',
             icon: 'fa fa-pen',
             selection: 'single',
-            onClick: openTransaction
+            onClick: editRecord
         })
         .addAction({
             text: 'Delete',
@@ -97,18 +97,18 @@ function prepareEnquiryTable() {
             selection: 'none',
             placement: 'end',
             variant: 'primary',
-            onClick: openTransaction
+            onClick: createRecord
         })
         .menuAction({ mode: 'context' })
         .addAction({
             text: 'View',
             icon: 'fa fa-eye',
-            onClick: viewTransaction
+            onClick: viewRecord
         })
         .addAction({
             text: 'Edit',
             icon: 'fa fa-pen',
-            onClick: openTransaction
+            onClick: editRecord
         })
         .addAction({ divider: true })
         .addAction({
@@ -138,9 +138,9 @@ function prepareEnquirySearch() {
 }
 
 
-function viewTransaction(row) {
+function viewRecord(row) {
     NavigationState.set({
-        page: 'transaction',
+        page: 'view',
         action: 'view',
         key: row.string_value_1,
         returnTo: {
@@ -148,9 +148,30 @@ function viewTransaction(row) {
         }
     });
 
-    window.location.href = './transaction';
+    window.location.href = './view';
 }
 
-function openTransaction() {
-    window.location.href = './transaction';
+function editRecord(row) {
+    NavigationState.set({
+        page: 'form',
+        action: 'edit',
+        key: row.string_value_1,
+        returnTo: {
+            page: 'enquiry'
+        }
+    });
+
+    window.location.href = './form';
+}
+
+function createRecord() {
+    NavigationState.set({
+        page: 'form',
+        action: 'create',
+        returnTo: {
+            page: 'enquiry'
+        }
+    });
+
+    window.location.href = './form';
 }
