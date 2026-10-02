@@ -142,7 +142,8 @@ function viewRecord(row) {
     NavigationState.set({
         page: 'view',
         action: 'view',
-        key: row.string_value_1,
+        path: row.path,
+        id: row.id,
         returnTo: {
             page: 'enquiry'
         }
