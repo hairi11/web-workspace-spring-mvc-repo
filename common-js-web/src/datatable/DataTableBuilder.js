@@ -56,6 +56,13 @@ function cloneDefaults() {
     });
 }
 
+function toSnakeCase(value) {
+    return String(value || '')
+        .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+        .replace(/([A-Za-z])(\d+)/g, '$1_$2')
+        .toLowerCase();
+}
+
 function loadBootstrapDropdown() {
     require('bootstrap/js/dist/dropdown');
 }
@@ -239,7 +246,7 @@ class DataTableBuilder {
 
                 return column && column.data
                     ? {
-                        field: column.data,
+                        field: toSnakeCase(column.data),
                         dir: String(order.dir).toLowerCase() === 'desc'
                             ? 'desc'
                             : 'asc'
