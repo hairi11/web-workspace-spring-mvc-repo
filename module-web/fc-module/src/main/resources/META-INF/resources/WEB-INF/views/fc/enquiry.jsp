@@ -49,6 +49,15 @@
         </div>
     </div>
 
+    <form
+        id="viewForm"
+        method="post"
+        action="${pageContext.request.contextPath}/fc/transaction/view"
+        hidden>
+        <input id="viewPath" name="path" type="hidden">
+        <input id="viewId" name="id" type="hidden">
+    </form>
+
     <table id="fcTable">
         <caption>FC enquiry records</caption>
         <thead>
