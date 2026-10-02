@@ -14,9 +14,10 @@
         <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fc/enquiry">FC Enquiry</a>
     </nav>
 
-    <h1>FC View</h1>
+    <h1>FC Detail</h1>
 
-    <div id="viewContent">
+    <div id="viewContent" class="view-detail-grid" aria-live="polite">
+        <div id="viewLoading" class="view-detail-loading">Loading detail...</div>
     </div>
 
     <div class="button-bar">
