@@ -188,3 +188,14 @@ textarea:disabled {
         grid-template-columns: 1fr;
     }
 }
+
+
+@media (max-width: 700px) {
+    .enquiry-search-action {
+        width: 100%;
+    }
+
+    .enquiry-search-action .btn {
+        width: 100%;
+    }
+}
