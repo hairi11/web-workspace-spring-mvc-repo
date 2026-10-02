@@ -22,20 +22,24 @@ export async function initView() {
 function populateView(detail) {
     if (!detail) return;
 
-    setValue('#stringValue1', detail.string_value_1);
-    setValue('#stringValue2', detail.string_value_2);
-    setValue('#dateValue1', detail.date_value_1);
-    setValue('#stringValue3', detail.string_value_3);
-    setValue('#stringValue4', detail.string_value_4);
-    setValue('#amountValue', detail.amount_value);
-    setValue('#stringValue5', detail.string_value_5);
-    setValue('#dateValue2', detail.date_value_2);
-    setValue('#stringValue6', detail.string_value_6);
-}
+    const fields = {
+        string_value_1: '#stringValue1',
+        string_value_2: '#stringValue2',
+        date_value_1: '#dateValue1',
+        string_value_3: '#stringValue3',
+        string_value_4: '#stringValue4',
+        amount_value: '#amountValue',
+        string_value_5: '#stringValue5',
+        date_value_2: '#dateValue2',
+        string_value_6: '#stringValue6'
+    };
 
-function setValue(selector, value) {
-    const field = document.querySelector(selector);
-    if (!field) return;
+    Object.entries(fields).forEach(([name, selector]) => {
+        const field = document.querySelector(selector);
+        if (!field) return;
 
-    field.value = value == null ? '' : value;
+        field.value = detail[name] == null
+            ? ''
+            : detail[name];
+    });
 }
