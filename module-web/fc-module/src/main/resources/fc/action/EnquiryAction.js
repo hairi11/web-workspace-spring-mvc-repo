@@ -62,15 +62,15 @@ function prepareEnquiryTable() {
             style: 'multi',
             headerCheckbox: false
         })
-        .column('stringValue1', 'String')
-        .column('stringValue2', 'String')
-        .renderer('dateValue1', 'Date', Renderers.date())
-        .column('stringValue3', 'String')
-        .column('stringValue4', 'String')
-        .renderer('amountValue', 'Amount', Renderers.amount())
-        .column('stringValue5', 'String')
-        .renderer('dateValue2', 'Date', Renderers.date())
-        .column('stringValue6', 'String')
+        .column('string_value_1', 'String')
+        .column('string_value_2', 'String')
+        .renderer('date_value_1', 'Date', Renderers.date())
+        .column('string_value_3', 'String')
+        .column('string_value_4', 'String')
+        .renderer('amount_value', 'Amount', Renderers.amount())
+        .column('string_value_5', 'String')
+        .renderer('date_value_2', 'Date', Renderers.date())
+        .column('string_value_6', 'String')
         .toolbarAction()
         .addAction({
             text: 'View',
