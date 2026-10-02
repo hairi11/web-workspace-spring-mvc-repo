@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,8 +18,23 @@
 
     <h1>FC Detail</h1>
 
-    <div id="viewContent" class="view-detail-grid" aria-live="polite">
-        <div id="viewLoading" class="view-detail-loading">Loading detail...</div>
+    <div class="view-detail-grid">
+        <c:choose>
+            <c:when test="${not empty detail}">
+                <c:forEach items="${detail}" var="field">
+                    <div class="form-group view-detail-field">
+                        <label>${fn:replace(field.key, '_', ' ')}</label>
+                        <input
+                            type="text"
+                            value="<c:out value="${field.value}"/>"
+                            readonly>
+                    </div>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <div class="view-detail-message">No detail available.</div>
+            </c:otherwise>
+        </c:choose>
     </div>
 
     <div class="button-bar">
