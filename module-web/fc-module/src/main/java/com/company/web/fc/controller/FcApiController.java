@@ -33,11 +33,13 @@ public class FcApiController {
 
     @GetMapping("/detail")
     public ResponseEntity<String> detail(
-            @RequestParam("string_value_1") String key) {
+            @RequestParam("path") String path,
+            @RequestParam("id") String id) {
         MultiValueMap<String, String> query =
                 new LinkedMultiValueMap<>();
 
-        query.add("string_value_1", key);
+        query.add("path", path);
+        query.add("id", id);
 
         return restClient.get(
                 "enq",
