@@ -22,6 +22,16 @@ const FcService = {
         }).then((response) => response.object());
     },
 
+    findDetail: function (key) {
+        return Ajax.get(FcApi.detail, {
+            cache: false,
+            dedupe: true,
+            query: {
+                string_value_1: key
+            }
+        }).then((response) => response.object());
+    },
+
     findParameters: function (formType) {
         return Ajax.get(FcApi.parameters, {
             cache: true,
