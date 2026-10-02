@@ -6,7 +6,14 @@ const { NavigationState, Renderers, Toast } = Common;
 export async function initView() {
     const state = NavigationState.consume();
 
-    if (!state || state.action !== 'view' || !state.path || !state.id) {
+    if (
+        !state
+        || state.action !== 'view'
+        || state.path == null
+        || state.id == null
+    ) {
+        console.error('Missing FC view navigation state.', state);
+        Toast.error('Unable to load FC detail.');
         return;
     }
 
