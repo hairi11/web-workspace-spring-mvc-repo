@@ -3,6 +3,7 @@ const SecurityUtil = require('../util/SecurityUtil');
 const DEFAULT_OPTIONS = {
     order: [],
     searching: false,
+    responsive: true,
     pagingType: 'full_numbers',
     lengthMenu: [10, 20, 50, 100],
     language: {
