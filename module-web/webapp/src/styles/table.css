@@ -233,3 +233,64 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
     vertical-align: middle;
     cursor: pointer;
 }
+
+
+/* Dedicated responsive details control sits beside the select checkbox. */
+table.dataTable th.dt-responsive-control,
+table.dataTable td.dt-responsive-control {
+    width: 32px;
+    min-width: 32px;
+    max-width: 32px;
+    padding-left: .4rem;
+    padding-right: .4rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+table.dataTable tbody td.dt-responsive-control {
+    cursor: pointer;
+}
+
+/* Responsive child row: clean label/value presentation for hidden columns. */
+table.dataTable > tbody > tr.child td.child {
+    padding: .75rem 1rem;
+    background: #fafafa;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details {
+    display: grid;
+    gap: .5rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details > li {
+    display: grid;
+    grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    padding: .45rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+table.dataTable > tbody > tr.child ul.dtr-details > li:last-child {
+    border-bottom: 0;
+}
+
+table.dataTable > tbody > tr.child .dtr-title {
+    font-weight: 600;
+    color: #444;
+}
+
+table.dataTable > tbody > tr.child .dtr-data {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+    table.dataTable > tbody > tr.child ul.dtr-details > li {
+        grid-template-columns: 1fr;
+        gap: .2rem;
+    }
+}
