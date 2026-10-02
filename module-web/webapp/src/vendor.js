@@ -2,6 +2,7 @@ import $ from 'jquery';
 import 'jquery-contextmenu';
 import 'datatables.net-bs5';
 import 'datatables.net-buttons-bs5';
+import 'datatables.net-responsive-bs5';
 import 'datatables.net-select-bs5';
 import flatpickr from 'flatpickr';
 import select2 from 'select2';
