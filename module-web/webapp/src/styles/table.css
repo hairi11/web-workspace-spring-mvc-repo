@@ -107,7 +107,7 @@ table.dataTable thead > tr > th > div.dt-column-header > span.dt-column-order {
 
 .datatable-action-toolbar-start,
 .datatable-action-toolbar-end {
-    margin-bottom: .75rem;
+    margin-bottom: .25rem;
 }
 
 .datatable-action-toolbar-start .dt-buttons,
@@ -355,4 +355,33 @@ table.dataTable > tbody > tr.child .dtr-data {
         width: 100% !important;
         max-width: 100%;
     }
+}
+
+
+/* DataTable visual grouping */
+.dt-container .dt-layout-row:first-child {
+    margin-bottom: .25rem;
+}
+
+table.dataTable thead > tr > th {
+    background: #000;
+    color: #fff;
+    border-bottom-color: #000;
+}
+
+table.dataTable thead > tr > th .dt-column-title,
+table.dataTable thead > tr > th .dt-column-order {
+    color: #fff;
+}
+
+table.dataTable tbody > tr:nth-child(odd) > td {
+    background: #fff;
+}
+
+table.dataTable tbody > tr:nth-child(even) > td {
+    background: #f7f7f7;
+}
+
+table.dataTable tbody > tr:hover > td {
+    background: #f0f0f0;
 }
