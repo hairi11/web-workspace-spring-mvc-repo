@@ -60,7 +60,6 @@ function prepareEnquiryTable() {
         })
         .selectCheckbox({
             style: 'multi',
-            selector: 'td',
             headerCheckbox: false
         })
         .column('stringValue1', 'String')
