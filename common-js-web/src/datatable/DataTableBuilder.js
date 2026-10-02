@@ -146,7 +146,7 @@ class DataTableBuilder {
     selectCheckbox(config) {
         this.selectCheckboxConfig = Object.assign({
             style: 'multi',
-            selector: 'td',
+            selector: 'td.dt-select-column',
             headerCheckbox: false,
             title: '',
             className: 'dt-select-column',
@@ -298,11 +298,11 @@ class DataTableBuilder {
             throw new Error('DataTableBuilder requires jQuery DataTables.');
         }
 
-        this.prepareResponsiveControl();
-
         if (this.selectCheckboxConfig) {
             this.prepareSelectCheckbox();
         }
+
+        this.prepareResponsiveControl();
 
         if (this.toolbarActions.length) {
             loadButtons();
