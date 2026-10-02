@@ -302,3 +302,57 @@ table.dataTable > tbody > tr.child .dtr-data {
         padding-left: .75rem;
     }
 }
+
+
+/* Keep DataTables layout responsive to the available container width. */
+.dt-container,
+.dt-container .dt-layout-row,
+.dt-container .dt-layout-cell {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.dt-container .dt-layout-row {
+    width: 100%;
+}
+
+.dt-container .dt-layout-start,
+.dt-container .dt-layout-end {
+    min-width: 0;
+}
+
+@media (max-width: 700px) {
+    .dt-container .dt-layout-row {
+        display: flex !important;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .dt-container .dt-layout-start,
+    .dt-container .dt-layout-end {
+        width: 100%;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .datatable-action-toolbar-start,
+    .datatable-action-toolbar-end {
+        margin-bottom: 0;
+    }
+
+    .datatable-action-toolbar-start .dt-buttons,
+    .datatable-action-toolbar-end .dt-buttons {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .datatable-action-toolbar-end .dt-buttons {
+        justify-content: flex-start;
+    }
+
+    .dt-container table.dataTable {
+        width: 100% !important;
+        max-width: 100%;
+    }
+}
