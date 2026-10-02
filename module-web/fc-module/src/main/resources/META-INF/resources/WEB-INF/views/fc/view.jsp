@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="org.springframework.web.util.HtmlUtils" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,36 +17,50 @@
     <h1>FC Detail</h1>
 
     <div class="view-detail-grid">
-<%
-    Map<String, Object> detail =
-            (Map<String, Object>) request.getAttribute("detail");
-
-    if (detail != null && !detail.isEmpty()) {
-        for (Map.Entry<String, Object> field : detail.entrySet()) {
-            String label =
-                    field.getKey()
-                            .replace('_', ' ');
-
-            String value =
-                    field.getValue() == null
-                            ? ""
-                            : String.valueOf(field.getValue());
-%>
         <div class="form-group view-detail-field">
-            <label><%= HtmlUtils.htmlEscape(label) %></label>
-            <input
-                type="text"
-                value="<%= HtmlUtils.htmlEscape(value) %>"
-                readonly>
+            <label for="stringValue1">String 1</label>
+            <input id="stringValue1" type="text" value="${detail.string_value_1}" readonly>
         </div>
-<%
-        }
-    } else {
-%>
-        <div class="view-detail-message">No detail available.</div>
-<%
-    }
-%>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue2">String 2</label>
+            <input id="stringValue2" type="text" value="${detail.string_value_2}" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="dateValue1">Date 1</label>
+            <input id="dateValue1" type="text" value="${detail.date_value_1}" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue3">String 3</label>
+            <input id="stringValue3" type="text" value="${detail.string_value_3}" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue4">String 4</label>
+            <input id="stringValue4" type="text" value="${detail.string_value_4}" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="amountValue">Amount</label>
+            <input id="amountValue" type="text" value="${detail.amount_value}" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue5">String 5</label>
+            <input id="stringValue5" type="text" value="${detail.string_value_5}" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="dateValue2">Date 2</label>
+            <input id="dateValue2" type="text" value="${detail.date_value_2}" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue6">String 6</label>
+            <input id="stringValue6" type="text" value="${detail.string_value_6}" readonly>
+        </div>
     </div>
 
     <div class="button-bar">
