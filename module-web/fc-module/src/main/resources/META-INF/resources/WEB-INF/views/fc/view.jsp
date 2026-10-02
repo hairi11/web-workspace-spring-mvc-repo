@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,22 +17,50 @@
     <h1>FC Detail</h1>
 
     <div class="view-detail-grid">
-        <c:choose>
-            <c:when test="${not empty detail}">
-                <c:forEach items="${detail}" var="field">
-                    <div class="form-group view-detail-field">
-                        <label>${fn:replace(field.key, '_', ' ')}</label>
-                        <input
-                            type="text"
-                            value="<c:out value="${field.value}"/>"
-                            readonly>
-                    </div>
-                </c:forEach>
-            </c:when>
-            <c:otherwise>
-                <div class="view-detail-message">No detail available.</div>
-            </c:otherwise>
-        </c:choose>
+        <div class="form-group view-detail-field">
+            <label for="stringValue1">String 1</label>
+            <input id="stringValue1" type="text" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue2">String 2</label>
+            <input id="stringValue2" type="text" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="dateValue1">Date 1</label>
+            <input id="dateValue1" type="text" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue3">String 3</label>
+            <input id="stringValue3" type="text" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue4">String 4</label>
+            <input id="stringValue4" type="text" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="amountValue">Amount</label>
+            <input id="amountValue" type="text" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue5">String 5</label>
+            <input id="stringValue5" type="text" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="dateValue2">Date 2</label>
+            <input id="dateValue2" type="text" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
+            <label for="stringValue6">String 6</label>
+            <input id="stringValue6" type="text" readonly>
+        </div>
     </div>
 
     <div class="button-bar">
