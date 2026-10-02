@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="org.springframework.web.util.HtmlUtils" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -19,22 +19,36 @@
     <h1>FC Detail</h1>
 
     <div class="view-detail-grid">
-        <c:choose>
-            <c:when test="${not empty detail}">
-                <c:forEach items="${detail}" var="field">
-                    <div class="form-group view-detail-field">
-                        <label>${fn:replace(field.key, '_', ' ')}</label>
-                        <input
-                            type="text"
-                            value="<c:out value="${field.value}"/>"
-                            readonly>
-                    </div>
-                </c:forEach>
-            </c:when>
-            <c:otherwise>
-                <div class="view-detail-message">No detail available.</div>
-            </c:otherwise>
-        </c:choose>
+<%
+    Map<String, Object> detail =
+            (Map<String, Object>) request.getAttribute("detail");
+
+    if (detail != null && !detail.isEmpty()) {
+        for (Map.Entry<String, Object> field : detail.entrySet()) {
+            String label =
+                    field.getKey()
+                            .replace('_', ' ');
+
+            String value =
+                    field.getValue() == null
+                            ? ""
+                            : String.valueOf(field.getValue());
+%>
+        <div class="form-group view-detail-field">
+            <label><%= HtmlUtils.htmlEscape(label) %></label>
+            <input
+                type="text"
+                value="<%= HtmlUtils.htmlEscape(value) %>"
+                readonly>
+        </div>
+<%
+        }
+    } else {
+%>
+        <div class="view-detail-message">No detail available.</div>
+<%
+    }
+%>
     </div>
 
     <div class="button-bar">
