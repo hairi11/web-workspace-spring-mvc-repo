@@ -199,3 +199,48 @@ textarea:disabled {
         width: 100%;
     }
 }
+
+
+.view-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.view-detail-field {
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.view-detail-field-wide,
+.view-detail-loading,
+.view-detail-message {
+    grid-column: 1 / -1;
+}
+
+.view-detail-field input[readonly],
+.view-detail-field textarea[readonly] {
+    background: #f7f7f7;
+    color: #222;
+    cursor: default;
+}
+
+.view-detail-field textarea[readonly] {
+    min-height: 96px;
+    resize: vertical;
+}
+
+.view-detail-loading,
+.view-detail-message {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+@media (max-width: 700px) {
+    .view-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
