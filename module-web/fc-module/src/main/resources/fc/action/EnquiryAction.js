@@ -67,7 +67,14 @@ function prepareEnquiryTable() {
         .renderer('date_value_1', 'Date', Renderers.date())
         .column('string_value_3', 'String')
         .column('string_value_4', 'String')
-        .renderer('amount_value', 'Amount', Renderers.amount())
+        .renderer('amount_value', 'Amount', Renderers.amount({
+            minimumFractionDigits: 4,
+            maximumFractionDigits: 4
+        }))
+        .renderer('amount_value_2', 'Amount 2', Renderers.amount({
+            minimumFractionDigits: 6,
+            maximumFractionDigits: 6
+        }))
         .column('string_value_5', 'String')
         .renderer('date_value_2', 'Date', Renderers.date())
         .column('string_value_6', 'String')
