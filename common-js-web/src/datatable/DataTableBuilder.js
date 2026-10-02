@@ -6,7 +6,7 @@ const DEFAULT_OPTIONS = {
     responsive: {
         details: {
             type: 'column',
-            target: 'tbody td:not(.dt-select-column)'
+            target: 'td.dtr-control'
         }
     },
     pagingType: 'full_numbers',
@@ -297,6 +297,8 @@ class DataTableBuilder {
             throw new Error('DataTableBuilder requires jQuery DataTables.');
         }
 
+        this.prepareResponsiveControl();
+
         if (this.selectCheckboxConfig) {
             this.prepareSelectCheckbox();
         }
@@ -317,6 +319,27 @@ class DataTableBuilder {
         this.bindToolbarActions();
         this.bindSearch();
         return this;
+    }
+
+    prepareResponsiveControl() {
+        if (
+            !this.options.responsive
+            || !this.options.responsive.details
+            || this.options.responsive.details.type !== 'column'
+            || !this.options.columns.length
+        ) {
+            return;
+        }
+
+        var column = this.options.columns[0];
+        var classes = [
+            column.className || '',
+            'dtr-control'
+        ].filter(Boolean).join(' ');
+
+        column.className =
+                SecurityUtil.sanitizeClassList(classes)
+                || 'dtr-control';
     }
 
     prepareSelectCheckbox() {
