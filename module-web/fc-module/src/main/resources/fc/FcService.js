@@ -23,17 +23,14 @@ const FcService = {
     },
 
     findDetail: function (path, id) {
-        return Ajax.get(
-            FcApi.detail
-                + '/'
-                + encodeURIComponent(path)
-                + '/'
-                + encodeURIComponent(id),
-            {
-                cache: false,
-                dedupe: true
+        return Ajax.get(FcApi.detail, {
+            cache: false,
+            dedupe: true,
+            query: {
+                path: path,
+                id: id
             }
-        ).then((response) => response.object());
+        }).then((response) => response.object());
     },
 
     findParameters: function (formType) {
