@@ -19,3 +19,18 @@ nav { margin-bottom: 24px; }
 }
 
 .toolbar input { flex: 1; min-width: 220px; }
+
+
+@media (max-width: 700px) {
+    main {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 16px;
+        border-radius: 0;
+    }
+
+    nav {
+        margin-bottom: 16px;
+    }
+}
