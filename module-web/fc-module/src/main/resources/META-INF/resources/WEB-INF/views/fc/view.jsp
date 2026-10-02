@@ -48,6 +48,11 @@
         </div>
 
         <div class="form-group view-detail-field">
+            <label for="amountValue2">Amount 2</label>
+            <input id="amountValue2" type="text" readonly>
+        </div>
+
+        <div class="form-group view-detail-field">
             <label for="stringValue5">String 5</label>
             <input id="stringValue5" type="text" readonly>
         </div>
