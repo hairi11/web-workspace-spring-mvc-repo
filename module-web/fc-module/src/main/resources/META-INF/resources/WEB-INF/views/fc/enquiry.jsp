@@ -59,7 +59,6 @@
                 <th>String</th>
                 <th>String</th>
                 <th>Amount</th>
-                <th>Amount 2</th>
                 <th>String</th>
                 <th>Date</th>
                 <th>String</th>
