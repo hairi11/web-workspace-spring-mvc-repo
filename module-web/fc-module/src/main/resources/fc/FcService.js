@@ -22,12 +22,13 @@ const FcService = {
         }).then((response) => response.object());
     },
 
-    findDetail: function (key) {
+    findDetail: function (path, id) {
         return Ajax.get(FcApi.detail, {
             cache: false,
             dedupe: true,
             query: {
-                string_value_1: key
+                path: path,
+                id: id
             }
         }).then((response) => response.object());
     },
