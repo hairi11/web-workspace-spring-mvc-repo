@@ -41,7 +41,17 @@ function populateView(detail) {
         },
         amount_value: {
             selector: '#amountValue',
-            format: Renderers.amount()
+            format: Renderers.amount({
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4
+            })
+        },
+        amount_value_2: {
+            selector: '#amountValue2',
+            format: Renderers.amount({
+                minimumFractionDigits: 6,
+                maximumFractionDigits: 6
+            })
         },
         string_value_5: {
             selector: '#stringValue5'
