@@ -31,6 +31,21 @@ public class FcApiController {
                 "find-by-search");
     }
 
+    @GetMapping("/detail")
+    public ResponseEntity<String> detail(
+            @RequestParam("string_value_1") String key) {
+        MultiValueMap<String, String> query =
+                new LinkedMultiValueMap<>();
+
+        query.add("string_value_1", key);
+
+        return restClient.get(
+                "enq",
+                query,
+                "fc",
+                "detail");
+    }
+
     @GetMapping("/parameters")
     public ResponseEntity<String> parameters(
             @RequestParam("form_type") String formType) {
