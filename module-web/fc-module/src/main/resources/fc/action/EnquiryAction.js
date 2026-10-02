@@ -71,13 +71,13 @@ function prepareEnquiryTable() {
             text: 'View',
             icon: 'fa fa-eye',
             selection: 'single',
-            onClick: () => {}
+            onClick: openTransaction
         })
         .addAction({
             text: 'Edit',
             icon: 'fa fa-pen',
             selection: 'single',
-            onClick: () => {}
+            onClick: openTransaction
         })
         .addAction({
             text: 'Delete',
@@ -92,18 +92,18 @@ function prepareEnquiryTable() {
             selection: 'none',
             placement: 'end',
             variant: 'primary',
-            onClick: () => {}
+            onClick: openTransaction
         })
         .menuAction({ mode: 'context' })
         .addAction({
             text: 'View',
             icon: 'fa fa-eye',
-            onClick: () => {}
+            onClick: openTransaction
         })
         .addAction({
             text: 'Edit',
             icon: 'fa fa-pen',
-            onClick: () => {}
+            onClick: openTransaction
         })
         .addAction({ divider: true })
         .addAction({
@@ -130,4 +130,9 @@ function prepareEnquirySearch() {
             }, 300);
         }
     });
+}
+
+
+function openTransaction() {
+    window.location.href = './transaction';
 }
