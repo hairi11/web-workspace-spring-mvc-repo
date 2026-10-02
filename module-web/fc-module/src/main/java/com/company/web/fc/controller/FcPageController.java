@@ -11,12 +11,15 @@ public class FcPageController {
         return "fc/enquiry";
     }
 
-    @GetMapping("/fc/view")
+    @GetMapping("/fc/transaction/view")
     public String view() {
         return "fc/view";
     }
 
-    @GetMapping("/fc/form")
+    @GetMapping({
+            "/fc/transaction/create",
+            "/fc/transaction/edit"
+    })
     public String form() {
         return "fc/form";
     }
