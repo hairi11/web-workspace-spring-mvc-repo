@@ -219,6 +219,10 @@ textarea:disabled {
     grid-column: 1 / -1;
 }
 
+.view-detail-field label {
+    text-transform: capitalize;
+}
+
 .view-detail-field input[readonly],
 .view-detail-field textarea[readonly] {
     background: #f7f7f7;
