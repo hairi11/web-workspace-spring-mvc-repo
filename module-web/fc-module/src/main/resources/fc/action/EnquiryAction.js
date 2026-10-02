@@ -63,9 +63,15 @@ function prepareEnquiryTable() {
             selector: 'td',
             headerCheckbox: false
         })
-        .column('stringValue', 'String')
-        .renderer('dateValue', 'Date', Renderers.date())
-        .renderer('currencyValue', 'Currency', Renderers.amount())
+        .column('stringValue1', 'String')
+        .column('stringValue2', 'String')
+        .renderer('dateValue1', 'Date', Renderers.date())
+        .column('stringValue3', 'String')
+        .column('stringValue4', 'String')
+        .renderer('amountValue', 'Amount', Renderers.amount())
+        .column('stringValue5', 'String')
+        .renderer('dateValue2', 'Date', Renderers.date())
+        .column('stringValue6', 'String')
         .toolbarAction()
         .addAction({
             text: 'View',
