@@ -142,6 +142,12 @@ function prepareEnquirySearch() {
 
 
 function viewRecord(row) {
+    if (!row || row.path == null || row.id == null) {
+        console.error('FC view requires row.path and row.id.', row);
+        Toast.error('Unable to open FC detail.');
+        return;
+    }
+
     NavigationState.set({
         page: 'view',
         action: 'view',
