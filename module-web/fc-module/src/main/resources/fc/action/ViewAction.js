@@ -1,7 +1,7 @@
 import Common from '@company/common-js-web';
 import FcService from '../FcService.js';
 
-const { NavigationState, Toast } = Common;
+const { NavigationState, Renderers, Toast } = Common;
 
 export async function initView() {
     const state = NavigationState.consume();
@@ -23,23 +23,46 @@ function populateView(detail) {
     if (!detail) return;
 
     const fields = {
-        string_value_1: '#stringValue1',
-        string_value_2: '#stringValue2',
-        date_value_1: '#dateValue1',
-        string_value_3: '#stringValue3',
-        string_value_4: '#stringValue4',
-        amount_value: '#amountValue',
-        string_value_5: '#stringValue5',
-        date_value_2: '#dateValue2',
-        string_value_6: '#stringValue6'
+        string_value_1: {
+            selector: '#stringValue1'
+        },
+        string_value_2: {
+            selector: '#stringValue2'
+        },
+        date_value_1: {
+            selector: '#dateValue1',
+            format: Renderers.date()
+        },
+        string_value_3: {
+            selector: '#stringValue3'
+        },
+        string_value_4: {
+            selector: '#stringValue4'
+        },
+        amount_value: {
+            selector: '#amountValue',
+            format: Renderers.amount()
+        },
+        string_value_5: {
+            selector: '#stringValue5'
+        },
+        date_value_2: {
+            selector: '#dateValue2',
+            format: Renderers.date()
+        },
+        string_value_6: {
+            selector: '#stringValue6'
+        }
     };
 
-    Object.entries(fields).forEach(([name, selector]) => {
-        const field = document.querySelector(selector);
+    Object.entries(fields).forEach(([name, config]) => {
+        const field = document.querySelector(config.selector);
         if (!field) return;
 
-        field.value = detail[name] == null
-            ? ''
-            : detail[name];
+        const value = detail[name];
+
+        field.value = config.format
+            ? config.format(value, 'display')
+            : (value == null ? '' : value);
     });
 }
