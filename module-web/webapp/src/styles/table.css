@@ -15,6 +15,11 @@ table.dataTable thead > tr > th,
 table.dataTable thead > tr > th.dt-type-numeric,
 table.dataTable thead > tr > th.dt-type-date {
     text-align: left;
+    white-space: nowrap;
+}
+
+table.dataTable tbody > tr:not(.child) > td {
+    white-space: nowrap; /* data table cells */
 }
 
 /* DataTables 2.3 uses a flex header wrapper and reverses numeric/date headers.
@@ -251,26 +256,24 @@ table.dataTable tbody td.dt-responsive-control {
     cursor: pointer;
 }
 
-/* Responsive child row: clean label/value presentation for hidden columns. */
+/* Responsive child row aligns with the first data column and keeps label/value compact. */
 table.dataTable > tbody > tr.child td.child {
-    padding: .75rem 1rem;
+    padding: .6rem .75rem .6rem calc(36px + 32px + .75rem);
     background: #fafafa;
 }
 
 table.dataTable > tbody > tr.child ul.dtr-details {
-    display: grid;
-    gap: .5rem;
-    width: 100%;
+    display: block;
+    width: auto;
     margin: 0;
     padding: 0;
 }
 
 table.dataTable > tbody > tr.child ul.dtr-details > li {
-    display: grid;
-    grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
-    gap: 1rem;
-    align-items: start;
-    padding: .45rem 0;
+    display: flex;
+    align-items: baseline;
+    gap: .35rem;
+    padding: .3rem 0;
     border-bottom: 1px solid #eee;
 }
 
@@ -279,18 +282,23 @@ table.dataTable > tbody > tr.child ul.dtr-details > li:last-child {
 }
 
 table.dataTable > tbody > tr.child .dtr-title {
+    flex: 0 0 auto;
     font-weight: 600;
     color: #444;
 }
 
+table.dataTable > tbody > tr.child .dtr-title::after {
+    content: ':';
+}
+
 table.dataTable > tbody > tr.child .dtr-data {
     min-width: 0;
+    white-space: normal;
     overflow-wrap: anywhere;
 }
 
 @media (max-width: 700px) {
-    table.dataTable > tbody > tr.child ul.dtr-details > li {
-        grid-template-columns: 1fr;
-        gap: .2rem;
+    table.dataTable > tbody > tr.child td.child {
+        padding-left: .75rem;
     }
 }
