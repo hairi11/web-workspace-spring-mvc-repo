@@ -1,9 +1,10 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
 import FcFormValues from '../FcFormValues.js';
+import FcNavigationState from '../FcNavigationState.js';
 import FcService from '../FcService.js';
 
-const { DataTableBuilder, DatePicker, NavigationState, Renderers, Select2, Toast } = Common;
+const { DataTableBuilder, DatePicker, Renderers, Select2, Toast } = Common;
 
 let table = null;
 
@@ -142,46 +143,24 @@ function prepareEnquirySearch() {
 
 
 function viewRecord(row) {
-    if (!row || row.path == null || row.id == null) {
-        console.error('FC view requires row.path and row.id.', row);
+    if (!FcNavigationState.setView(row)) {
         Toast.error('Unable to open FC detail.');
         return;
     }
-
-    NavigationState.set({
-        page: 'view',
-        action: 'view',
-        path: row.path,
-        id: row.id,
-        returnTo: {
-            page: 'enquiry'
-        }
-    });
 
     window.location.href = './transaction/view';
 }
 
 function editRecord(row) {
-    NavigationState.set({
-        page: 'form',
-        action: 'edit',
-        key: row.string_value_1,
-        returnTo: {
-            page: 'enquiry'
-        }
-    });
+    if (!FcNavigationState.setEdit(row)) {
+        Toast.error('Unable to edit FC record.');
+        return;
+    }
 
     window.location.href = './transaction/edit';
 }
 
 function createRecord() {
-    NavigationState.set({
-        page: 'form',
-        action: 'create',
-        returnTo: {
-            page: 'enquiry'
-        }
-    });
-
+    FcNavigationState.setCreate();
     window.location.href = './transaction/create';
 }
