@@ -5,6 +5,8 @@ import FcFormValues from '../FcFormValues.js';
 const { ButtonBar, NavigationState, Toast } = Common;
 
 let viewState = null;
+let rows = [];
+let currentIndex = 0;
 let buttonBar = null;
 
 export async function initView() {
@@ -21,44 +23,62 @@ export async function initView() {
         return;
     }
 
-    prepareNavigator();
-
-    const rows = Array.isArray(viewState.rows) ? viewState.rows : [];
-    const currentRow = rows[viewState.index];
-
-    if (currentRow) {
-        populateView(currentRow);
-        return;
-    }
-
     try {
-        await loadDetail({
-            path: viewState.path,
-            id: viewState.id
-        });
+        const response = await FcService.findDetail(
+            viewState.path,
+            viewState.id
+        );
+
+        rows = resolveRows(response);
+
+        currentIndex = findCurrentIndex(
+            rows,
+            viewState.path,
+            viewState.id
+        );
+
+        prepareNavigator();
+        populateCurrentRow();
     } catch (error) {
         Toast.error('Failed to load FC detail.');
         console.error(error);
     }
 }
 
-function prepareNavigator() {
-    const rows = Array.isArray(viewState.rows) ? viewState.rows : [];
-    const index = Number.isInteger(viewState.index)
-        ? viewState.index
-        : 0;
+function resolveRows(response) {
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.data)) return response.data;
+    if (Array.isArray(response?.rows)) return response.rows;
+    if (Array.isArray(response?.data?.rows)) return response.data.rows;
 
+    const detail = response && response.data
+        ? response.data
+        : response;
+
+    return detail ? [detail] : [];
+}
+
+function findCurrentIndex(items, path, id) {
+    const index = items.findIndex(
+        (item) => item
+            && item.path === path
+            && item.id === id
+    );
+
+    return index < 0 ? 0 : index;
+}
+
+function prepareNavigator() {
     buttonBar = new ButtonBar('#viewButtonBar')
         .navigator({
             previous: '#previousButton',
             next: '#nextButton',
-            index: index,
+            index: currentIndex,
             count: rows.length,
             hidden: rows.length <= 1,
-            onNavigate: loadRow,
-            onError: (error) => {
-                Toast.error('Failed to load FC detail.');
-                console.error(error);
+            onNavigate: (index) => {
+                currentIndex = index;
+                populateCurrentRow();
             }
         })
         .secondary({
@@ -69,30 +89,9 @@ function prepareNavigator() {
         .build();
 }
 
-async function loadRow(index) {
-    const rows = Array.isArray(viewState.rows) ? viewState.rows : [];
-    const row = rows[index];
-
+function populateCurrentRow() {
+    const row = rows[currentIndex];
     if (!row) return;
 
-    populateView(row);
-
-    viewState.index = index;
-    viewState.path = row.path;
-    viewState.id = row.id;
-}
-
-async function loadDetail(row) {
-    const response = await FcService.findDetail(row.path, row.id);
-    const detail = response && response.data
-        ? response.data
-        : response;
-
-    if (!detail) return;
-
-    populateView(detail);
-}
-
-function populateView(detail) {
-    FcFormValues.populateView(detail);
+    FcFormValues.populateView(row);
 }
