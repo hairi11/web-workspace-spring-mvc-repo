@@ -1,9 +1,8 @@
 import Common from '@company/common-js-web';
 
-const { DateUtil, Storage } = Common;
+const { DateUtil, RowStore } = Common;
 
 const ROWS_KEY_PREFIX = 'fx.rows.';
-const storage = new Storage(window.sessionStorage);
 
 function newRowsKey() {
     return 'new-' + crypto.randomUUID();
@@ -13,10 +12,6 @@ function rowsKeyForMaster(masterId) {
     return masterId === null || masterId === undefined
         ? newRowsKey()
         : 'master-' + String(masterId);
-}
-
-function storageKey(rowsKey) {
-    return ROWS_KEY_PREFIX + rowsKey;
 }
 
 function cloneTransaction(transaction) {
@@ -32,6 +27,14 @@ function cloneRows(rows) {
             : []
     };
 }
+
+const store = new RowStore({
+    prefix: ROWS_KEY_PREFIX,
+    clone: cloneRows,
+    validate: (rows, rowsKey) => rows.rowsKey === rowsKey
+        && rows.master
+        && Array.isArray(rows.transactions)
+});
 
 const FxRows = {
     create: function () {
@@ -55,15 +58,7 @@ const FxRows = {
     },
 
     get: function (rowsKey) {
-        if (!rowsKey) return null;
-
-        const rows = storage.get(storageKey(rowsKey));
-
-        if (!rows || rows.rowsKey !== rowsKey || !rows.master || !Array.isArray(rows.transactions)) {
-            return null;
-        }
-
-        return cloneRows(rows);
+        return store.get(rowsKey);
     },
 
     save: function (rows) {
@@ -71,13 +66,11 @@ const FxRows = {
             throw new Error('FX rows key is required.');
         }
 
-        const value = cloneRows(rows);
-        storage.set(storageKey(value.rowsKey), value);
-        return value;
+        return store.save(rows.rowsKey, rows);
     },
 
     clear: function (rowsKey) {
-        if (rowsKey) storage.remove(storageKey(rowsKey));
+        store.clear(rowsKey);
     },
 
     upsertTransaction: function (rowsKey, index, transaction) {
