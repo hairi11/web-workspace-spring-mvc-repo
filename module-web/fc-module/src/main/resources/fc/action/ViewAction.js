@@ -23,6 +23,14 @@ export async function initView() {
 
     prepareNavigator();
 
+    const rows = Array.isArray(viewState.rows) ? viewState.rows : [];
+    const currentRow = rows[viewState.index];
+
+    if (currentRow) {
+        populateView(currentRow);
+        return;
+    }
+
     try {
         await loadDetail({
             path: viewState.path,
@@ -67,7 +75,7 @@ async function loadRow(index) {
 
     if (!row) return;
 
-    await loadDetail(row);
+    populateView(row);
 
     viewState.index = index;
     viewState.path = row.path;
@@ -82,5 +90,9 @@ async function loadDetail(row) {
 
     if (!detail) return;
 
+    populateView(detail);
+}
+
+function populateView(detail) {
     FcFormValues.populateView(detail);
 }
