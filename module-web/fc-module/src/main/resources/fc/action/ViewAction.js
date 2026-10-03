@@ -78,7 +78,7 @@ function populateView(detail) {
 
         const value = detail[name];
 
-        field.value = config.format
+        field.textContent = config.format
             ? config.format(value, 'display')
             : (value == null ? '' : value);
     });
