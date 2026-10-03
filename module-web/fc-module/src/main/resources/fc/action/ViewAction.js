@@ -1,11 +1,12 @@
 import Common from '@company/common-js-web';
+import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 import FcSupport from '../FcSupport.js';
 
 const { ButtonBar, Toast } = Common;
 
 let viewState = null;
-let rows = [];
+let rowsKey = null;
 let currentIndex = 0;
 let buttonBar = null;
 
@@ -23,10 +24,10 @@ export async function initView() {
             viewState.id
         );
 
-        rows = resolveRows(response);
-
-        currentIndex = findCurrentIndex(
-            rows,
+        const rows = FcRows.load(response);
+        rowsKey = rows.rowsKey;
+        currentIndex = FcRows.findIndex(
+            rowsKey,
             viewState.path,
             viewState.id
         );
@@ -39,37 +40,14 @@ export async function initView() {
     }
 }
 
-function resolveRows(response) {
-    if (Array.isArray(response)) return response;
-    if (Array.isArray(response?.data)) return response.data;
-    if (Array.isArray(response?.rows)) return response.rows;
-    if (Array.isArray(response?.data?.rows)) return response.data.rows;
-
-    const detail = response && response.data
-        ? response.data
-        : response;
-
-    return detail ? [detail] : [];
-}
-
-function findCurrentIndex(items, path, id) {
-    const index = items.findIndex(
-        (item) => item
-            && item.path === path
-            && item.id === id
-    );
-
-    return index < 0 ? 0 : index;
-}
-
 function prepareNavigator() {
     buttonBar = new ButtonBar('#viewButtonBar')
         .navigator({
             previous: '#previousButton',
             next: '#nextButton',
             index: currentIndex,
-            count: rows.length,
-            hidden: rows.length <= 1,
+            count: FcRows.count(rowsKey),
+            hidden: FcRows.count(rowsKey) <= 1,
             onNavigate: (index) => {
                 currentIndex = index;
                 populateCurrentRow();
@@ -84,7 +62,7 @@ function prepareNavigator() {
 }
 
 function populateCurrentRow() {
-    const row = rows[currentIndex];
+    const row = FcRows.row(rowsKey, currentIndex);
     if (!row) return;
 
     FcSupport.form.populateView(row);
