@@ -141,30 +141,18 @@ function prepareEnquirySearch() {
 }
 
 
-function viewRecord(row, _rowApi, dt) {
+function viewRecord(row) {
     if (!row || row.path == null || row.id == null) {
         console.error('FC view requires row.path and row.id.', row);
         Toast.error('Unable to open FC detail.');
         return;
     }
 
-    const rows = dt
-        .rows({ page: 'current' })
-        .data()
-        .toArray()
-        .filter((item) => item && item.path != null && item.id != null);
-
-    const index = rows.findIndex(
-        (item) => item.path === row.path && item.id === row.id
-    );
-
     NavigationState.set({
         page: 'view',
         action: 'view',
         path: row.path,
         id: row.id,
-        rows: rows,
-        index: index < 0 ? 0 : index,
         returnTo: {
             page: 'enquiry'
         }
