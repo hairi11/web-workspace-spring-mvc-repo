@@ -1,8 +1,9 @@
 import Common from '@company/common-js-web';
 import FcService from '../FcService.js';
 import FcFormValues from '../FcFormValues.js';
+import FcNavigationState from '../FcNavigationState.js';
 
-const { ButtonBar, NavigationState, Toast } = Common;
+const { ButtonBar, Toast } = Common;
 
 let viewState = null;
 let rows = [];
@@ -10,15 +11,9 @@ let currentIndex = 0;
 let buttonBar = null;
 
 export async function initView() {
-    viewState = NavigationState.consume();
+    viewState = FcNavigationState.consumeView();
 
-    if (
-        !viewState
-        || viewState.action !== 'view'
-        || viewState.path == null
-        || viewState.id == null
-    ) {
-        console.error('Missing FC view navigation state.', viewState);
+    if (!viewState) {
         Toast.error('Unable to load FC detail.');
         return;
     }
