@@ -22,22 +22,6 @@ table.dataTable tbody > tr:not(.child) > td {
     white-space: nowrap; /* data table cells */
 }
 
-/* During server-side loading DataTables briefly has every responsive column visible.
-   Constrain that transient layout so it cannot widen the page before Responsive redraws. */
-table.dataTable.dt-common-processing {
-    width: 100% !important;
-    max-width: 100%;
-    table-layout: fixed;
-}
-
-table.dataTable.dt-common-processing th,
-table.dataTable.dt-common-processing td {
-    min-width: 0 !important;
-    max-width: none !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 /* DataTables 2.3 uses a flex header wrapper and reverses numeric/date headers.
    Force one consistent layout: title on the left, sort control on the right. */
 table.dataTable thead > tr > th > div.dt-column-header,
