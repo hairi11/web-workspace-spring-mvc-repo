@@ -316,6 +316,14 @@ table.dataTable > tbody > tr.child .dtr-data {
     width: 100%;
 }
 
+/* While server-side processing is active, contain the table's temporary
+   pre-responsive width without changing DataTables' own sizing calculation. */
+.dt-container.dt-common-loading {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 /* Keep a wide table contained while server-side data is still loading.
    Responsive can recalculate columns after the draw without widening the page. */
 .dt-container .dt-layout-table,
