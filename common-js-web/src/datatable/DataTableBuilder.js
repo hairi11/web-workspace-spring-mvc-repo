@@ -113,6 +113,7 @@ class DataTableBuilder {
         this.searchSelector = null;
         this.actionHeader = null;
         this.contextSelector = null;
+        this.processingElement = null;
     }
 
     data(rows) {
@@ -315,6 +316,7 @@ class DataTableBuilder {
             this.ensureActionHeader();
         }
 
+        this.bindProcessingState();
         this.table = window.jQuery(this.selector).DataTable(this.options);
         this.bindActions();
         this.bindToolbarActions();
@@ -635,6 +637,21 @@ class DataTableBuilder {
         return items;
     }
 
+    bindProcessingState() {
+        if (!this.options.processing) return;
+
+        var table = window.jQuery(this.selector);
+        if (!table.length) return;
+
+        this.processingElement = table;
+        table.addClass('dt-common-processing');
+        table
+            .off('processing.dt.commonJsWidth')
+            .on('processing.dt.commonJsWidth', function (_event, _settings, processing) {
+                table.toggleClass('dt-common-processing', Boolean(processing));
+            });
+    }
+
     bindActions() {
         if (!this.actions.length) return;
 
@@ -724,6 +741,13 @@ class DataTableBuilder {
 
         if (this.searchSelector) {
             window.jQuery(this.searchSelector).off('.commonJsSearch');
+        }
+
+        if (this.processingElement) {
+            this.processingElement
+                .off('processing.dt.commonJsWidth')
+                .removeClass('dt-common-processing');
+            this.processingElement = null;
         }
 
         if (this.table && this.toolbarActions.length) {
