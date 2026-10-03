@@ -1,7 +1,6 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
-import FcFormValues from '../FcFormValues.js';
-import FcNavigationState from '../FcNavigationState.js';
+import FcSupport from '../FcSupport.js';
 import FcService from '../FcService.js';
 
 const { DataTableBuilder, DatePicker, Renderers, Select2, Toast } = Common;
@@ -51,7 +50,7 @@ function prepareEnquiryTable() {
             page,
             size,
             options.sort,
-            FcFormValues.values()
+            FcSupport.form.values()
         ), {
             pageLength: 20,
             onError: (error) => {
@@ -143,7 +142,7 @@ function prepareEnquirySearch() {
 
 
 function viewRecord(row) {
-    if (!FcNavigationState.setView(row)) {
+    if (!FcSupport.navigation.setView(row)) {
         Toast.error('Unable to open FC detail.');
         return;
     }
@@ -152,7 +151,7 @@ function viewRecord(row) {
 }
 
 function editRecord(row) {
-    if (!FcNavigationState.setEdit(row)) {
+    if (!FcSupport.navigation.setEdit(row)) {
         Toast.error('Unable to edit FC record.');
         return;
     }
@@ -161,6 +160,6 @@ function editRecord(row) {
 }
 
 function createRecord() {
-    FcNavigationState.setCreate();
+    FcSupport.navigation.setCreate();
     window.location.href = './transaction/create';
 }
