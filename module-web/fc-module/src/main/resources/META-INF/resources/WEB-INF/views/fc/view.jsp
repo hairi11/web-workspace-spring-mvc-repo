@@ -19,52 +19,52 @@
     <div class="view-detail-grid">
         <div class="form-group view-detail-field">
             <label for="stringValue1">String 1</label>
-            <input id="stringValue1" type="text" readonly>
+            <div id="stringValue1" class="view-detail-value"></div>
         </div>
 
         <div class="form-group view-detail-field">
             <label for="stringValue2">String 2</label>
-            <input id="stringValue2" type="text" readonly>
+            <div id="stringValue2" class="view-detail-value"></div>
         </div>
 
         <div class="form-group view-detail-field">
             <label for="dateValue1">Date 1</label>
-            <input id="dateValue1" type="text" readonly>
+            <div id="dateValue1" class="view-detail-value"></div>
         </div>
 
         <div class="form-group view-detail-field">
             <label for="stringValue3">String 3</label>
-            <input id="stringValue3" type="text" readonly>
+            <div id="stringValue3" class="view-detail-value"></div>
         </div>
 
         <div class="form-group view-detail-field">
             <label for="stringValue4">String 4</label>
-            <input id="stringValue4" type="text" readonly>
+            <div id="stringValue4" class="view-detail-value"></div>
         </div>
 
         <div class="form-group view-detail-field">
             <label for="amountValue">Amount</label>
-            <input id="amountValue" type="text" readonly>
+            <div id="amountValue" class="view-detail-value"></div>
         </div>
 
         <div class="form-group view-detail-field">
             <label for="amountValue2">Amount 2</label>
-            <input id="amountValue2" type="text" readonly>
+            <div id="amountValue2" class="view-detail-value"></div>
         </div>
 
         <div class="form-group view-detail-field">
             <label for="stringValue5">String 5</label>
-            <input id="stringValue5" type="text" readonly>
+            <div id="stringValue5" class="view-detail-value"></div>
         </div>
 
         <div class="form-group view-detail-field">
             <label for="dateValue2">Date 2</label>
-            <input id="dateValue2" type="text" readonly>
+            <div id="dateValue2" class="view-detail-value"></div>
         </div>
 
         <div class="form-group view-detail-field">
             <label for="stringValue6">String 6</label>
-            <input id="stringValue6" type="text" readonly>
+            <div id="stringValue6" class="view-detail-value"></div>
         </div>
     </div>
 
