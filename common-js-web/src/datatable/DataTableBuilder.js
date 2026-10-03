@@ -315,6 +315,7 @@ class DataTableBuilder {
             this.ensureActionHeader();
         }
 
+        this.bindProcessingOverflow();
         this.table = window.jQuery(this.selector).DataTable(this.options);
         this.bindResponsiveLayout();
         this.bindActions();
@@ -636,6 +637,25 @@ class DataTableBuilder {
         return items;
     }
 
+    bindProcessingOverflow() {
+        if (!this.options.processing) return;
+
+        var table = window.jQuery(this.selector);
+
+        table
+            .off('processing.dt.commonJsOverflow')
+            .on('processing.dt.commonJsOverflow', function (_event, _settings, processing) {
+                var container = table.closest('.dt-container');
+
+                if (container.length) {
+                    container.toggleClass(
+                        'dt-common-loading',
+                        Boolean(processing)
+                    );
+                }
+            });
+    }
+
     bindResponsiveLayout() {
         if (!this.table) return;
 
@@ -752,6 +772,10 @@ class DataTableBuilder {
         if (this.table) {
             this.table.off('.commonJsResponsive');
         }
+
+        var sourceTable = window.jQuery(this.selector);
+        sourceTable.off('.commonJsOverflow');
+        sourceTable.closest('.dt-container').removeClass('dt-common-loading');
 
         if (this.table && this.toolbarActions.length) {
             this.table.off('.commonJsToolbar');
