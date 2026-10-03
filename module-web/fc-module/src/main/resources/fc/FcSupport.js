@@ -1,0 +1,175 @@
+import Common from '@company/common-js-web';
+
+const { NavigationState, Renderers } = Common;
+
+const RETURN_TO_ENQUIRY = {
+    page: 'enquiry'
+};
+
+const viewFields = {
+    string_value_1: {
+        selector: '#stringValue1'
+    },
+    string_value_2: {
+        selector: '#stringValue2'
+    },
+    date_value_1: {
+        selector: '#dateValue1',
+        format: Renderers.date()
+    },
+    string_value_3: {
+        selector: '#stringValue3'
+    },
+    string_value_4: {
+        selector: '#stringValue4'
+    },
+    amount_value: {
+        selector: '#amountValue',
+        format: Renderers.amount({
+            minimumFractionDigits: 4,
+            maximumFractionDigits: 4
+        })
+    },
+    amount_value_2: {
+        selector: '#amountValue2',
+        format: Renderers.amount({
+            minimumFractionDigits: 6,
+            maximumFractionDigits: 6
+        })
+    },
+    string_value_5: {
+        selector: '#stringValue5'
+    },
+    date_value_2: {
+        selector: '#dateValue2',
+        format: Renderers.date()
+    },
+    string_value_6: {
+        selector: '#stringValue6'
+    }
+};
+
+const form = {
+    values() {
+        return {
+            dateFrom: document.querySelector('#dateFrom')?.value || '',
+            dateTo: document.querySelector('#dateTo')?.value || '',
+            fcCode: document.querySelector('#fcCodeSelect')?.value || '',
+            fxCode: document.querySelector('#fxCodeSelect')?.value || ''
+        };
+    },
+
+    populateView(data) {
+        this.populate(viewFields, data, {
+            target: 'text'
+        });
+    },
+
+    populate(fields, data, options) {
+        fields = fields || {};
+        data = data || {};
+        options = Object.assign({
+            target: 'value'
+        }, options || {});
+
+        Object.entries(fields).forEach(([name, config]) => {
+            const field = document.querySelector(config.selector);
+            if (!field) return;
+
+            const value = data[name];
+            const formatted = config.format
+                ? config.format(value, 'display')
+                : (value == null ? '' : value);
+
+            if (options.target === 'text') {
+                field.textContent = formatted;
+                return;
+            }
+
+            field.value = formatted;
+        });
+    }
+};
+
+const navigation = {
+    setView(row) {
+        if (!row || row.path == null || row.id == null) {
+            console.error('FC view requires row.path and row.id.', row);
+            return false;
+        }
+
+        NavigationState.set({
+            page: 'view',
+            action: 'view',
+            path: row.path,
+            id: row.id,
+            returnTo: RETURN_TO_ENQUIRY
+        });
+
+        return true;
+    },
+
+    setEdit(row) {
+        if (!row || row.string_value_1 == null) {
+            console.error('FC edit requires row key.', row);
+            return false;
+        }
+
+        NavigationState.set({
+            page: 'form',
+            action: 'edit',
+            key: row.string_value_1,
+            returnTo: RETURN_TO_ENQUIRY
+        });
+
+        return true;
+    },
+
+    setCreate() {
+        NavigationState.set({
+            page: 'form',
+            action: 'create',
+            returnTo: RETURN_TO_ENQUIRY
+        });
+
+        return true;
+    },
+
+    consumeView() {
+        return this.consume(
+            (state) => state.action === 'view'
+                && state.path != null
+                && state.id != null,
+            'Missing FC view navigation state.'
+        );
+    },
+
+    consumeTransaction() {
+        return this.consume(
+            (state) => state.action === 'create'
+                || (
+                    state.action === 'edit'
+                    && state.key != null
+                ),
+            'Missing FC transaction navigation state.'
+        );
+    },
+
+    consume(validate, message) {
+        const state = NavigationState.consume();
+
+        if (!state || !validate(state)) {
+            console.error(message, state);
+            return null;
+        }
+
+        return state;
+    }
+};
+
+const FcSupport = {
+    form,
+    navigation
+};
+
+export default FcSupport;
