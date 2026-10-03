@@ -152,11 +152,7 @@ function viewRecord(row, _rowApi, dt) {
         .rows({ page: 'current' })
         .data()
         .toArray()
-        .filter((item) => item && item.path != null && item.id != null)
-        .map((item) => ({
-            path: item.path,
-            id: item.id
-        }));
+        .filter((item) => item && item.path != null && item.id != null);
 
     const index = rows.findIndex(
         (item) => item.path === row.path && item.id === row.id
