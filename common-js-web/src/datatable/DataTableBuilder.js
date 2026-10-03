@@ -113,7 +113,6 @@ class DataTableBuilder {
         this.searchSelector = null;
         this.actionHeader = null;
         this.contextSelector = null;
-        this.processingElement = null;
     }
 
     data(rows) {
@@ -316,8 +315,8 @@ class DataTableBuilder {
             this.ensureActionHeader();
         }
 
-        this.bindProcessingState();
         this.table = window.jQuery(this.selector).DataTable(this.options);
+        this.bindResponsiveLayout();
         this.bindActions();
         this.bindToolbarActions();
         this.bindSearch();
@@ -637,19 +636,26 @@ class DataTableBuilder {
         return items;
     }
 
-    bindProcessingState() {
-        if (!this.options.processing) return;
+    bindResponsiveLayout() {
+        if (!this.table) return;
 
-        var table = window.jQuery(this.selector);
-        if (!table.length) return;
+        var table = this.table;
 
-        this.processingElement = table;
-        table.addClass('dt-common-processing');
-        table
-            .off('processing.dt.commonJsWidth')
-            .on('processing.dt.commonJsWidth', function (_event, _settings, processing) {
-                table.toggleClass('dt-common-processing', Boolean(processing));
+        var recalculate = function () {
+            window.requestAnimationFrame(function () {
+                table.columns.adjust();
+
+                if (
+                    table.responsive
+                    && typeof table.responsive.recalc === 'function'
+                ) {
+                    table.responsive.recalc();
+                }
             });
+        };
+
+        table.on('draw.dt.commonJsResponsive', recalculate);
+        recalculate();
     }
 
     bindActions() {
@@ -743,11 +749,8 @@ class DataTableBuilder {
             window.jQuery(this.searchSelector).off('.commonJsSearch');
         }
 
-        if (this.processingElement) {
-            this.processingElement
-                .off('processing.dt.commonJsWidth')
-                .removeClass('dt-common-processing');
-            this.processingElement = null;
+        if (this.table) {
+            this.table.off('.commonJsResponsive');
         }
 
         if (this.table && this.toolbarActions.length) {
