@@ -68,8 +68,24 @@
         </div>
     </div>
 
-    <div class="button-bar">
-        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fc/enquiry">Back</a>
+    <div id="viewButtonBar" class="button-bar">
+        <div class="button-bar-nav">
+            <a id="previousButton" class="navigator-link" href="#" aria-label="Previous" title="Previous">
+                <span aria-hidden="true">&lt;&lt;</span>
+                <span>Previous</span>
+            </a>
+            <a id="nextButton" class="navigator-link" href="#" aria-label="Next" title="Next">
+                <span>Next</span>
+                <span aria-hidden="true">&gt;&gt;</span>
+            </a>
+        </div>
+
+        <a
+            id="backButton"
+            class="btn btn-outline-secondary"
+            href="${pageContext.request.contextPath}/fc/enquiry">
+            Back
+        </a>
     </div>
 </main>
 <script src="${pageContext.request.contextPath}/assets/vendor.js"></script>
