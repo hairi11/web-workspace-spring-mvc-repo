@@ -1,7 +1,12 @@
 import Common from '@company/common-js-web';
+import FcNavigationState from '../FcNavigationState.js';
 
-const { NavigationState } = Common;
+const { Toast } = Common;
 
 export function initTransaction() {
-    NavigationState.consume();
+    const state = FcNavigationState.consumeTransaction();
+
+    if (!state) {
+        Toast.error('Unable to load FC transaction.');
+    }
 }
