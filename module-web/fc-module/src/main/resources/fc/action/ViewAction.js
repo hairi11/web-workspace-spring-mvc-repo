@@ -1,5 +1,6 @@
 import Common from '@company/common-js-web';
 import FcService from '../FcService.js';
+import FcFormValues from '../FcFormValues.js';
 
 const { NavigationState, Renderers, Toast } = Common;
 
@@ -72,14 +73,7 @@ function populateView(detail) {
         }
     };
 
-    Object.entries(fields).forEach(([name, config]) => {
-        const field = document.querySelector(config.selector);
-        if (!field) return;
-
-        const value = detail[name];
-
-        field.textContent = config.format
-            ? config.format(value, 'display')
-            : (value == null ? '' : value);
+    FcFormValues.populate(fields, detail, {
+        target: 'text'
     });
 }
