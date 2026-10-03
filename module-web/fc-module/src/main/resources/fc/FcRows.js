@@ -1,16 +1,11 @@
 import Common from '@company/common-js-web';
 
-const { Storage } = Common;
+const { RowStore } = Common;
 
 const ROWS_KEY_PREFIX = 'fc.rows.';
-const storage = new Storage(window.sessionStorage);
 
 function newRowsKey() {
     return 'view-' + crypto.randomUUID();
-}
-
-function storageKey(rowsKey) {
-    return ROWS_KEY_PREFIX + rowsKey;
 }
 
 function cloneRow(row) {
@@ -39,6 +34,13 @@ function cloneRows(rows) {
     };
 }
 
+const store = new RowStore({
+    prefix: ROWS_KEY_PREFIX,
+    clone: cloneRows,
+    validate: (rows, rowsKey) => rows.rowsKey === rowsKey
+        && Array.isArray(rows.rows)
+});
+
 const FcRows = {
     load(response) {
         return this.save({
@@ -48,19 +50,7 @@ const FcRows = {
     },
 
     get(rowsKey) {
-        if (!rowsKey) return null;
-
-        const rows = storage.get(storageKey(rowsKey));
-
-        if (
-            !rows
-            || rows.rowsKey !== rowsKey
-            || !Array.isArray(rows.rows)
-        ) {
-            return null;
-        }
-
-        return cloneRows(rows);
+        return store.get(rowsKey);
     },
 
     save(rows) {
@@ -68,13 +58,11 @@ const FcRows = {
             throw new Error('FC rows key is required.');
         }
 
-        const value = cloneRows(rows);
-        storage.set(storageKey(value.rowsKey), value);
-        return value;
+        return store.save(rows.rowsKey, rows);
     },
 
     clear(rowsKey) {
-        if (rowsKey) storage.remove(storageKey(rowsKey));
+        store.clear(rowsKey);
     },
 
     findIndex(rowsKey, path, id) {
