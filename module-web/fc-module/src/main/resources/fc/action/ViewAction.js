@@ -1,7 +1,6 @@
 import Common from '@company/common-js-web';
 import FcService from '../FcService.js';
-import FcFormValues from '../FcFormValues.js';
-import FcNavigationState from '../FcNavigationState.js';
+import FcSupport from '../FcSupport.js';
 
 const { ButtonBar, Toast } = Common;
 
@@ -11,7 +10,7 @@ let currentIndex = 0;
 let buttonBar = null;
 
 export async function initView() {
-    viewState = FcNavigationState.consumeView();
+    viewState = FcSupport.navigation.consumeView();
 
     if (!viewState) {
         Toast.error('Unable to load FC detail.');
@@ -88,5 +87,5 @@ function populateCurrentRow() {
     const row = rows[currentIndex];
     if (!row) return;
 
-    FcFormValues.populateView(row);
+    FcSupport.form.populateView(row);
 }
