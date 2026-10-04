@@ -1,14 +1,21 @@
 class Router {
-    constructor() {
+    constructor(options) {
+        this.options = Object.assign({
+            resolveRoute: null
+        }, options || {});
         this.routes = new Map();
     }
 
-    route(name, handler) {
+    route(name, handler, options) {
         if (!name || typeof handler !== 'function') {
             throw new Error('Router.route requires a route name and handler.');
         }
 
-        this.routes.set(name, handler);
+        this.routes.set(name, {
+            handler: handler,
+            options: options || {}
+        });
+
         return this;
     }
 
@@ -16,40 +23,56 @@ class Router {
         return this.routes.has(name);
     }
 
-    guard(validate, message, handler) {
-        if (typeof validate !== 'function') {
-            throw new Error('Router.guard requires a validate function.');
-        }
-
-        if (typeof handler !== 'function') {
-            throw new Error('Router.guard requires a handler function.');
-        }
-
-        return function (context) {
-            if (!validate(context)) {
-                console.warn(message, context);
-            }
-
-            return handler(context);
-        };
-    }
-
-    withContext(resolve, validate, message, handler) {
-        if (typeof resolve !== 'function') {
-            throw new Error('Router.withContext requires a resolve function.');
-        }
-
-        const guarded = this.guard(validate, message, handler);
-
-        return function () {
-            return guarded(resolve());
-        };
-    }
-
     async dispatch(name, context) {
-        const handler = this.routes.get(name);
-        if (!handler) return;
-        return handler(context);
+        const route = this.routes.get(name);
+        if (!route) return;
+
+        const options = route.options;
+        const resolvedContext = typeof options.context === 'function'
+            ? options.context()
+            : context;
+
+        if (
+            typeof options.guard === 'function'
+            && !options.guard(resolvedContext)
+        ) {
+            console.warn(
+                options.warning || 'Route guard validation failed.',
+                resolvedContext
+            );
+        }
+
+        return route.handler(resolvedContext);
+    }
+
+    async dispatchCurrent() {
+        if (typeof this.options.resolveRoute !== 'function') {
+            throw new Error('Router.start requires a resolveRoute function.');
+        }
+
+        const name = this.options.resolveRoute();
+        if (!name) return;
+
+        return this.dispatch(name);
+    }
+
+    start() {
+        const dispatch = () => this.dispatchCurrent();
+
+        if (
+            typeof document !== 'undefined'
+            && document.readyState === 'loading'
+        ) {
+            document.addEventListener(
+                'DOMContentLoaded',
+                dispatch,
+                { once: true }
+            );
+        } else {
+            dispatch();
+        }
+
+        return this;
     }
 }
 
