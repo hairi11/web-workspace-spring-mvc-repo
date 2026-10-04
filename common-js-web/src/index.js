@@ -21,7 +21,7 @@ module.exports = {
     FormAction: require('./form/FormAction'),
     FormDataConverter: require('./form/FormDataConverter'),
     FormRenderers: require('./form/FormRenderers'),
-    FormSerializer: require('./form/FormSerializer'),
+    FormValues: require('./form/FormValues'),
     FormState: require('./state/FormState'),
     Logger: require('./logging/Logger'),
     MemoryCache: require('./cache/MemoryCache'),
