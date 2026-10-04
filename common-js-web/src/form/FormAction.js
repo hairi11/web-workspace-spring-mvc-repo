@@ -1,4 +1,4 @@
-const FormSerializer = require('./FormSerializer');
+const FormValues = require('./FormValues');
 const FieldErrorRenderer = require('./FieldErrorRenderer');
 const FormState = require('../state/FormState');
 
@@ -111,7 +111,7 @@ class FormAction {
     }
 
     serializeForm() {
-        return FormSerializer.serialize(this.form);
+        return FormValues.serialize(this.form);
     }
 
     async validateForm(values) {
