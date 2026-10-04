@@ -147,11 +147,6 @@ function prepareEnquirySearch() {
 
 
 function viewRecord(row) {
-    if (!FcSupport.navigation.canView(row)) {
-        Toast.error('Unable to open FC detail.');
-        return;
-    }
-
     NavigationState.set({
         page: 'view',
         action: 'view',
@@ -166,11 +161,6 @@ function viewRecord(row) {
 }
 
 function editRecord(row) {
-    if (!FcSupport.navigation.canEdit(row)) {
-        Toast.error('Unable to edit FC record.');
-        return;
-    }
-
     NavigationState.set({
         page: 'form',
         action: 'edit',
