@@ -9,7 +9,7 @@ const {
     Toast
 } = Common;
 
-const viewFields = {
+const viewForm = new ViewForm({
     string_value_1: {
         selector: '#stringValue1'
     },
@@ -50,7 +50,7 @@ const viewFields = {
     string_value_6: {
         selector: '#stringValue6'
     }
-};
+});
 
 let viewState = null;
 let rowsKey = null;
@@ -109,7 +109,5 @@ function populateCurrentRow() {
     const row = FcRows.row(rowsKey, currentIndex);
     if (!row) return;
 
-    FormValues.populate(viewFields, row, {
-        target: 'text'
-    });
+    viewForm.populate(row);
 }
