@@ -1,3 +1,5 @@
+const FormValues = require('./FormValues');
+
 function defaultViewValue(value) {
     if (value === null || value === undefined || String(value).trim() === '') {
         return '-';
@@ -7,6 +9,18 @@ function defaultViewValue(value) {
 }
 
 class FormRenderers {
+    static populate(fields, values, options) {
+        FormValues.populate(
+            fields,
+            values,
+            Object.assign({
+                target: 'text'
+            }, options || {})
+        );
+
+        return values;
+    }
+
     static view(action, values, options) {
         options = options || {};
 
