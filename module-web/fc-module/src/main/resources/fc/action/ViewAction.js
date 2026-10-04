@@ -13,11 +13,6 @@ let buttonBar = null;
 export async function initView() {
     viewState = FcSupport.navigation.consumeView();
 
-    if (!viewState) {
-        Toast.error('Unable to load FC detail.');
-        return;
-    }
-
     try {
         const response = await FcService.findDetail(
             viewState.path,
