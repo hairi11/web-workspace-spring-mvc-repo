@@ -23,21 +23,19 @@ export function initEnquiry() {
 async function prepareEnquiryCriteria() {
     DatePicker.range('#dateFrom', '#dateTo');
 
-    const parameterSelects = {
-        '#fcCodeSelect': {
-            list: 'fcCode',
-            placeholder: 'Select FC code'
-        },
-        '#fxCodeSelect': {
-            list: 'fxCode',
-            placeholder: 'Select FX code'
-        }
-    };
-
     try {
         const parameters = await FcService.findParameters(FormType.ENQUIRY);
 
-        Object.entries(parameterSelects).forEach(([selector, config]) => {
+        Object.entries({
+            '#fcCodeSelect': {
+                list: 'fcCode',
+                placeholder: 'Select FC code'
+            },
+            '#fxCodeSelect': {
+                list: 'fxCode',
+                placeholder: 'Select FX code'
+            }
+        }).forEach(([selector, config]) => {
             new Select2(selector, {
                 placeholder: config.placeholder,
                 allowClear: true
