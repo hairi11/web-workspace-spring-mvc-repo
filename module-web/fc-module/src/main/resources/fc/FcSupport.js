@@ -46,30 +46,12 @@ const viewFields = {
 };
 
 const navigation = {
-    canView(row) {
-        if (!row || row.path == null || row.id == null) {
-            console.error('FC view requires row.path and row.id.', row);
-            return false;
-        }
-
-        return true;
-    },
-
-    canEdit(row) {
-        if (!row || row.string_value_1 == null) {
-            console.error('FC edit requires row key.', row);
-            return false;
-        }
-
-        return true;
-    },
-
     consumeView() {
         return this.consume(
             (state) => state.action === 'view'
                 && state.path != null
                 && state.id != null,
-            'Missing FC view navigation state.'
+            'Invalid FC view navigation state.'
         );
     },
 
@@ -80,7 +62,7 @@ const navigation = {
                     state.action === 'edit'
                     && state.key != null
                 ),
-            'Missing FC transaction navigation state.'
+            'Invalid FC transaction navigation state.'
         );
     },
 
@@ -88,8 +70,7 @@ const navigation = {
         const state = NavigationState.consume();
 
         if (!state || !validate(state)) {
-            console.error(message, state);
-            return null;
+            console.warn(message, state);
         }
 
         return state;
