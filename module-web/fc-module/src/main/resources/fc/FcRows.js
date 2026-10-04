@@ -66,10 +66,10 @@ const FcRows = {
     },
 
     findIndex(rowsKey, path, id) {
-        const rows = this.get(rowsKey);
-        if (!rows) return 0;
+        const value = this.get(rowsKey);
+        if (!value) return 0;
 
-        const index = rows.rows.findIndex(
+        const index = value.rows.findIndex(
             (row) => row
                 && row.path === path
                 && row.id === id
@@ -79,23 +79,23 @@ const FcRows = {
     },
 
     row(rowsKey, index) {
-        const rows = this.get(rowsKey);
+        const value = this.get(rowsKey);
 
         if (
-            !rows
+            !value
             || !Number.isInteger(index)
             || index < 0
-            || index >= rows.rows.length
+            || index >= value.rows.length
         ) {
             return null;
         }
 
-        return cloneRow(rows.rows[index]);
+        return cloneRow(value.rows[index]);
     },
 
     count(rowsKey) {
-        const rows = this.get(rowsKey);
-        return rows ? rows.rows.length : 0;
+        const value = this.get(rowsKey);
+        return value ? value.rows.length : 0;
     }
 };
 
