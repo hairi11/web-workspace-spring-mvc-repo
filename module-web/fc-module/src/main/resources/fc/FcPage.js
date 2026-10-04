@@ -21,7 +21,11 @@ router
                     && state.key != null
                 )
             ),
-        warning: 'Invalid FC transaction navigation state.'
+        warning: 'Invalid FC transaction navigation state.',
+        onGuardFail: (state, warning) => {
+            console.error(warning, state);
+            return false;
+        }
     })
     .route('view', initView, {
         context: () => NavigationState.consume(),
