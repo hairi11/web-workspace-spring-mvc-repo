@@ -5,12 +5,13 @@ const { NavigationState } = Common;
 function withState(validate, message, handler) {
     return function () {
         const state = NavigationState.consume();
+        const router = new Common.Router();
 
-        if (!state || !validate(state)) {
-            console.warn(message, state);
-        }
-
-        return handler(state);
+        return router.guard(
+            (context) => context != null && validate(context),
+            message,
+            handler
+        )(state);
     };
 }
 
