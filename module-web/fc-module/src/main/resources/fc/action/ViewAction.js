@@ -1,5 +1,5 @@
 import Common from '@company/common-js-web';
-import FcField from '../FcField.js';
+import FcFields from '../FcFields.js';
 import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 
@@ -23,7 +23,7 @@ export async function initView(state) {
 
         const populateCurrentRow = () => {
             const row = FcRows.row(rowsKey, currentIndex);
-            if (row) FormRenderers.populate(FcField.view, row);
+            if (row) FormRenderers.populate(FcFields.view, row);
         };
 
         const count = FcRows.count(rowsKey);
