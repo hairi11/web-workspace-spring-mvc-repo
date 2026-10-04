@@ -39,6 +39,5 @@ module.exports = {
     Repository: require('./repository/Repository'),
     Toast: require('./toast/Toast'),
     UrlUtil: require('./util/UrlUtil'),
-    Validator: require('./form/Validator'),
-    ViewForm: require('./form/ViewForm')
+    Validator: require('./form/Validator')
 };
