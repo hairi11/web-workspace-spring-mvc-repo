@@ -3,7 +3,7 @@ import { FormType } from '../FcConstants.js';
 import FcSupport from '../FcSupport.js';
 import FcService from '../FcService.js';
 
-const { DataTableBuilder, DatePicker, FormValues, Renderers, Select2, Toast } = Common;
+const { DataTableBuilder, DatePicker, FormValues, NavigationState, Renderers, Select2, Toast } = Common;
 
 let table = null;
 
@@ -147,24 +147,50 @@ function prepareEnquirySearch() {
 
 
 function viewRecord(row) {
-    if (!FcSupport.navigation.setView(row)) {
+    if (!FcSupport.navigation.canView(row)) {
         Toast.error('Unable to open FC detail.');
         return;
     }
+
+    NavigationState.set({
+        page: 'view',
+        action: 'view',
+        path: row.path,
+        id: row.id,
+        returnTo: {
+            page: 'enquiry'
+        }
+    });
 
     window.location.href = './transaction/view';
 }
 
 function editRecord(row) {
-    if (!FcSupport.navigation.setEdit(row)) {
+    if (!FcSupport.navigation.canEdit(row)) {
         Toast.error('Unable to edit FC record.');
         return;
     }
+
+    NavigationState.set({
+        page: 'form',
+        action: 'edit',
+        key: row.string_value_1,
+        returnTo: {
+            page: 'enquiry'
+        }
+    });
 
     window.location.href = './transaction/edit';
 }
 
 function createRecord() {
-    FcSupport.navigation.setCreate();
+    NavigationState.set({
+        page: 'form',
+        action: 'create',
+        returnTo: {
+            page: 'enquiry'
+        }
+    });
+
     window.location.href = './transaction/create';
 }
