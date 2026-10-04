@@ -56,7 +56,7 @@ const viewFields = {
 let viewState = null;
 let rowsKey = null;
 let currentIndex = 0;
-let buttonBar = null;
+
 
 export async function initView() {
     viewState = NavigationState.consume();
@@ -93,13 +93,15 @@ export async function initView() {
 }
 
 function prepareNavigator() {
-    buttonBar = new ButtonBar('#viewButtonBar')
+    const count = FcRows.count(rowsKey);
+
+    new ButtonBar('#viewButtonBar')
         .navigator({
             previous: '#previousButton',
             next: '#nextButton',
             index: currentIndex,
-            count: FcRows.count(rowsKey),
-            hidden: FcRows.count(rowsKey) <= 1,
+            count: count,
+            hidden: count <= 1,
             onNavigate: (index) => {
                 currentIndex = index;
                 populateCurrentRow();
