@@ -5,11 +5,9 @@ import { initView } from './action/ViewAction.js';
 
 const { NavigationState, Router } = Common;
 
-const router = new Router({
+new Router({
     resolveRoute: () => document.body?.dataset?.page
-});
-
-router
+})
     .route('enquiry', initEnquiry)
     .route('transaction', initTransaction, {
         context: () => NavigationState.consume(),
