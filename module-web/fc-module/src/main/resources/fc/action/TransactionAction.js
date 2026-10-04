@@ -1,3 +1,1 @@
-export function initTransaction(state) {
-    return state;
-}
+export function initTransaction() {}
