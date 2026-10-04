@@ -5,7 +5,6 @@ import FcService from '../FcService.js';
 const {
     ButtonBar,
     FormValues,
-    NavigationState,
     Renderers,
     Toast
 } = Common;
@@ -58,17 +57,8 @@ let rowsKey = null;
 let currentIndex = 0;
 
 
-export async function initView() {
-    viewState = NavigationState.consume();
-
-    if (
-        !viewState
-        || viewState.action !== 'view'
-        || viewState.path == null
-        || viewState.id == null
-    ) {
-        console.warn('Invalid FC view navigation state.', viewState);
-    }
+export async function initView(state) {
+    viewState = state;
 
     try {
         const response = await FcService.findDetail(
