@@ -36,10 +36,19 @@ class Router {
             typeof options.guard === 'function'
             && !options.guard(resolvedContext)
         ) {
-            console.warn(
-                options.warning || 'Route guard validation failed.',
-                resolvedContext
-            );
+            const warning = options.warning
+                || 'Route guard validation failed.';
+
+            if (typeof options.onGuardFail === 'function') {
+                const result = options.onGuardFail(
+                    resolvedContext,
+                    warning
+                );
+
+                if (result === false) return;
+            } else {
+                console.warn(warning, resolvedContext);
+            }
         }
 
         return route.handler(resolvedContext);
