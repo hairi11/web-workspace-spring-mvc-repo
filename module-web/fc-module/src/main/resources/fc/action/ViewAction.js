@@ -3,7 +3,7 @@ import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 import FcSupport from '../FcSupport.js';
 
-const { ButtonBar, Toast } = Common;
+const { ButtonBar, FormValues, Toast } = Common;
 
 let viewState = null;
 let rowsKey = null;
@@ -65,5 +65,7 @@ function populateCurrentRow() {
     const row = FcRows.row(rowsKey, currentIndex);
     if (!row) return;
 
-    FcSupport.form.populateView(row);
+    FormValues.populate(FcSupport.viewFields, row, {
+        target: 'text'
+    });
 }
