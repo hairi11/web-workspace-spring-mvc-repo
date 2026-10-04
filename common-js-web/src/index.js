@@ -26,6 +26,7 @@ module.exports = {
     Logger: require('./logging/Logger'),
     MemoryCache: require('./cache/MemoryCache'),
     Modal: require('./modal/Modal'),
+    NavigationRoute: require('./router/NavigationRoute'),
     NavigationState: require('./navigation/NavigationState'),
     Navigator: require('./button/Navigator'),
     NumberUtil: require('./util/NumberUtil'),
