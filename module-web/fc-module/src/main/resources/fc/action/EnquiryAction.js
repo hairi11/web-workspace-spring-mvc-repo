@@ -3,7 +3,7 @@ import { FormType } from '../FcConstants.js';
 import FcSupport from '../FcSupport.js';
 import FcService from '../FcService.js';
 
-const { DataTableBuilder, DatePicker, Renderers, Select2, Toast } = Common;
+const { DataTableBuilder, DatePicker, FormValues, Renderers, Select2, Toast } = Common;
 
 let table = null;
 
@@ -50,7 +50,12 @@ function prepareEnquiryTable() {
             page,
             size,
             options.sort,
-            FcSupport.form.values()
+            FormValues.read({
+                dateFrom: '#dateFrom',
+                dateTo: '#dateTo',
+                fcCode: '#fcCodeSelect',
+                fxCode: '#fxCodeSelect'
+            })
         ), {
             pageLength: 20,
             onError: (error) => {
