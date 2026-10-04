@@ -4,12 +4,12 @@ import FcService from '../FcService.js';
 
 const {
     ButtonBar,
-    FormValues,
+    FormRenderers,
     Renderers,
     Toast
 } = Common;
 
-const viewForm = new ViewForm({
+const viewFields = {
     string_value_1: {
         selector: '#stringValue1'
     },
@@ -50,7 +50,7 @@ const viewForm = new ViewForm({
     string_value_6: {
         selector: '#stringValue6'
     }
-});
+};
 
 let viewState = null;
 let rowsKey = null;
@@ -109,5 +109,5 @@ function populateCurrentRow() {
     const row = FcRows.row(rowsKey, currentIndex);
     if (!row) return;
 
-    viewForm.populate(row);
+    FormRenderers.populate(viewFields, row);
 }
