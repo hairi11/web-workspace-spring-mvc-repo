@@ -1,9 +1,16 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
-import FcSupport from '../FcSupport.js';
 import FcService from '../FcService.js';
 
-const { DataTableBuilder, DatePicker, FormValues, NavigationState, Renderers, Select2, Toast } = Common;
+const {
+    DataTableBuilder,
+    DatePicker,
+    FormValues,
+    NavigationState,
+    Renderers,
+    Select2,
+    Toast
+} = Common;
 
 let table = null;
 
@@ -144,7 +151,6 @@ function prepareEnquirySearch() {
         }
     });
 }
-
 
 function viewRecord(row) {
     NavigationState.set({
