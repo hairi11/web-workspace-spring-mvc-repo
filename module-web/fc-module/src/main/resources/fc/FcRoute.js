@@ -1,19 +1,10 @@
 import Common from '@company/common-js-web';
 
-const { NavigationState, Router } = Common;
-const router = new Router();
-
-const withNavigationState = (validate, message, handler) =>
-    router.withContext(
-        () => NavigationState.consume(),
-        (state) => state != null && validate(state),
-        message,
-        handler
-    );
+const { NavigationRoute } = Common;
 
 const FcRoute = {
     view(handler) {
-        return withNavigationState(
+        return NavigationRoute.guard(
             (state) => state.action === 'view'
                 && state.path != null
                 && state.id != null,
@@ -23,7 +14,7 @@ const FcRoute = {
     },
 
     transaction(handler) {
-        return withNavigationState(
+        return NavigationRoute.guard(
             (state) => state.action === 'create'
                 || (
                     state.action === 'edit'
