@@ -2,10 +2,6 @@ import Common from '@company/common-js-web';
 
 const { NavigationState, Renderers } = Common;
 
-const RETURN_TO_ENQUIRY = {
-    page: 'enquiry'
-};
-
 const viewFields = {
     string_value_1: {
         selector: '#stringValue1'
@@ -50,45 +46,20 @@ const viewFields = {
 };
 
 const navigation = {
-    setView(row) {
+    canView(row) {
         if (!row || row.path == null || row.id == null) {
             console.error('FC view requires row.path and row.id.', row);
             return false;
         }
 
-        NavigationState.set({
-            page: 'view',
-            action: 'view',
-            path: row.path,
-            id: row.id,
-            returnTo: RETURN_TO_ENQUIRY
-        });
-
         return true;
     },
 
-    setEdit(row) {
+    canEdit(row) {
         if (!row || row.string_value_1 == null) {
             console.error('FC edit requires row key.', row);
             return false;
         }
-
-        NavigationState.set({
-            page: 'form',
-            action: 'edit',
-            key: row.string_value_1,
-            returnTo: RETURN_TO_ENQUIRY
-        });
-
-        return true;
-    },
-
-    setCreate() {
-        NavigationState.set({
-            page: 'form',
-            action: 'create',
-            returnTo: RETURN_TO_ENQUIRY
-        });
 
         return true;
     },
