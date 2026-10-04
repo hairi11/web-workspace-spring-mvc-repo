@@ -1,16 +1,16 @@
 const createStore = require('unistore');
-const FormSerializer = require('../form/FormSerializer');
+const FormValues = require('../form/FormValues');
 
 class FormState {
     constructor(form) {
         this.form = form;
         this.store = createStore({
-            initial: FormSerializer.serialize(form)
+            initial: FormValues.serialize(form)
         });
     }
 
     snapshot() {
-        return FormSerializer.serialize(this.form);
+        return FormValues.serialize(this.form);
     }
 
     isDirty() {
