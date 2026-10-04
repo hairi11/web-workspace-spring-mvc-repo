@@ -34,6 +34,18 @@ class Router {
         };
     }
 
+    withContext(resolve, validate, message, handler) {
+        if (typeof resolve !== 'function') {
+            throw new Error('Router.withContext requires a resolve function.');
+        }
+
+        const guarded = this.guard(validate, message, handler);
+
+        return function () {
+            return guarded(resolve());
+        };
+    }
+
     async dispatch(name, context) {
         const handler = this.routes.get(name);
         if (!handler) return;
