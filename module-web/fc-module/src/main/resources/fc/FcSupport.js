@@ -49,48 +49,6 @@ const viewFields = {
     }
 };
 
-const form = {
-    values() {
-        return {
-            dateFrom: document.querySelector('#dateFrom')?.value || '',
-            dateTo: document.querySelector('#dateTo')?.value || '',
-            fcCode: document.querySelector('#fcCodeSelect')?.value || '',
-            fxCode: document.querySelector('#fxCodeSelect')?.value || ''
-        };
-    },
-
-    populateView(data) {
-        this.populate(viewFields, data, {
-            target: 'text'
-        });
-    },
-
-    populate(fields, data, options) {
-        fields = fields || {};
-        data = data || {};
-        options = Object.assign({
-            target: 'value'
-        }, options || {});
-
-        Object.entries(fields).forEach(([name, config]) => {
-            const field = document.querySelector(config.selector);
-            if (!field) return;
-
-            const value = data[name];
-            const formatted = config.format
-                ? config.format(value, 'display')
-                : (value == null ? '' : value);
-
-            if (options.target === 'text') {
-                field.textContent = formatted;
-                return;
-            }
-
-            field.value = formatted;
-        });
-    }
-};
-
 const navigation = {
     setView(row) {
         if (!row || row.path == null || row.id == null) {
@@ -168,8 +126,8 @@ const navigation = {
 };
 
 const FcSupport = {
-    form,
-    navigation
+    navigation,
+    viewFields
 };
 
 export default FcSupport;
