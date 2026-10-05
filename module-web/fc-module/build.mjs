@@ -1,4 +1,4 @@
-import { mkdir } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { build } from 'esbuild';
 
@@ -6,6 +6,16 @@ const root = process.cwd();
 const resourceRoot = path.join(root, 'src', 'main', 'resources', 'fc');
 const outputDir = path.join(root, 'target', 'classes', 'META-INF', 'resources', 'fc');
 const entry = path.join(resourceRoot, 'FcPage.js');
+const localFieldTranslator = path.join(
+    root,
+    'src',
+    'main',
+    'resources',
+    'META-INF',
+    'resources',
+    'fc',
+    'FieldTranslator.local.js'
+);
 const commonJsEntry = path.resolve(
     root,
     '..',
@@ -25,6 +35,14 @@ function workspaceCommonJsPlugin() {
             );
         }
     };
+}
+
+await mkdir(path.dirname(localFieldTranslator), { recursive: true });
+
+try {
+    await writeFile(localFieldTranslator, '', { flag: 'wx' });
+} catch (error) {
+    if (error.code !== 'EEXIST') throw error;
 }
 
 await mkdir(outputDir, { recursive: true });
