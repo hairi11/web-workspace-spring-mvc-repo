@@ -60,7 +60,7 @@
 
             <div class="form-group">
                 <label for="dateValue1">Date 1</label>
-                <input id="dateValue1" name="date_value_1" class="form-control" type="datetime-local">
+                <input id="dateValue1" name="date_value_1" class="form-control" type="text">
             </div>
 
             <div class="form-group">
@@ -95,7 +95,7 @@
 
             <div class="form-group">
                 <label for="amountValue">Amount</label>
-                <input id="amountValue" name="amount_value" class="form-control" type="number" step="0.000001">
+                <input id="amountValue" name="amount_value" class="form-control" type="text" step="0.000001">
             </div>
 
             <div class="form-group">
@@ -105,17 +105,17 @@
 
             <div class="form-group">
                 <label for="integerValue">Integer</label>
-                <input id="integerValue" name="integer_value" class="form-control" type="number" step="1">
+                <input id="integerValue" name="integer_value" class="form-control" type="text" step="1">
             </div>
 
             <div class="form-group">
                 <label for="dateValue2">Date 2</label>
-                <input id="dateValue2" name="date_value_2" class="form-control" type="date">
+                <input id="dateValue2" name="date_value_2" class="form-control" type="text">
             </div>
 
             <div class="form-group">
                 <label for="amountValue2">Amount 2</label>
-                <input id="amountValue2" name="amount_value_2" class="form-control" type="number" step="0.0001">
+                <input id="amountValue2" name="amount_value_2" class="form-control" type="text" step="0.0001">
             </div>
 
             <div class="form-group">
@@ -125,22 +125,22 @@
 
             <div class="form-group">
                 <label for="amountValue3">Amount 3</label>
-                <input id="amountValue3" name="amount_value_3" class="form-control" type="number" step="0.0001">
+                <input id="amountValue3" name="amount_value_3" class="form-control" type="text" step="0.0001">
             </div>
 
             <div class="form-group">
                 <label for="amountValue4">Amount 4</label>
-                <input id="amountValue4" name="amount_value_4" class="form-control" type="number" step="0.0001">
+                <input id="amountValue4" name="amount_value_4" class="form-control" type="text" step="0.0001">
             </div>
 
             <div class="form-group">
                 <label for="amountValue5">Amount 5</label>
-                <input id="amountValue5" name="amount_value_5" class="form-control" type="number" step="0.0001">
+                <input id="amountValue5" name="amount_value_5" class="form-control" type="text" step="0.0001">
             </div>
 
             <div class="form-group">
                 <label for="amountValue6">Amount 6</label>
-                <input id="amountValue6" name="amount_value_6" class="form-control" type="number" step="0.0001">
+                <input id="amountValue6" name="amount_value_6" class="form-control" type="text" step="0.0001">
             </div>
 
             <div class="form-group">
@@ -180,12 +180,12 @@
 
             <div class="form-group">
                 <label for="dateValue3">Date 3</label>
-                <input id="dateValue3" name="date_value_3" class="form-control" type="date">
+                <input id="dateValue3" name="date_value_3" class="form-control" type="text">
             </div>
 
             <div class="form-group">
                 <label for="dateValue4">Date 4</label>
-                <input id="dateValue4" name="date_value_4" class="form-control" type="date">
+                <input id="dateValue4" name="date_value_4" class="form-control" type="text">
             </div>
 
             <div class="form-group">
@@ -215,17 +215,17 @@
 
             <div class="form-group">
                 <label for="dateValue5">Date 5</label>
-                <input id="dateValue5" name="date_value_5" class="form-control" type="datetime-local">
+                <input id="dateValue5" name="date_value_5" class="form-control" type="text">
             </div>
 
             <div class="form-group">
                 <label for="amountValue7">Amount 7</label>
-                <input id="amountValue7" name="amount_value_7" class="form-control" type="number" step="0.0001">
+                <input id="amountValue7" name="amount_value_7" class="form-control" type="text" step="0.0001">
             </div>
 
             <div class="form-group">
                 <label for="dateValue6">Date 6</label>
-                <input id="dateValue6" name="date_value_6" class="form-control" type="date">
+                <input id="dateValue6" name="date_value_6" class="form-control" type="text">
             </div>
         </div>
 
