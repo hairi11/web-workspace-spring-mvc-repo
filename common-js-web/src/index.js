@@ -17,6 +17,7 @@ module.exports = {
     DataTableBuilder: require('./datatable/DataTableBuilder'),
     EventBus: require('./event/EventBus'),
     FieldErrorRenderer: require('./form/FieldErrorRenderer'),
+    FieldTranslator: require('./field/FieldTranslator'),
     FileValidator: require('./form/FileValidator'),
     FormAction: require('./form/FormAction'),
     FormDataConverter: require('./form/FormDataConverter'),
