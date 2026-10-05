@@ -5,6 +5,7 @@ import FcService from '../FcService.js';
 const {
     DataTableBuilder,
     DatePicker,
+    FieldTranslator,
     FormValues,
     NavigationState,
     Renderers,
@@ -72,18 +73,48 @@ function prepareEnquiryTable() {
             style: 'multi',
             headerCheckbox: false
         })
-        .column('string_value_1', 'String')
-        .column('string_value_2', 'String')
-        .renderer('date_value_1', 'Date', Renderers.date())
-        .column('string_value_3', 'String')
-        .column('string_value_4', 'String')
-        .renderer('amount_value', 'Amount', Renderers.amount({
+        .column(
+            FieldTranslator.field('string_value_1'),
+            FieldTranslator.label('string_value_1')
+        )
+        .column(
+            FieldTranslator.field('string_value_2'),
+            FieldTranslator.label('string_value_2')
+        )
+        .renderer(
+            FieldTranslator.field('date_value_1'),
+            FieldTranslator.label('date_value_1'),
+            Renderers.date()
+        )
+        .column(
+            FieldTranslator.field('string_value_3'),
+            FieldTranslator.label('string_value_3')
+        )
+        .column(
+            FieldTranslator.field('string_value_4'),
+            FieldTranslator.label('string_value_4')
+        )
+        .renderer(
+            FieldTranslator.field('amount_value'),
+            FieldTranslator.label('amount_value'),
+            Renderers.amount({
             minimumFractionDigits: 4,
             maximumFractionDigits: 4
-        }))
-        .column('string_value_5', 'String')
-        .renderer('date_value_2', 'Date', Renderers.date())
-        .column('string_value_6', 'String')
+            })
+        )
+        .column(
+            FieldTranslator.field('string_value_5'),
+            FieldTranslator.label('string_value_5')
+        )
+        .renderer(
+            FieldTranslator.field('date_value_2'),
+            FieldTranslator.label('date_value_2'),
+            Renderers.date()
+        )
+        .column(
+            FieldTranslator.field('string_value_6'),
+            FieldTranslator.label('string_value_6')
+        )
         .toolbarAction()
         .addAction({
             text: 'View',
@@ -168,7 +199,7 @@ function editRecord(row) {
     NavigationState.set({
         page: 'form',
         action: 'edit',
-        key: row.string_value_1,
+        key: row[FieldTranslator.field('string_value_1')],
         returnTo: {
             page: 'enquiry'
         }
