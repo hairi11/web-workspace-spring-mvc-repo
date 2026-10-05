@@ -18,6 +18,215 @@
 
     <form id="transactionForm" novalidate>
         <div class="form-grid">
+            <div class="form-group">
+                <label for="stringValue1">String 1</label>
+                <input id="stringValue1" name="string_value_1" class="form-control" type="text" maxlength="30">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue2">String 2</label>
+                <input id="stringValue2" name="string_value_2" class="form-control" type="text" maxlength="30">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue3">String 3</label>
+                <input id="stringValue3" name="string_value_3" class="form-control" type="text" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue4">String 4</label>
+                <input id="stringValue4" name="string_value_4" class="form-control" type="text" maxlength="50">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue5">String 5</label>
+                <input id="stringValue5" name="string_value_5" class="form-control" type="text" maxlength="16">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue6">String 6</label>
+                <input id="stringValue6" name="string_value_6" class="form-control" type="text" maxlength="32">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue7">String 7</label>
+                <input id="stringValue7" name="string_value_7" class="form-control" type="text" maxlength="255">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue8">String 8</label>
+                <input id="stringValue8" name="string_value_8" class="form-control" type="text" maxlength="16">
+            </div>
+
+            <div class="form-group">
+                <label for="dateValue1">Date 1</label>
+                <input id="dateValue1" name="date_value_1" class="form-control" type="datetime-local">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue9">String 9</label>
+                <input id="stringValue9" name="string_value_9" class="form-control" type="text" maxlength="30">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue10">String 10</label>
+                <input id="stringValue10" name="string_value_10" class="form-control" type="text" maxlength="1000">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue11">String 11</label>
+                <input id="stringValue11" name="string_value_11" class="form-control" type="text" maxlength="255">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue12">String 12</label>
+                <input id="stringValue12" name="string_value_12" class="form-control" type="text" maxlength="32">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue13">String 13</label>
+                <input id="stringValue13" name="string_value_13" class="form-control" type="text" maxlength="1">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue14">String 14</label>
+                <input id="stringValue14" name="string_value_14" class="form-control" type="text" maxlength="16">
+            </div>
+
+            <div class="form-group">
+                <label for="amountValue">Amount</label>
+                <input id="amountValue" name="amount_value" class="form-control" type="number" step="0.000001">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue15">String 15</label>
+                <input id="stringValue15" name="string_value_15" class="form-control" type="text" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="integerValue">Integer</label>
+                <input id="integerValue" name="integer_value" class="form-control" type="number" step="1">
+            </div>
+
+            <div class="form-group">
+                <label for="dateValue2">Date 2</label>
+                <input id="dateValue2" name="date_value_2" class="form-control" type="date">
+            </div>
+
+            <div class="form-group">
+                <label for="amountValue2">Amount 2</label>
+                <input id="amountValue2" name="amount_value_2" class="form-control" type="number" step="0.0001">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue16">String 16</label>
+                <input id="stringValue16" name="string_value_16" class="form-control" type="text" maxlength="32">
+            </div>
+
+            <div class="form-group">
+                <label for="amountValue3">Amount 3</label>
+                <input id="amountValue3" name="amount_value_3" class="form-control" type="number" step="0.0001">
+            </div>
+
+            <div class="form-group">
+                <label for="amountValue4">Amount 4</label>
+                <input id="amountValue4" name="amount_value_4" class="form-control" type="number" step="0.0001">
+            </div>
+
+            <div class="form-group">
+                <label for="amountValue5">Amount 5</label>
+                <input id="amountValue5" name="amount_value_5" class="form-control" type="number" step="0.0001">
+            </div>
+
+            <div class="form-group">
+                <label for="amountValue6">Amount 6</label>
+                <input id="amountValue6" name="amount_value_6" class="form-control" type="number" step="0.0001">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue17">String 17</label>
+                <input id="stringValue17" name="string_value_17" class="form-control" type="text" maxlength="1000">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue18">String 18</label>
+                <input id="stringValue18" name="string_value_18" class="form-control" type="text" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue19">String 19</label>
+                <input id="stringValue19" name="string_value_19" class="form-control" type="text" maxlength="32">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue20">String 20</label>
+                <input id="stringValue20" name="string_value_20" class="form-control" type="text" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue21">String 21</label>
+                <input id="stringValue21" name="string_value_21" class="form-control" type="text" maxlength="1">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue22">String 22</label>
+                <input id="stringValue22" name="string_value_22" class="form-control" type="text" maxlength="32">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue23">String 23</label>
+                <input id="stringValue23" name="string_value_23" class="form-control" type="text" maxlength="2">
+            </div>
+
+            <div class="form-group">
+                <label for="dateValue3">Date 3</label>
+                <input id="dateValue3" name="date_value_3" class="form-control" type="date">
+            </div>
+
+            <div class="form-group">
+                <label for="dateValue4">Date 4</label>
+                <input id="dateValue4" name="date_value_4" class="form-control" type="date">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue24">String 24</label>
+                <input id="stringValue24" name="string_value_24" class="form-control" type="text" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue25">String 25</label>
+                <input id="stringValue25" name="string_value_25" class="form-control" type="text" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue26">String 26</label>
+                <input id="stringValue26" name="string_value_26" class="form-control" type="text" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue27">String 27</label>
+                <input id="stringValue27" name="string_value_27" class="form-control" type="text" maxlength="255">
+            </div>
+
+            <div class="form-group">
+                <label for="stringValue28">String 28</label>
+                <input id="stringValue28" name="string_value_28" class="form-control" type="text" maxlength="16">
+            </div>
+
+            <div class="form-group">
+                <label for="dateValue5">Date 5</label>
+                <input id="dateValue5" name="date_value_5" class="form-control" type="datetime-local">
+            </div>
+
+            <div class="form-group">
+                <label for="amountValue7">Amount 7</label>
+                <input id="amountValue7" name="amount_value_7" class="form-control" type="number" step="0.0001">
+            </div>
+
+            <div class="form-group">
+                <label for="dateValue6">Date 6</label>
+                <input id="dateValue6" name="date_value_6" class="form-control" type="date">
+            </div>
         </div>
 
         <div class="button-bar">
