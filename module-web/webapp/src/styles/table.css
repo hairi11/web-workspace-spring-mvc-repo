@@ -280,7 +280,7 @@ table.dataTable > tbody > tr.child ul.dtr-details {
 
 table.dataTable > tbody > tr.child ul.dtr-details > li {
     display: grid;
-    grid-template-columns: max-content minmax(0, 1fr);
+    grid-template-columns: 11rem minmax(0, 1fr);
     align-items: baseline;
     column-gap: .5rem;
     padding: .3rem 0;
