@@ -84,7 +84,8 @@ function prepareEnquiryTable() {
         .renderer(
             FieldTranslator.field('date_value_4'),
             FieldTranslator.label('date_value_4'),
-            Renderers.date()
+            Renderers.date(),
+            { className: 'dt-align-center' }
         )
         .column(
             FieldTranslator.field('string_value_34'),
@@ -100,7 +101,8 @@ function prepareEnquiryTable() {
             Renderers.amount({
                 minimumFractionDigits: 4,
                 maximumFractionDigits: 4
-            })
+            }),
+            { className: 'dt-align-right' }
         )
         .column(
             FieldTranslator.field('string_value_11'),
@@ -109,7 +111,8 @@ function prepareEnquiryTable() {
         .renderer(
             FieldTranslator.field('date_value_5'),
             FieldTranslator.label('date_value_5'),
-            Renderers.date()
+            Renderers.date(),
+            { className: 'dt-align-center' }
         )
         .column(
             FieldTranslator.field('string_value_37'),
