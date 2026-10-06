@@ -270,9 +270,10 @@ table.dataTable > tbody > tr.child ul.dtr-details {
 }
 
 table.dataTable > tbody > tr.child ul.dtr-details > li {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(10rem, 35%) minmax(0, 1fr);
     align-items: baseline;
-    gap: .35rem;
+    column-gap: 1rem;
     padding: .3rem 0;
     border-bottom: 1px solid #eee;
 }
@@ -282,7 +283,7 @@ table.dataTable > tbody > tr.child ul.dtr-details > li:last-child {
 }
 
 table.dataTable > tbody > tr.child .dtr-title {
-    flex: 0 0 auto;
+    min-width: 0;
     font-weight: 600;
     color: #444;
 }
