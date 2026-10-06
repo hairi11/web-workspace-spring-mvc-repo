@@ -59,8 +59,8 @@ function prepareEnquiryTable() {
             FormValues.read({
                 dateFrom: '#dateFrom',
                 dateTo: '#dateTo',
-                fcCode: '#fcCodeSelect',
-                fxCode: '#fxCodeSelect'
+                [FieldTranslator.field('string_value_33')]: '#fcCodeSelect',
+                [FieldTranslator.field('string_value_18')]: '#fxCodeSelect'
             })
         ), {
             pageLength: 20,
