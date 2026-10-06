@@ -74,46 +74,46 @@ function prepareEnquiryTable() {
             headerCheckbox: false
         })
         .column(
-            FieldTranslator.field('string_value_1'),
-            FieldTranslator.label('string_value_1')
+            FieldTranslator.field('string_value_15'),
+            FieldTranslator.label('string_value_15')
         )
         .column(
-            FieldTranslator.field('string_value_2'),
-            FieldTranslator.label('string_value_2')
+            FieldTranslator.field('string_value_14'),
+            FieldTranslator.label('string_value_14')
         )
         .renderer(
-            FieldTranslator.field('date_value_1'),
-            FieldTranslator.label('date_value_1'),
+            FieldTranslator.field('date_value_4'),
+            FieldTranslator.label('date_value_4'),
             Renderers.date()
         )
         .column(
-            FieldTranslator.field('string_value_3'),
-            FieldTranslator.label('string_value_3')
+            FieldTranslator.field('string_value_34'),
+            FieldTranslator.label('string_value_34')
         )
         .column(
-            FieldTranslator.field('string_value_4'),
-            FieldTranslator.label('string_value_4')
+            FieldTranslator.field('string_value_36'),
+            FieldTranslator.label('string_value_36')
         )
         .renderer(
-            FieldTranslator.field('amount_value'),
-            FieldTranslator.label('amount_value'),
+            FieldTranslator.field('amount_value_2'),
+            FieldTranslator.label('amount_value_2'),
             Renderers.amount({
-            minimumFractionDigits: 4,
-            maximumFractionDigits: 4
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4
             })
         )
         .column(
-            FieldTranslator.field('string_value_5'),
-            FieldTranslator.label('string_value_5')
+            FieldTranslator.field('string_value_11'),
+            FieldTranslator.label('string_value_11')
         )
         .renderer(
-            FieldTranslator.field('date_value_2'),
-            FieldTranslator.label('date_value_2'),
+            FieldTranslator.field('date_value_5'),
+            FieldTranslator.label('date_value_5'),
             Renderers.date()
         )
         .column(
-            FieldTranslator.field('string_value_6'),
-            FieldTranslator.label('string_value_6')
+            FieldTranslator.field('string_value_37'),
+            FieldTranslator.label('string_value_37')
         )
         .toolbarAction()
         .addAction({
