@@ -1,3 +1,4 @@
 export const FormType = Object.freeze({
-    ENQUIRY: 'FC_ENQUIRY'
+    ENQUIRY: 'FC_ENQUIRY',
+    TRANSACTION: 'FC_TRANSACTION'
 });
