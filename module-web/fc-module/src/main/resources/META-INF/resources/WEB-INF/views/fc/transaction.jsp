@@ -115,7 +115,12 @@
 
             <div class="form-group">
                 <label for="stringValue18">String 18</label>
-                <input id="stringValue18" name="string_value_18" class="form-control" type="text" maxlength="20">
+                <select
+                    id="stringValue18"
+                    name="string_value_18"
+                    class="form-control"
+                    data-field="string_value_18">
+                </select>
             </div>
 
             <div class="form-group">
@@ -235,7 +240,12 @@
 
             <div class="form-group">
                 <label for="stringValue33">String 33</label>
-                <input id="stringValue33" name="string_value_33" class="form-control" type="text" maxlength="20">
+                <select
+                    id="stringValue33"
+                    name="string_value_33"
+                    class="form-control"
+                    data-field="string_value_33">
+                </select>
             </div>
 
             <div class="form-group">
