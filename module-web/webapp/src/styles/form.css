@@ -201,16 +201,28 @@ textarea:disabled {
 }
 
 
-body[data-page="transaction"] .form-grid {
+.fc-detail-layout {
     display: grid;
     grid-template-columns: minmax(0, 4fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.fc-detail-main .form-grid,
+.fc-detail-main .view-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.fc-detail-side .form-grid,
+.fc-detail-side .view-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 14px;
 }
 
 .view-detail-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 1fr);
-    gap: 14px;
     margin-bottom: 20px;
 }
 
@@ -250,8 +262,9 @@ body[data-page="transaction"] .form-grid {
 }
 
 @media (max-width: 700px) {
-    body[data-page="transaction"] .form-grid,
-    .view-detail-grid {
+    .fc-detail-layout,
+    .fc-detail-main .form-grid,
+    .fc-detail-main .view-detail-grid {
         grid-template-columns: 1fr;
     }
 }
