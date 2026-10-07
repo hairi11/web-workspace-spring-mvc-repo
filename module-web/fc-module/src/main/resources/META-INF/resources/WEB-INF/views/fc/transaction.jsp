@@ -30,87 +30,172 @@
 
             <div class="form-group">
                 <label for="stringValue3">String 3</label>
-                <input id="stringValue3" name="string_value_3" class="form-control" type="text" maxlength="20">
+                <select
+                    id="stringValue3"
+                    name="string_value_3"
+                    class="form-control"
+                    data-field="string_value_3">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue4">String 4</label>
-                <input id="stringValue4" name="string_value_4" class="form-control" type="text" maxlength="2000">
+                <select
+                    id="stringValue4"
+                    name="string_value_4"
+                    class="form-control"
+                    data-field="string_value_4">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue5">String 5</label>
-                <input id="stringValue5" name="string_value_5" class="form-control" type="text" maxlength="50">
+                <select
+                    id="stringValue5"
+                    name="string_value_5"
+                    class="form-control"
+                    data-field="string_value_5">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue6">String 6</label>
-                <input id="stringValue6" name="string_value_6" class="form-control" type="text" maxlength="16">
+                <select
+                    id="stringValue6"
+                    name="string_value_6"
+                    class="form-control"
+                    data-field="string_value_6">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue7">String 7</label>
-                <input id="stringValue7" name="string_value_7" class="form-control" type="text" maxlength="32">
+                <select
+                    id="stringValue7"
+                    name="string_value_7"
+                    class="form-control"
+                    data-field="string_value_7">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue8">String 8</label>
-                <input id="stringValue8" name="string_value_8" class="form-control" type="text" maxlength="2000">
+                <select
+                    id="stringValue8"
+                    name="string_value_8"
+                    class="form-control"
+                    data-field="string_value_8">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue9">String 9</label>
-                <input id="stringValue9" name="string_value_9" class="form-control" type="text" maxlength="255">
+                <select
+                    id="stringValue9"
+                    name="string_value_9"
+                    class="form-control"
+                    data-field="string_value_9">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue10">String 10</label>
-                <input id="stringValue10" name="string_value_10" class="form-control" type="text" maxlength="16">
+                <select
+                    id="stringValue10"
+                    name="string_value_10"
+                    class="form-control"
+                    data-field="string_value_10">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="dateValue1">Date 1</label>
-                <input id="dateValue1" name="date_value_1" class="form-control" type="text">
+                <select
+                    id="dateValue1"
+                    name="date_value_1"
+                    class="form-control"
+                    data-field="date_value_1">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue11">String 11</label>
-                <input id="stringValue11" name="string_value_11" class="form-control" type="text" maxlength="30">
+                <select
+                    id="stringValue11"
+                    name="string_value_11"
+                    class="form-control"
+                    data-field="string_value_11">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue12">String 12</label>
-                <input id="stringValue12" name="string_value_12" class="form-control" type="text" maxlength="1000">
+                <select
+                    id="stringValue12"
+                    name="string_value_12"
+                    class="form-control"
+                    data-field="string_value_12">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue13">String 13</label>
-                <input id="stringValue13" name="string_value_13" class="form-control" type="text" maxlength="255">
+                <select
+                    id="stringValue13"
+                    name="string_value_13"
+                    class="form-control"
+                    data-field="string_value_13">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue14">String 14</label>
-                <input id="stringValue14" name="string_value_14" class="form-control" type="text" maxlength="2000">
+                <select
+                    id="stringValue14"
+                    name="string_value_14"
+                    class="form-control"
+                    data-field="string_value_14">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue15">String 15</label>
-                <input id="stringValue15" name="string_value_15" class="form-control" type="text" maxlength="32">
+                <select
+                    id="stringValue15"
+                    name="string_value_15"
+                    class="form-control"
+                    data-field="string_value_15">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue16">String 16</label>
-                <input id="stringValue16" name="string_value_16" class="form-control" type="text" maxlength="1">
+                <select
+                    id="stringValue16"
+                    name="string_value_16"
+                    class="form-control"
+                    data-field="string_value_16">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue17">String 17</label>
-                <input id="stringValue17" name="string_value_17" class="form-control" type="text" maxlength="16">
+                <select
+                    id="stringValue17"
+                    name="string_value_17"
+                    class="form-control"
+                    data-field="string_value_17">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="amountValue">Amount</label>
-                <input id="amountValue" name="amount_value" class="form-control" type="text">
+                <select
+                    id="amountValue"
+                    name="amount_value"
+                    class="form-control"
+                    data-field="amount_value">
+                </select>
             </div>
 
             <div class="form-group">
@@ -125,117 +210,232 @@
 
             <div class="form-group">
                 <label for="stringValue19">String 19</label>
-                <input id="stringValue19" name="string_value_19" class="form-control" type="text" maxlength="2000">
+                <select
+                    id="stringValue19"
+                    name="string_value_19"
+                    class="form-control"
+                    data-field="string_value_19">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="integerValue">Integer</label>
-                <input id="integerValue" name="integer_value" class="form-control" type="text">
+                <select
+                    id="integerValue"
+                    name="integer_value"
+                    class="form-control"
+                    data-field="integer_value">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="dateValue2">Date 2</label>
-                <input id="dateValue2" name="date_value_2" class="form-control" type="text">
+                <select
+                    id="dateValue2"
+                    name="date_value_2"
+                    class="form-control"
+                    data-field="date_value_2">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="amountValue2">Amount 2</label>
-                <input id="amountValue2" name="amount_value_2" class="form-control" type="text">
+                <select
+                    id="amountValue2"
+                    name="amount_value_2"
+                    class="form-control"
+                    data-field="amount_value_2">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue20">String 20</label>
-                <input id="stringValue20" name="string_value_20" class="form-control" type="text" maxlength="32">
+                <select
+                    id="stringValue20"
+                    name="string_value_20"
+                    class="form-control"
+                    data-field="string_value_20">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="amountValue3">Amount 3</label>
-                <input id="amountValue3" name="amount_value_3" class="form-control" type="text">
+                <select
+                    id="amountValue3"
+                    name="amount_value_3"
+                    class="form-control"
+                    data-field="amount_value_3">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="amountValue4">Amount 4</label>
-                <input id="amountValue4" name="amount_value_4" class="form-control" type="text">
+                <select
+                    id="amountValue4"
+                    name="amount_value_4"
+                    class="form-control"
+                    data-field="amount_value_4">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="amountValue5">Amount 5</label>
-                <input id="amountValue5" name="amount_value_5" class="form-control" type="text">
+                <select
+                    id="amountValue5"
+                    name="amount_value_5"
+                    class="form-control"
+                    data-field="amount_value_5">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="amountValue6">Amount 6</label>
-                <input id="amountValue6" name="amount_value_6" class="form-control" type="text">
+                <select
+                    id="amountValue6"
+                    name="amount_value_6"
+                    class="form-control"
+                    data-field="amount_value_6">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue21">String 21</label>
-                <input id="stringValue21" name="string_value_21" class="form-control" type="text" maxlength="1000">
+                <select
+                    id="stringValue21"
+                    name="string_value_21"
+                    class="form-control"
+                    data-field="string_value_21">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue22">String 22</label>
-                <input id="stringValue22" name="string_value_22" class="form-control" type="text" maxlength="20">
+                <select
+                    id="stringValue22"
+                    name="string_value_22"
+                    class="form-control"
+                    data-field="string_value_22">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue23">String 23</label>
-                <input id="stringValue23" name="string_value_23" class="form-control" type="text" maxlength="2000">
+                <select
+                    id="stringValue23"
+                    name="string_value_23"
+                    class="form-control"
+                    data-field="string_value_23">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue24">String 24</label>
-                <input id="stringValue24" name="string_value_24" class="form-control" type="text" maxlength="32">
+                <select
+                    id="stringValue24"
+                    name="string_value_24"
+                    class="form-control"
+                    data-field="string_value_24">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue25">String 25</label>
-                <input id="stringValue25" name="string_value_25" class="form-control" type="text" maxlength="20">
+                <select
+                    id="stringValue25"
+                    name="string_value_25"
+                    class="form-control"
+                    data-field="string_value_25">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue26">String 26</label>
-                <input id="stringValue26" name="string_value_26" class="form-control" type="text" maxlength="2000">
+                <select
+                    id="stringValue26"
+                    name="string_value_26"
+                    class="form-control"
+                    data-field="string_value_26">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue27">String 27</label>
-                <input id="stringValue27" name="string_value_27" class="form-control" type="text" maxlength="1">
+                <select
+                    id="stringValue27"
+                    name="string_value_27"
+                    class="form-control"
+                    data-field="string_value_27">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue28">String 28</label>
-                <input id="stringValue28" name="string_value_28" class="form-control" type="text" maxlength="32">
+                <select
+                    id="stringValue28"
+                    name="string_value_28"
+                    class="form-control"
+                    data-field="string_value_28">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue29">String 29</label>
-                <input id="stringValue29" name="string_value_29" class="form-control" type="text" maxlength="2">
+                <select
+                    id="stringValue29"
+                    name="string_value_29"
+                    class="form-control"
+                    data-field="string_value_29">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue30">String 30</label>
-                <input id="stringValue30" name="string_value_30" class="form-control" type="text" maxlength="2000">
+                <select
+                    id="stringValue30"
+                    name="string_value_30"
+                    class="form-control"
+                    data-field="string_value_30">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="dateValue3">Date 3</label>
-                <input id="dateValue3" name="date_value_3" class="form-control" type="text">
+                <select
+                    id="dateValue3"
+                    name="date_value_3"
+                    class="form-control"
+                    data-field="date_value_3">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="dateValue4">Date 4</label>
-                <input id="dateValue4" name="date_value_4" class="form-control" type="text">
+                <select
+                    id="dateValue4"
+                    name="date_value_4"
+                    class="form-control"
+                    data-field="date_value_4">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue31">String 31</label>
-                <input id="stringValue31" name="string_value_31" class="form-control" type="text" maxlength="20">
+                <select
+                    id="stringValue31"
+                    name="string_value_31"
+                    class="form-control"
+                    data-field="string_value_31">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue32">String 32</label>
-                <input id="stringValue32" name="string_value_32" class="form-control" type="text" maxlength="2000">
+                <select
+                    id="stringValue32"
+                    name="string_value_32"
+                    class="form-control"
+                    data-field="string_value_32">
+                </select>
             </div>
 
             <div class="form-group">
@@ -250,12 +450,22 @@
 
             <div class="form-group">
                 <label for="stringValue34">String 34</label>
-                <input id="stringValue34" name="string_value_34" class="form-control" type="text" maxlength="2000">
+                <select
+                    id="stringValue34"
+                    name="string_value_34"
+                    class="form-control"
+                    data-field="string_value_34">
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="stringValue35">String 35</label>
-                <input id="stringValue35" name="string_value_35" class="form-control" type="text" maxlength="20">
+                <select
+                    id="stringValue35"
+                    name="string_value_35"
+                    class="form-control"
+                    data-field="string_value_35">
+                </select>
             </div>
 
             <div class="form-group">
