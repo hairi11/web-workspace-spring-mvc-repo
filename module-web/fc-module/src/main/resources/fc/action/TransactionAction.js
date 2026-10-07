@@ -4,6 +4,7 @@ import FcService from '../FcService.js';
 
 const {
     ChoiceInput,
+    FieldTranslator,
     Toast
 } = Common;
 
@@ -21,9 +22,10 @@ export async function initTransaction() {
 
         fields.forEach((field) => {
             const key = field.dataset.field;
+            const translatedField = FieldTranslator.field(key);
 
             new ChoiceInput(field, {
-                data: parameters[key] || []
+                data: parameters[translatedField] || []
             }).build();
         });
     } catch (error) {
