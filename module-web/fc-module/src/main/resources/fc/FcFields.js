@@ -50,13 +50,55 @@ const FcFields = {
         date_value_5: { selector: '#dateValue5' },
         date_value_6: { selector: '#dateValue6' },
 
-        amount_value: { selector: '#amountValue' },
-        amount_value_2: { selector: '#amountValue2' },
-        amount_value_3: { selector: '#amountValue3' },
-        amount_value_4: { selector: '#amountValue4' },
-        amount_value_5: { selector: '#amountValue5' },
-        amount_value_6: { selector: '#amountValue6' },
-        amount_value_7: { selector: '#amountValue7' },
+        amount_value: {
+            selector: '#amountValue',
+            format: Renderers.amount({
+                minimumFractionDigits: 6,
+                maximumFractionDigits: 6
+            })
+        },
+        amount_value_2: {
+            selector: '#amountValue2',
+            format: Renderers.amount({
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4
+            })
+        },
+        amount_value_3: {
+            selector: '#amountValue3',
+            format: Renderers.amount({
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4
+            })
+        },
+        amount_value_4: {
+            selector: '#amountValue4',
+            format: Renderers.amount({
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4
+            })
+        },
+        amount_value_5: {
+            selector: '#amountValue5',
+            format: Renderers.amount({
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4
+            })
+        },
+        amount_value_6: {
+            selector: '#amountValue6',
+            format: Renderers.amount({
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4
+            })
+        },
+        amount_value_7: {
+            selector: '#amountValue7',
+            format: Renderers.amount({
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 4
+            })
+        },
 
         integer_value: { selector: '#integerValue' }
     },
