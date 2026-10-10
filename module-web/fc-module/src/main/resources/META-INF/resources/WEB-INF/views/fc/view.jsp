@@ -279,6 +279,7 @@
         </a>
     </div>
 </main>
+<script src="${pageContext.request.contextPath}/fc/FieldTranslator.local.js"></script>
 <script src="${pageContext.request.contextPath}/assets/vendor.js"></script>
 <script src="${pageContext.request.contextPath}/fc/fc.js"></script>
 </body>
