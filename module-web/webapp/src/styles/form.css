@@ -408,3 +408,20 @@ textarea:disabled {
 #transactionForm .transaction-side-field > .select2-container {
     width: 75% !important;
 }
+
+.transaction-detail-pair {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
+    gap: 14px;
+}
+
+#transactionForm .transaction-detail-pair .form-control,
+#transactionForm .transaction-detail-pair .select2-container {
+    width: 100% !important;
+}
+
+@media (max-width: 700px) {
+    .transaction-detail-pair {
+        grid-template-columns: 1fr;
+    }
+}
