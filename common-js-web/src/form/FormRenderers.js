@@ -1,4 +1,4 @@
-const FormValues = require('./FormValues');
+const FormControls = require('./FormControls');
 
 function defaultViewValue(value) {
     if (value === null || value === undefined || String(value).trim() === '') {
@@ -10,13 +10,14 @@ function defaultViewValue(value) {
 
 class FormRenderers {
     static populate(fields, values, options) {
-        FormValues.populate(
-            fields,
-            values,
-            Object.assign({
-                target: 'text'
-            }, options || {})
-        );
+        new FormControls(document, fields)
+            .build()
+            .populate(
+                values,
+                Object.assign({
+                    target: 'text'
+                }, options || {})
+            );
 
         return values;
     }
@@ -46,7 +47,12 @@ class FormRenderers {
         Array.prototype.forEach.call(fields, function (field) {
             var display = document.createElement('div');
             display.className = className;
-            display.textContent = valueResolver(field.name, values[field.name], field, values);
+            display.textContent = valueResolver(
+                field.name,
+                values[field.name],
+                field,
+                values
+            );
             field.replaceWith(display);
         });
 
