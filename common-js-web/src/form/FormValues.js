@@ -31,68 +31,6 @@ class FormValues {
 
         return result;
     }
-
-    static read(fields) {
-        fields = fields || {};
-        var values = {};
-
-        Object.keys(fields).forEach(function (name) {
-            var config = FormValues.config(fields[name]);
-            var field = document.querySelector(config.selector);
-            var value = field ? field[config.property] : null;
-
-            values[name] = value === null || value === undefined
-                ? config.defaultValue
-                : value;
-        });
-
-        return values;
-    }
-
-    static populate(fields, data, options) {
-        fields = fields || {};
-        data = data || {};
-        options = Object.assign({
-            target: 'value'
-        }, options || {});
-
-        Object.keys(fields).forEach(function (name) {
-            var config = FormValues.config(fields[name]);
-            var field = document.querySelector(config.selector);
-            if (!field) return;
-
-            var value = data[name];
-            var formatted = typeof config.format === 'function'
-                ? config.format(value, 'display')
-                : (value === null || value === undefined ? '' : value);
-
-            if (options.target === 'text') {
-                field.textContent = formatted;
-            } else {
-                field.value = formatted;
-            }
-        });
-
-        return data;
-    }
-
-    static config(value) {
-        if (typeof value === 'string') {
-            return {
-                selector: value,
-                property: 'value',
-                defaultValue: ''
-            };
-        }
-
-        value = value || {};
-
-        return Object.assign({
-            selector: '',
-            property: 'value',
-            defaultValue: ''
-        }, value);
-    }
 }
 
 module.exports = FormValues;
