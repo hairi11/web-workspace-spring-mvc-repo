@@ -23,22 +23,22 @@
 
                 <div class="view-detail-panel-body">
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">Date 2</div>
+                        <div class="view-detail-panel-label" data-form-label>Date 2</div>
                         <div id="dateValue2" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">String 11</div>
+                        <div class="view-detail-panel-label" data-form-label>String 11</div>
                         <div id="stringValue11" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">Amount 2</div>
+                        <div class="view-detail-panel-label" data-form-label>Amount 2</div>
                         <div id="amountValue2" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">Amount</div>
+                        <div class="view-detail-panel-label" data-form-label>Amount</div>
                         <div id="amountValue" class="view-detail-value"></div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
 
                 <div class="view-detail-panel-body">
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">String 12</div>
+                        <div class="view-detail-panel-label" data-form-label>String 12</div>
                         <div id="stringValue12" class="view-detail-value"></div>
                     </div>
                 </div>
@@ -60,57 +60,57 @@
 
                 <div class="view-detail-panel-body">
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">String 20</div>
+                        <div class="view-detail-panel-label" data-form-label>String 20</div>
                         <div id="stringValue20" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">String 24</div>
+                        <div class="view-detail-panel-label" data-form-label>String 24</div>
                         <div id="stringValue24" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">String 28</div>
+                        <div class="view-detail-panel-label" data-form-label>String 28</div>
                         <div id="stringValue28" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">String 21</div>
+                        <div class="view-detail-panel-label" data-form-label>String 21</div>
                         <div id="stringValue21" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">String 23</div>
+                        <div class="view-detail-panel-label" data-form-label>String 23</div>
                         <div id="stringValue23" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">String 5</div>
+                        <div class="view-detail-panel-label" data-form-label>String 5</div>
                         <div id="stringValue5" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">Amount 3</div>
+                        <div class="view-detail-panel-label" data-form-label>Amount 3</div>
                         <div id="amountValue3" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">Amount 6</div>
+                        <div class="view-detail-panel-label" data-form-label>Amount 6</div>
                         <div id="amountValue6" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">Amount 5</div>
+                        <div class="view-detail-panel-label" data-form-label>Amount 5</div>
                         <div id="amountValue5" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">Amount 7</div>
+                        <div class="view-detail-panel-label" data-form-label>Amount 7</div>
                         <div id="amountValue7" class="view-detail-value"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
-                        <div class="view-detail-panel-label">Amount 4</div>
+                        <div class="view-detail-panel-label" data-form-label>Amount 4</div>
                         <div id="amountValue4" class="view-detail-value"></div>
                     </div>
                 </div>
