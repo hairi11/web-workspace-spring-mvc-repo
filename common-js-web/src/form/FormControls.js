@@ -76,9 +76,7 @@ class FormControls {
 
     labels(resolver) {
         this.each((key, config, field) => {
-            const label = field.labels && field.labels.length
-                ? field.labels[0]
-                : null;
+            const label = this.resolveLabel(field);
 
             if (label) {
                 label.textContent = typeof resolver === 'function'
@@ -88,6 +86,24 @@ class FormControls {
         });
 
         return this;
+    }
+
+    resolveLabel(field) {
+        if (field.labels && field.labels.length) {
+            return field.labels[0];
+        }
+
+        if (field.id) {
+            const label = this.root.querySelector(
+                'label[for="' + field.id + '"]'
+            );
+
+            if (label) return label;
+        }
+
+        return field.parentElement
+            ? field.parentElement.querySelector('[data-form-label]')
+            : null;
     }
 
     dates() {
