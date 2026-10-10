@@ -6,11 +6,8 @@ import FcService from '../FcService.js';
 
 const {
     ButtonBar,
-    ChoiceInput,
-    CurrencyInput,
-    DatePicker,
     FieldTranslator,
-    FormValues,
+    FormControls,
     Toast
 } = Common;
 
@@ -32,46 +29,32 @@ export async function initTransaction(state) {
         ])
         .build();
 
-    applyLabels();
+    const form = new FormControls(
+        '#transactionForm',
+        FcFields.transaction
+    )
+        .build()
+        .labels((key) => FieldTranslator.label(key));
 
     try {
         const values = state.action === 'edit'
             ? await loadEditValues(state)
             : {};
 
-        FormValues.populate(FcFields.transaction, values);
-
-        document.querySelectorAll(
-            '#transactionForm [data-field-key^="date_value_"] input'
-        ).forEach((field) => {
-            new DatePicker(field).build();
-        });
-
-        document.querySelectorAll(
-            '#transactionForm [data-field-key^="amount_value"] input'
-        ).forEach((field) => {
-            new CurrencyInput(field, {
-                precision: field.name === 'amount_value' ? 14 : 20,
-                decimalScale: field.name === 'amount_value' ? 6 : 4,
-                padFractionOnBlur: true
-            }).build();
-        });
-
         const parameters = await FcService.findParameters(
             FormType.PARAMETER
         );
 
-        document.querySelectorAll(
-            '#transactionForm select[data-field]'
-        ).forEach((field) => {
-            const key = field.dataset.field;
-
-            new ChoiceInput(field, {
-                data: parameters[FieldTranslator.field(key)] || []
-            })
-                .build()
-                .setValue(values[key]);
-        });
+        form
+            .populate(values)
+            .dates()
+            .currencies()
+            .choices(
+                (key) => parameters[
+                    FieldTranslator.field(key)
+                ] || [],
+                values
+            );
     } catch (error) {
         Toast.error(
             state.action === 'edit'
@@ -80,20 +63,6 @@ export async function initTransaction(state) {
         );
         console.error(error);
     }
-}
-
-function applyLabels() {
-    document.querySelectorAll(
-        '#transactionForm [data-field-key]'
-    ).forEach((container) => {
-        const label = container.querySelector('label');
-
-        if (label) {
-            label.textContent = FieldTranslator.label(
-                container.dataset.fieldKey
-            );
-        }
-    });
 }
 
 async function loadEditValues(state) {
