@@ -402,11 +402,15 @@ textarea:disabled {
 
 #transactionForm .transaction-detail-row > .form-control,
 #transactionForm .transaction-detail-field > .form-control,
-#transactionForm .transaction-side-field > .form-control,
 #transactionForm .transaction-detail-row > .select2-container,
-#transactionForm .transaction-detail-field > .select2-container,
-#transactionForm .transaction-side-field > .select2-container {
+#transactionForm .transaction-detail-field > .select2-container {
     width: 75% !important;
+}
+
+#transactionForm .transaction-side-field > .form-control,
+#transactionForm .transaction-side-field > .select2-container,
+#transactionForm .transaction-side-field > .choice-input-radio-group {
+    width: 100% !important;
 }
 
 .transaction-detail-pair {
@@ -429,7 +433,6 @@ textarea:disabled {
 }
 
 #transactionForm .transaction-detail-row > .choice-input-radio-group,
-#transactionForm .transaction-detail-field > .choice-input-radio-group,
-#transactionForm .transaction-side-field > .choice-input-radio-group {
+#transactionForm .transaction-detail-field > .choice-input-radio-group {
     width: 75%;
 }
