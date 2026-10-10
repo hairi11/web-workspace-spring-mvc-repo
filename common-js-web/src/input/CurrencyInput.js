@@ -4,7 +4,8 @@ const DEFAULT_OPTIONS = {
     precision: null,
     decimalScale: 2,
     allowNegative: true,
-    useGrouping: true
+    useGrouping: true,
+    padFractionOnBlur: false
 };
 
 function resolve(target) {
@@ -81,7 +82,9 @@ class CurrencyInput {
                 }
             },
             input: () => this.formatCurrentValue(),
-            blur: () => this.formatCurrentValue()
+            blur: () => this.formatCurrentValue(
+                this.options.padFractionOnBlur
+            )
         };
 
         Object.keys(this.handlers).forEach((name) => {
@@ -138,7 +141,7 @@ class CurrencyInput {
         return CurrencyInput.isWithinLimit(proposed, this.options);
     }
 
-    formatCurrentValue() {
+    formatCurrentValue(padFraction) {
         if (!this.element) return this;
 
         var caret = this.element.selectionStart;
@@ -146,7 +149,21 @@ class CurrencyInput {
             ? 0
             : CurrencyInput.countSignificant(this.element.value.slice(0, caret));
 
-        this.element.value = CurrencyInput.format(this.element.value, this.options);
+        this.element.value = CurrencyInput.format(
+            this.element.value,
+            this.options
+        );
+
+        if (padFraction === true && this.element.value !== '') {
+            this.element.value = NumberUtil.formatDecimal(
+                this.element.value,
+                {
+                    minimumFractionDigits: this.options.decimalScale,
+                    maximumFractionDigits: this.options.decimalScale,
+                    useGrouping: this.options.useGrouping
+                }
+            );
+        }
 
         if (caret !== null && document.activeElement === this.element) {
             var next = CurrencyInput.findCaret(this.element.value, significant);
