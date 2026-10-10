@@ -357,8 +357,13 @@
             </aside>
         </div>
 
-        <div class="button-bar">
-            <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/fc/enquiry">Cancel</a>
+        <div id="transactionButtonBar" class="button-bar">
+            <a
+                id="cancelButton"
+                class="btn btn-outline-secondary"
+                href="${pageContext.request.contextPath}/fc/enquiry">
+                Cancel
+            </a>
         </div>
     </form>
 </main>
