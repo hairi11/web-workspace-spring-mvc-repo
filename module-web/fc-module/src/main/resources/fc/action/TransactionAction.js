@@ -4,6 +4,7 @@ import FcService from '../FcService.js';
 
 const {
     ChoiceInput,
+    DatePicker,
     FieldTranslator,
     Toast
 } = Common;
@@ -16,6 +17,12 @@ export async function initTransaction() {
         if (label) label.textContent = FieldTranslator.label(
             container.dataset.fieldKey
         );
+    });
+
+    document.querySelectorAll(
+        '#transactionForm [data-field-key^="date_value_"] input'
+    ).forEach((field) => {
+        new DatePicker(field).build();
     });
 
     const fields = document.querySelectorAll(
