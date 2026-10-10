@@ -9,6 +9,15 @@ const {
 } = Common;
 
 export async function initTransaction() {
+    document.querySelectorAll(
+        '#transactionForm [data-field-key]'
+    ).forEach((container) => {
+        const label = container.querySelector('label');
+        if (label) label.textContent = FieldTranslator.label(
+            container.dataset.fieldKey
+        );
+    });
+
     const fields = document.querySelectorAll(
         '#transactionForm select[data-field]'
     );
@@ -22,10 +31,9 @@ export async function initTransaction() {
 
         fields.forEach((field) => {
             const key = field.dataset.field;
-            const translatedField = FieldTranslator.field(key);
 
             new ChoiceInput(field, {
-                data: parameters[translatedField] || []
+                data: parameters[FieldTranslator.field(key)] || []
             }).build();
         });
     } catch (error) {
