@@ -3,6 +3,7 @@ import { FormType } from '../FcConstants.js';
 import FcService from '../FcService.js';
 
 const {
+    ButtonBar,
     ChoiceInput,
     CurrencyInput,
     DatePicker,
@@ -11,6 +12,14 @@ const {
 } = Common;
 
 export async function initTransaction() {
+    new ButtonBar('#transactionButtonBar')
+        .secondary({
+            target: '#cancelButton',
+            text: 'Cancel',
+            placement: ButtonBar.Placement.END
+        })
+        .build();
+
     document.querySelectorAll(
         '#transactionForm [data-field-key]'
     ).forEach((container) => {
