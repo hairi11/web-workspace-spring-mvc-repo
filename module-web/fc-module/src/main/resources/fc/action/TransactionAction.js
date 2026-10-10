@@ -33,7 +33,7 @@ export async function initTransaction() {
 
     try {
         const parameters = await FcService.findParameters(
-            FormType.TRANSACTION
+            FormType.PARAMETER
         );
 
         fields.forEach((field) => {
