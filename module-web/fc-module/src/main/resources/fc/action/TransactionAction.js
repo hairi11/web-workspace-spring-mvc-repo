@@ -43,7 +43,8 @@ export async function initTransaction(state) {
         ).forEach((field) => {
             new CurrencyInput(field, {
                 precision: field.name === 'amount_value' ? 14 : 20,
-                decimalScale: field.name === 'amount_value' ? 6 : 4
+                decimalScale: field.name === 'amount_value' ? 6 : 4,
+                padFractionOnBlur: true
             }).build();
         });
 
