@@ -1,7 +1,12 @@
 import Common from '@company/common-js-web';
 import FcApi from './FcApi.js';
 
-const { Ajax } = Common;
+const {
+    Ajax,
+    Storage
+} = Common;
+
+const parameterStorage = new Storage(window.sessionStorage);
 
 const FcService = {
     enquiry: function (page, size, sort, criteria) {
@@ -34,13 +39,23 @@ const FcService = {
     },
 
     findParameters: function (formType) {
+        const key = 'fc.parameters.' + formType;
+        const cached = parameterStorage.get(key);
+
+        if (cached !== null) return Promise.resolve(cached);
+
         return Ajax.get(FcApi.parameters, {
             cache: true,
             dedupe: true,
             query: {
                 form_type: formType
             }
-        }).then((response) => response.path('data', {}));
+        }).then((response) => {
+            return parameterStorage.set(
+                key,
+                response.path('data', {})
+            ).get(key);
+        });
     }
 };
 
