@@ -4,6 +4,7 @@ import FcService from '../FcService.js';
 
 const {
     ChoiceInput,
+    CurrencyInput,
     DatePicker,
     FieldTranslator,
     Toast
@@ -23,6 +24,15 @@ export async function initTransaction() {
         '#transactionForm [data-field-key^="date_value_"] input'
     ).forEach((field) => {
         new DatePicker(field).build();
+    });
+
+    document.querySelectorAll(
+        '#transactionForm [data-field-key^="amount_value"] input'
+    ).forEach((field) => {
+        new CurrencyInput(field, {
+            precision: field.name === 'amount_value' ? 14 : 20,
+            decimalScale: field.name === 'amount_value' ? 6 : 4
+        }).build();
     });
 
     const fields = document.querySelectorAll(
