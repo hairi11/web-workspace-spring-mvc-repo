@@ -202,7 +202,8 @@ function editRecord(row) {
     NavigationState.set({
         page: 'form',
         action: 'edit',
-        key: row[FieldTranslator.field('string_value_1')],
+        path: row.path,
+        id: row.id,
         returnTo: {
             page: 'enquiry'
         }
