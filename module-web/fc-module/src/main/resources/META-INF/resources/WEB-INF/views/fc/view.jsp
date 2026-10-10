@@ -18,26 +18,33 @@
 
     <div class="fc-detail-layout">
         <div class="fc-detail-main">
+            <section class="view-detail-panel">
+                <h2 class="view-detail-panel-title">Details</h2>
+
+                <div class="view-detail-panel-body">
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">Date 2</div>
+                        <div id="dateValue2" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">String 11</div>
+                        <div id="stringValue11" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">Amount 2</div>
+                        <div id="amountValue2" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">Amount</div>
+                        <div id="amountValue" class="view-detail-value"></div>
+                    </div>
+                </div>
+            </section>
+
             <div class="view-detail-grid">
-                <div class="form-group view-detail-field">
-                <label for="dateValue2">Date 2</label>
-                <div id="dateValue2" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="stringValue11">String 11</label>
-                <div id="stringValue11" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="amountValue2">Amount 2</label>
-                <div id="amountValue2" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="amountValue">Amount</label>
-                <div id="amountValue" class="view-detail-value"></div>
-                </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue1">String 1</label>
