@@ -89,14 +89,21 @@
                         <input id="dateValue2" name="date_value_2" class="form-control" type="text">
                     </div>
 
-                    <div class="transaction-detail-row" data-field-key="string_value_11">
-                        <label for="stringValue11">String 11</label>
-                        <input id="stringValue11" name="string_value_11" class="form-control" type="text" maxlength="30">
-                    </div>
+                    <div class="transaction-detail-pair">
+                        <div class="transaction-detail-row" data-field-key="string_value_11">
+                            <label for="stringValue11">String 11</label>
+                            <select
+                                id="stringValue11"
+                                name="string_value_11"
+                                class="form-control"
+                                data-field="string_value_11">
+                            </select>
+                        </div>
 
-                    <div class="transaction-detail-row" data-field-key="amount_value_2">
-                        <label for="amountValue2">Amount 2</label>
-                        <input id="amountValue2" name="amount_value_2" class="form-control" type="text">
+                        <div class="transaction-detail-row" data-field-key="amount_value_2">
+                            <label for="amountValue2">Amount 2</label>
+                            <input id="amountValue2" name="amount_value_2" class="form-control" type="text">
+                        </div>
                     </div>
 
                     <div class="transaction-detail-row" data-field-key="amount_value">
