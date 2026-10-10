@@ -5,6 +5,7 @@ import FcService from '../FcService.js';
 
 const {
     ButtonBar,
+    FieldTranslator,
     FormRenderers,
     Toast
 } = Common;
@@ -21,9 +22,35 @@ export async function initView(state) {
             state.id
         );
 
+        const applyLabels = () => {
+            Object.keys(FcFields.view).forEach((key) => {
+                const field = document.querySelector(FcFields.view[key].selector);
+                const container = field?.closest(
+                    '.view-detail-panel-row, .view-detail-side-field, .view-detail-field'
+                );
+                const label = container?.querySelector(
+                    '.view-detail-panel-label, label'
+                );
+
+                if (label) label.textContent = FieldTranslator.label(key);
+            });
+        };
+
         const populateCurrentRow = () => {
             const row = FcRows.row(rowsKey, currentIndex);
-            if (row) FormRenderers.populate(FcFields.view, row);
+            if (!row) return;
+
+            const values = {};
+
+            Object.keys(FcFields.view).forEach((key) => {
+                const field = FieldTranslator.field(key);
+
+                values[key] = row[field] !== undefined
+                    ? row[field]
+                    : row[key];
+            });
+
+            FormRenderers.populate(FcFields.view, values);
         };
 
         const count = FcRows.count(rowsKey);
@@ -37,7 +64,8 @@ export async function initView(state) {
                 hidden: count <= 1,
                 onNavigate: (index) => {
                     currentIndex = index;
-                    populateCurrentRow();
+                    applyLabels();
+        populateCurrentRow();
                 }
             })
             .secondary({
