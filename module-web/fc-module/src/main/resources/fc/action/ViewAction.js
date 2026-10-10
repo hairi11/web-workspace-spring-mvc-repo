@@ -6,7 +6,7 @@ import FcService from '../FcService.js';
 const {
     ButtonBar,
     FieldTranslator,
-    FormRenderers,
+    FormControls,
     Toast
 } = Common;
 
@@ -22,35 +22,29 @@ export async function initView(state) {
             state.id
         );
 
-        const applyLabels = () => {
-            Object.keys(FcFields.view).forEach((key) => {
-                const field = document.querySelector(FcFields.view[key].selector);
-                const container = field?.closest(
-                    '.view-detail-panel-row, .view-detail-side-field, .view-detail-field'
-                );
-                const label = container?.querySelector(
-                    '.view-detail-panel-label, label'
-                );
-
-                if (label) label.textContent = FieldTranslator.label(key);
-            });
-        };
+        const form = new FormControls(
+            document,
+            FcFields.view
+        )
+            .build()
+            .labels((key) => FieldTranslator.label(key));
 
         const populateCurrentRow = () => {
             const row = FcRows.row(rowsKey, currentIndex);
             if (!row) return;
 
-            const values = {};
+            form.populate(
+                Object.keys(FcFields.view).reduce((values, key) => {
+                    const field = FieldTranslator.field(key);
 
-            Object.keys(FcFields.view).forEach((key) => {
-                const field = FieldTranslator.field(key);
+                    values[key] = row[field] !== undefined
+                        ? row[field]
+                        : row[key];
 
-                values[key] = row[field] !== undefined
-                    ? row[field]
-                    : row[key];
-            });
-
-            FormRenderers.populate(FcFields.view, values);
+                    return values;
+                }, {}),
+                { target: 'text' }
+            );
         };
 
         const count = FcRows.count(rowsKey);
@@ -74,7 +68,6 @@ export async function initView(state) {
             })
             .build();
 
-        applyLabels();
         populateCurrentRow();
     } catch (error) {
         Toast.error('Failed to load FC detail.');
