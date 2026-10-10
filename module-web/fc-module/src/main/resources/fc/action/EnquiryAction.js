@@ -25,7 +25,7 @@ async function prepareEnquiryCriteria() {
     DatePicker.range('#dateFrom', '#dateTo');
 
     try {
-        const parameters = await FcService.findParameters(FormType.ENQUIRY);
+        const parameters = await FcService.findParameters(FormType.PARAMETER);
 
         Object.entries({
             '#fcCodeSelect': {
