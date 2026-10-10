@@ -413,10 +413,12 @@ textarea:disabled {
     display: grid;
     grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
     gap: 14px;
+    width: 75%;
 }
 
 #transactionForm .transaction-detail-pair .form-control,
-#transactionForm .transaction-detail-pair .select2-container {
+#transactionForm .transaction-detail-pair .select2-container,
+#transactionForm .transaction-detail-pair .choice-input-radio-group {
     width: 100% !important;
 }
 
@@ -424,4 +426,10 @@ textarea:disabled {
     .transaction-detail-pair {
         grid-template-columns: 1fr;
     }
+}
+
+#transactionForm .transaction-detail-row > .choice-input-radio-group,
+#transactionForm .transaction-detail-field > .choice-input-radio-group,
+#transactionForm .transaction-side-field > .choice-input-radio-group {
+    width: 75%;
 }
