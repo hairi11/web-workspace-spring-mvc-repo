@@ -6,7 +6,7 @@ const {
     DataTableBuilder,
     DatePicker,
     FieldTranslator,
-    FormValues,
+    FormControls,
     NavigationState,
     Renderers,
     Select2,
@@ -51,17 +51,19 @@ async function prepareEnquiryCriteria() {
 }
 
 function prepareEnquiryTable() {
+    const criteria = new FormControls(document, {
+        dateFrom: '#dateFrom',
+        dateTo: '#dateTo',
+        [FieldTranslator.field('string_value_33')]: '#fcCodeSelect',
+        [FieldTranslator.field('string_value_18')]: '#fxCodeSelect'
+    }).build();
+
     return new DataTableBuilder('#fcTable')
         .serverPage((page, size, options) => FcService.enquiry(
             page,
             size,
             options.sort,
-            FormValues.read({
-                dateFrom: '#dateFrom',
-                dateTo: '#dateTo',
-                [FieldTranslator.field('string_value_33')]: '#fcCodeSelect',
-                [FieldTranslator.field('string_value_18')]: '#fxCodeSelect'
-            })
+            criteria.read()
         ), {
             pageLength: 20,
             onError: (error) => {
