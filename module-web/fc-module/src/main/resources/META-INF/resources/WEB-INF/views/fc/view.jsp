@@ -73,18 +73,8 @@
                 </div>
 
                 <div class="form-group view-detail-field">
-                <label for="stringValue6">String 6</label>
-                <div id="stringValue6" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
                 <label for="stringValue7">String 7</label>
                 <div id="stringValue7" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="stringValue8">String 8</label>
-                <div id="stringValue8" class="view-detail-value"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
@@ -95,16 +85,6 @@
                 <div class="form-group view-detail-field">
                 <label for="stringValue13">String 13</label>
                 <div id="stringValue13" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="stringValue14">String 14</label>
-                <div id="stringValue14" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="stringValue15">String 15</label>
-                <div id="stringValue15" class="view-detail-value"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
@@ -143,11 +123,6 @@
                 </div>
 
                 <div class="form-group view-detail-field">
-                <label for="stringValue19">String 19</label>
-                <div id="stringValue19" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
                 <label for="stringValue20">String 20</label>
                 <div id="stringValue20" class="view-detail-value"></div>
                 </div>
@@ -178,11 +153,6 @@
                 </div>
 
                 <div class="form-group view-detail-field">
-                <label for="stringValue26">String 26</label>
-                <div id="stringValue26" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
                 <label for="stringValue27">String 27</label>
                 <div id="stringValue27" class="view-detail-value"></div>
                 </div>
@@ -201,50 +171,79 @@
                 <label for="amountValue7">Amount 7</label>
                 <div id="amountValue7" class="view-detail-value"></div>
                 </div>
-
-                <div class="form-group view-detail-field">
-                <label for="dateValue6">Date 6</label>
-                <div id="dateValue6" class="view-detail-value"></div>
-                </div>
             </div>
         </div>
 
         <aside class="fc-detail-side">
-            <div class="view-detail-grid">
-                <div class="form-group view-detail-field">
+            <div class="view-detail-side-field">
+                <label for="stringValue15">String 15</label>
+                <div id="stringValue15" class="view-detail-value"></div>
+            </div>
+
+            <div class="view-detail-side-field">
+                <label for="stringValue6">String 6</label>
+                <div id="stringValue6" class="view-detail-value"></div>
+            </div>
+
+            <div class="view-detail-side-field">
                 <label for="stringValue2">String 2</label>
                 <div id="stringValue2" class="view-detail-value"></div>
-                </div>
+            </div>
 
-                <div class="form-group view-detail-field">
-                <label for="stringValue5">String 5</label>
-                <div id="stringValue5" class="view-detail-value"></div>
-                </div>
+            <div class="view-detail-side-separator"></div>
 
-                <div class="form-group view-detail-field">
-                <label for="dateValue1">Date 1</label>
-                <div id="dateValue1" class="view-detail-value"></div>
-                </div>
+            <div class="view-detail-side-field">
+                <label for="stringValue14">String 14</label>
+                <div id="stringValue14" class="view-detail-value"></div>
+            </div>
 
-                <div class="form-group view-detail-field">
-                <label for="stringValue10">String 10</label>
-                <div id="stringValue10" class="view-detail-value"></div>
-                </div>
+            <div class="view-detail-side-field">
+                <label for="stringValue30">String 30</label>
+                <div id="stringValue30" class="view-detail-value"></div>
+            </div>
 
-                <div class="form-group view-detail-field">
-                <label for="stringValue18">String 18</label>
-                <div id="stringValue18" class="view-detail-value"></div>
-                </div>
+            <div class="view-detail-side-separator"></div>
 
-                <div class="form-group view-detail-field">
+            <div class="view-detail-side-field">
                 <label for="dateValue4">Date 4</label>
                 <div id="dateValue4" class="view-detail-value"></div>
-                </div>
+            </div>
 
-                <div class="form-group view-detail-field">
-                <label for="stringValue25">String 25</label>
-                <div id="stringValue25" class="view-detail-value"></div>
-                </div>
+            <div class="view-detail-side-field">
+                <label for="stringValue32">String 32</label>
+                <div id="stringValue32" class="view-detail-value"></div>
+            </div>
+
+            <div class="view-detail-side-field">
+                <label for="stringValue34">String 34</label>
+                <div id="stringValue34" class="view-detail-value"></div>
+            </div>
+
+            <div class="view-detail-side-field">
+                <label for="stringValue36">String 36</label>
+                <div id="stringValue36" class="view-detail-value"></div>
+            </div>
+
+            <div class="view-detail-side-field">
+                <label for="stringValue19">String 19</label>
+                <div id="stringValue19" class="view-detail-value"></div>
+            </div>
+
+            <div class="view-detail-side-field">
+                <label for="dateValue6">Date 6</label>
+                <div id="dateValue6" class="view-detail-value"></div>
+            </div>
+
+            <div class="view-detail-side-separator"></div>
+
+            <div class="view-detail-side-field">
+                <label for="stringValue8">String 8</label>
+                <div id="stringValue8" class="view-detail-value"></div>
+            </div>
+
+            <div class="view-detail-side-field">
+                <label for="stringValue26">String 26</label>
+                <div id="stringValue26" class="view-detail-value"></div>
             </div>
         </aside>
     </div>
