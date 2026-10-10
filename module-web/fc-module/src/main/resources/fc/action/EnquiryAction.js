@@ -1,5 +1,6 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
+import FcFields from '../FcFields.js';
 import FcService from '../FcService.js';
 
 const {
@@ -22,28 +23,24 @@ export function initEnquiry() {
 }
 
 async function prepareEnquiryCriteria() {
-    DatePicker.range('#dateFrom', '#dateTo');
+    DatePicker.range(
+        FcFields.enquiry.dateFrom.selector,
+        FcFields.enquiry.dateTo.selector
+    );
 
     try {
         const parameters = await FcService.findParameters(FormType.PARAMETER);
 
-        Object.entries({
-            '#fcCodeSelect': {
-                list: 'fcCode',
-                placeholder: 'Select FC code'
-            },
-            '#fxCodeSelect': {
-                list: 'fxCode',
-                placeholder: 'Select FX code'
-            }
-        }).forEach(([selector, config]) => {
-            new Select2(selector, {
-                placeholder: config.placeholder,
-                allowClear: true
-            })
-                .build()
-                .load(parameters[config.list] || []);
-        });
+        Object.values(FcFields.enquiry)
+            .filter((config) => config.parameter)
+            .forEach((config) => {
+                new Select2(config.selector, {
+                    placeholder: config.placeholder,
+                    allowClear: true
+                })
+                    .build()
+                    .load(parameters[config.parameter] || []);
+            });
     } catch (error) {
         Toast.error('Failed to load parameter list.');
         console.error(error);
@@ -51,12 +48,10 @@ async function prepareEnquiryCriteria() {
 }
 
 function prepareEnquiryTable() {
-    const criteria = new FormControls(document, {
-        dateFrom: '#dateFrom',
-        dateTo: '#dateTo',
-        [FieldTranslator.field('string_value_33')]: '#fcCodeSelect',
-        [FieldTranslator.field('string_value_18')]: '#fxCodeSelect'
-    }).build();
+    const criteria = new FormControls(
+        document,
+        FcFields.enquiry
+    ).build();
 
     return new DataTableBuilder('#fcTable')
         .serverPage((page, size, options) => FcService.enquiry(
