@@ -441,3 +441,13 @@ textarea:disabled {
 #transactionButtonBar .dropup {
     min-width: 170px !important;
 }
+
+#transactionButtonBar .btn-outline-secondary:hover,
+#transactionButtonBar .btn-outline-secondary:focus,
+#transactionButtonBar .btn-outline-secondary:active,
+#transactionButtonBar .btn-outline-secondary.show {
+    border-color: var(--bs-secondary);
+    background: transparent;
+    color: var(--bs-secondary);
+    box-shadow: none;
+}
