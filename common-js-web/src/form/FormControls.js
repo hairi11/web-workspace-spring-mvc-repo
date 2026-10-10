@@ -1,24 +1,75 @@
 const ChoiceInput = require('../select/ChoiceInput');
 const CurrencyInput = require('../input/CurrencyInput');
 const DatePicker = require('../datepicker/DatePicker');
-const FormValues = require('./FormValues');
+
+function fieldConfig(value) {
+    if (typeof value === 'string') {
+        return {
+            selector: value,
+            property: 'value',
+            defaultValue: ''
+        };
+    }
+
+    return Object.assign({
+        selector: '',
+        property: 'value',
+        defaultValue: ''
+    }, value || {});
+}
 
 class FormControls {
     constructor(target, fields) {
         this.target = target;
         this.fields = fields || {};
-        this.form = null;
+        this.root = null;
         this.components = {};
     }
 
     build() {
-        this.form = typeof this.target === 'string'
+        this.root = typeof this.target === 'string'
             ? document.querySelector(this.target)
             : this.target || null;
 
-        if (!this.form) {
-            throw new Error('FormControls form not found.');
+        if (!this.root) {
+            throw new Error('FormControls root not found.');
         }
+
+        return this;
+    }
+
+    read() {
+        const values = {};
+
+        this.each((key, config, field) => {
+            const value = field[config.property];
+
+            values[key] = value === null || value === undefined
+                ? config.defaultValue
+                : value;
+        });
+
+        return values;
+    }
+
+    populate(values, options) {
+        values = values || {};
+        options = Object.assign({
+            target: 'value'
+        }, options || {});
+
+        this.each((key, config, field) => {
+            const value = values[key];
+            const formatted = typeof config.format === 'function'
+                ? config.format(value, 'display')
+                : (value === null || value === undefined ? '' : value);
+
+            if (options.target === 'text') {
+                field.textContent = formatted;
+            } else {
+                field.value = formatted;
+            }
+        });
 
         return this;
     }
@@ -34,21 +85,6 @@ class FormControls {
                     ? resolver(key, config, field)
                     : key;
             }
-        });
-
-        return this;
-    }
-
-    populate(values) {
-        values = values || {};
-
-        this.each((key, config, field) => {
-            const value = values[key];
-            const formatted = typeof config.format === 'function'
-                ? config.format(value, 'display')
-                : (value === null || value === undefined ? '' : value);
-
-            field.value = formatted;
         });
 
         return this;
@@ -112,8 +148,8 @@ class FormControls {
 
     each(callback) {
         Object.keys(this.fields).forEach((key) => {
-            const config = FormValues.config(this.fields[key]);
-            const field = this.form.querySelector(config.selector);
+            const config = fieldConfig(this.fields[key]);
+            const field = this.root.querySelector(config.selector);
 
             if (field) callback(key, config, field);
         });
