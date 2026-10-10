@@ -116,7 +116,6 @@ textarea:disabled {
     }
 }
 
-
 .choice-input-radio-group .form-check-label {
     font-weight: 400;
 }
@@ -126,7 +125,6 @@ textarea:disabled {
     outline-offset: 3px;
     border-radius: 4px;
 }
-
 
 .datepicker-input-group {
     position: relative;
@@ -166,7 +164,6 @@ textarea:disabled {
     display: none;
 }
 
-
 .enquiry-criteria-row {
     grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
     align-items: end;
@@ -187,10 +184,7 @@ textarea:disabled {
     .enquiry-criteria-row {
         grid-template-columns: 1fr;
     }
-}
 
-
-@media (max-width: 700px) {
     .enquiry-search-action {
         width: 100%;
     }
@@ -199,7 +193,6 @@ textarea:disabled {
         width: 100%;
     }
 }
-
 
 .fc-detail-layout {
     display: grid;
@@ -272,23 +265,22 @@ textarea:disabled {
     }
 }
 
-.view-detail-panel {
-    margin-bottom: 20px;
-}
-
+.view-detail-panel,
+.view-detail-panel-title,
 .view-detail-panel-title {
-    margin: 0 0 8px;
     padding: 0;
     border: 0;
     background: transparent;
-    font-size: 1.1rem;
-    font-weight: 600;
+}
+
+.view-detail-panel-body,
+.transaction-detail-panel-body {
+    border: 1px solid #cfe0f3;
+    border-radius: 6px;
 }
 
 .view-detail-panel-body {
     padding: 8px 14px;
-    border: 1px solid #cfe0f3;
-    border-radius: 6px;
 }
 
 .view-detail-panel-row {
@@ -318,7 +310,8 @@ textarea:disabled {
     min-width: 0;
 }
 
-.view-detail-side-field {
+.view-detail-side-field,
+.transaction-side-field {
     min-width: 0;
     margin-bottom: 14px;
 }
@@ -331,11 +324,7 @@ textarea:disabled {
     min-height: 22px;
 }
 
-.view-detail-side-separator {
-    margin: 16px 0;
-    border-top: 1px solid #ddd;
-}
-
+.view-detail-side-separator,
 .transaction-detail-panel {
     margin-bottom: 20px;
 }
@@ -351,21 +340,11 @@ textarea:disabled {
     grid-template-columns: 1fr;
     gap: 14px;
     padding: 14px;
-    border: 1px solid #cfe0f3;
-    border-radius: 6px;
 }
 
 .transaction-detail-row,
-.transaction-detail-field,
-.transaction-side-field {
+.transaction-detail-field {
     min-width: 0;
-}
-
-.transaction-detail-row label,
-.transaction-detail-field label,
-.transaction-side-field label {
-    display: block;
-    margin-bottom: 5px;
 }
 
 .transaction-detail-grid {
@@ -379,20 +358,9 @@ textarea:disabled {
     margin-bottom: 0;
 }
 
-.transaction-side-field {
-    margin-bottom: 14px;
-}
-
 .transaction-side-separator {
     margin: 16px 0;
     border-top: 1px solid #ddd;
-}
-
-@media (max-width: 700px) {
-    .transaction-detail-panel-body,
-    .transaction-detail-grid {
-        grid-template-columns: 1fr;
-    }
 }
 
 #transactionForm [data-field-key^="date_value_"] .datepicker-input-group {
