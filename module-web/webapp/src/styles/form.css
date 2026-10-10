@@ -451,3 +451,16 @@ textarea:disabled {
     color: var(--bs-secondary);
     box-shadow: none;
 }
+
+#transactionButtonBar .btn {
+    border-radius: 0;
+    font-weight: 700;
+}
+
+#transactionButtonBar .dropdown-toggle::after {
+    transition: transform .15s ease;
+}
+
+#transactionButtonBar .dropdown-toggle.show::after {
+    transform: rotate(180deg);
+}
