@@ -16,7 +16,8 @@ new Router({
                 state.action === 'create'
                 || (
                     state.action === 'edit'
-                    && state.key != null
+                    && state.path != null
+                    && state.id != null
                 )
             ),
         warning: 'Invalid FC transaction navigation state.',
