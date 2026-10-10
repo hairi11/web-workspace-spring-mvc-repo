@@ -20,6 +20,7 @@ module.exports = {
     FieldTranslator: require('./field/FieldTranslator'),
     FileValidator: require('./form/FileValidator'),
     FormAction: require('./form/FormAction'),
+    FormControls: require('./form/FormControls'),
     FormDataConverter: require('./form/FormDataConverter'),
     FormRenderers: require('./form/FormRenderers'),
     FormValues: require('./form/FormValues'),
