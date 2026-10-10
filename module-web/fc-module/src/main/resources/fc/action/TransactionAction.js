@@ -16,11 +16,20 @@ const {
 
 export async function initTransaction(state) {
     new ButtonBar('#transactionButtonBar')
-        .secondary({
-            target: '#cancelButton',
-            text: 'Cancel',
-            placement: ButtonBar.Placement.END
+        .primary({
+            target: '#saveButton',
+            text: 'Save'
         })
+        .secondary([
+            {
+                target: '#addButton',
+                text: 'Add'
+            },
+            {
+                target: '#cancelButton',
+                text: 'Cancel'
+            }
+        ])
         .build();
 
     applyLabels();
