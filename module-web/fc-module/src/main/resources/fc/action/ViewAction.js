@@ -64,8 +64,7 @@ export async function initView(state) {
                 hidden: count <= 1,
                 onNavigate: (index) => {
                     currentIndex = index;
-                    applyLabels();
-        populateCurrentRow();
+                    populateCurrentRow();
                 }
             })
             .secondary({
@@ -75,6 +74,7 @@ export async function initView(state) {
             })
             .build();
 
+        applyLabels();
         populateCurrentRow();
     } catch (error) {
         Toast.error('Failed to load FC detail.');
