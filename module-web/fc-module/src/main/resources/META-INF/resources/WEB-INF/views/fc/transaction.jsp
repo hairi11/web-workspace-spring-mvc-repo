@@ -358,6 +358,8 @@
         </div>
 
         <div id="transactionButtonBar" class="button-bar">
+            <button id="saveButton" type="button" class="btn btn-primary">Save</button>
+            <button id="addButton" type="button" class="btn btn-outline-secondary">Add</button>
             <a
                 id="cancelButton"
                 class="btn btn-outline-secondary"
