@@ -44,6 +44,17 @@
                 </div>
             </section>
 
+            <section class="view-detail-panel">
+                <h2 class="view-detail-panel-title">Additional Details</h2>
+
+                <div class="view-detail-panel-body">
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">String 12</div>
+                        <div id="stringValue12" class="view-detail-value"></div>
+                    </div>
+                </div>
+            </section>
+
             <div class="view-detail-grid">
 
                 <div class="form-group view-detail-field">
@@ -79,11 +90,6 @@
                 <div class="form-group view-detail-field">
                 <label for="stringValue9">String 9</label>
                 <div id="stringValue9" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="stringValue12">String 12</label>
-                <div id="stringValue12" class="view-detail-value"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
