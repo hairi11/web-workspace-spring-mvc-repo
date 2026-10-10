@@ -335,3 +335,62 @@ textarea:disabled {
     margin: 16px 0;
     border-top: 1px solid #ddd;
 }
+
+.transaction-detail-panel {
+    margin-bottom: 20px;
+}
+
+.transaction-detail-panel-title {
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.transaction-detail-panel-body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    padding: 14px;
+    border: 1px solid #cfe0f3;
+    border-radius: 6px;
+}
+
+.transaction-detail-row,
+.transaction-detail-field,
+.transaction-side-field {
+    min-width: 0;
+}
+
+.transaction-detail-row label,
+.transaction-detail-field label,
+.transaction-side-field label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.transaction-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.transaction-detail-field {
+    margin-bottom: 0;
+}
+
+.transaction-side-field {
+    margin-bottom: 14px;
+}
+
+.transaction-side-separator {
+    margin: 16px 0;
+    border-top: 1px solid #ddd;
+}
+
+@media (max-width: 700px) {
+    .transaction-detail-panel-body,
+    .transaction-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
