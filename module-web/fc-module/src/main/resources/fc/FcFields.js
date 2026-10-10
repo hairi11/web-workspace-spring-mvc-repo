@@ -1,6 +1,9 @@
 import Common from '@company/common-js-web';
 
-const { Renderers } = Common;
+const {
+    FieldTranslator,
+    Renderers
+} = Common;
 
 const dateFormat = Renderers.date();
 const amountFormat6 = Renderers.amount({
@@ -220,6 +223,26 @@ function dimension(name) {
 }
 
 const FcFields = {
+    enquiry: {
+        dateFrom: {
+            selector: '#dateFrom',
+            control: 'date'
+        },
+        dateTo: {
+            selector: '#dateTo',
+            control: 'date'
+        },
+        [FieldTranslator.field('string_value_33')]: {
+            selector: '#fcCodeSelect',
+            parameter: 'fcCode',
+            placeholder: 'Select FC code'
+        },
+        [FieldTranslator.field('string_value_18')]: {
+            selector: '#fxCodeSelect',
+            parameter: 'fxCode',
+            placeholder: 'Select FX code'
+        }
+    },
     transaction: dimension('transaction'),
     view: dimension('view')
 };
