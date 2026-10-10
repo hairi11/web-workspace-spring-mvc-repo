@@ -91,6 +91,17 @@ const FcFields = {
         string_value_27: { selector: '#stringValue27' },
         string_value_28: { selector: '#stringValue28' },
 
+        string_value_29: { selector: '#stringValue29' },
+        string_value_30: { selector: '#stringValue30' },
+        string_value_31: { selector: '#stringValue31' },
+        string_value_32: { selector: '#stringValue32' },
+        string_value_33: { selector: '#stringValue33' },
+        string_value_34: { selector: '#stringValue34' },
+        string_value_35: { selector: '#stringValue35' },
+        string_value_36: { selector: '#stringValue36' },
+        string_value_37: { selector: '#stringValue37' },
+        string_value_38: { selector: '#stringValue38' },
+
         date_value_1: {
             selector: '#dateValue1',
             format: Renderers.date()
