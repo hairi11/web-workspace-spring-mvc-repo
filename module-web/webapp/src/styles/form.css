@@ -394,3 +394,8 @@ textarea:disabled {
         grid-template-columns: 1fr;
     }
 }
+
+#transactionForm [data-field-key^="date_value_"] .datepicker-input-group {
+    width: 100%;
+    max-width: 220px;
+}
