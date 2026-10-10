@@ -55,6 +55,67 @@
                 </div>
             </section>
 
+            <section class="view-detail-panel">
+                <h2 class="view-detail-panel-title">Amendment Details</h2>
+
+                <div class="view-detail-panel-body">
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">String 20</div>
+                        <div id="stringValue20" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">String 24</div>
+                        <div id="stringValue24" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">String 28</div>
+                        <div id="stringValue28" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">String 21</div>
+                        <div id="stringValue21" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">String 23</div>
+                        <div id="stringValue23" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">String 5</div>
+                        <div id="stringValue5" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">Amount 3</div>
+                        <div id="amountValue3" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">Amount 6</div>
+                        <div id="amountValue6" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">Amount 5</div>
+                        <div id="amountValue5" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">Amount 7</div>
+                        <div id="amountValue7" class="view-detail-value"></div>
+                    </div>
+
+                    <div class="view-detail-panel-row">
+                        <div class="view-detail-panel-label">Amount 4</div>
+                        <div id="amountValue4" class="view-detail-value"></div>
+                    </div>
+                </div>
+            </section>
+
             <div class="view-detail-grid">
 
                 <div class="form-group view-detail-field">
@@ -98,38 +159,8 @@
                 </div>
 
                 <div class="form-group view-detail-field">
-                <label for="amountValue3">Amount 3</label>
-                <div id="amountValue3" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="amountValue4">Amount 4</label>
-                <div id="amountValue4" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="amountValue5">Amount 5</label>
-                <div id="amountValue5" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="amountValue6">Amount 6</label>
-                <div id="amountValue6" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
                 <label for="stringValue17">String 17</label>
                 <div id="stringValue17" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="stringValue20">String 20</label>
-                <div id="stringValue20" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="stringValue21">String 21</label>
-                <div id="stringValue21" class="view-detail-value"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
@@ -138,18 +169,8 @@
                 </div>
 
                 <div class="form-group view-detail-field">
-                <label for="stringValue23">String 23</label>
-                <div id="stringValue23" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
                 <label for="dateValue3">Date 3</label>
                 <div id="dateValue3" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="stringValue24">String 24</label>
-                <div id="stringValue24" class="view-detail-value"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
@@ -158,18 +179,8 @@
                 </div>
 
                 <div class="form-group view-detail-field">
-                <label for="stringValue28">String 28</label>
-                <div id="stringValue28" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
                 <label for="dateValue5">Date 5</label>
                 <div id="dateValue5" class="view-detail-value"></div>
-                </div>
-
-                <div class="form-group view-detail-field">
-                <label for="amountValue7">Amount 7</label>
-                <div id="amountValue7" class="view-detail-value"></div>
                 </div>
             </div>
         </div>
