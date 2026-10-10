@@ -16,31 +16,225 @@
 
     <h1>FC Detail</h1>
 
-    <section class="view-panel">
-        <h2 class="view-panel-title">Details</h2>
-
-        <div class="view-panel-body">
-            <div class="view-detail-row">
-                <div class="view-detail-label">Date 2</div>
+    <div class="fc-detail-layout">
+        <div class="fc-detail-main">
+            <div class="view-detail-grid">
+                <div class="form-group view-detail-field">
+                <label for="dateValue2">Date 2</label>
                 <div id="dateValue2" class="view-detail-value"></div>
-            </div>
+                </div>
 
-            <div class="view-detail-row">
-                <div class="view-detail-label">String 11</div>
+                <div class="form-group view-detail-field">
+                <label for="stringValue11">String 11</label>
                 <div id="stringValue11" class="view-detail-value"></div>
-            </div>
+                </div>
 
-            <div class="view-detail-row">
-                <div class="view-detail-label">Amount 2</div>
+                <div class="form-group view-detail-field">
+                <label for="amountValue2">Amount 2</label>
                 <div id="amountValue2" class="view-detail-value"></div>
-            </div>
+                </div>
 
-            <div class="view-detail-row">
-                <div class="view-detail-label">Amount</div>
+                <div class="form-group view-detail-field">
+                <label for="amountValue">Amount</label>
                 <div id="amountValue" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue1">String 1</label>
+                <div id="stringValue1" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue3">String 3</label>
+                <div id="stringValue3" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue4">String 4</label>
+                <div id="stringValue4" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue6">String 6</label>
+                <div id="stringValue6" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue7">String 7</label>
+                <div id="stringValue7" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue8">String 8</label>
+                <div id="stringValue8" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue9">String 9</label>
+                <div id="stringValue9" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue12">String 12</label>
+                <div id="stringValue12" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue13">String 13</label>
+                <div id="stringValue13" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue14">String 14</label>
+                <div id="stringValue14" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue15">String 15</label>
+                <div id="stringValue15" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="integerValue">Integer</label>
+                <div id="integerValue" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue16">String 16</label>
+                <div id="stringValue16" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="amountValue3">Amount 3</label>
+                <div id="amountValue3" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="amountValue4">Amount 4</label>
+                <div id="amountValue4" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="amountValue5">Amount 5</label>
+                <div id="amountValue5" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="amountValue6">Amount 6</label>
+                <div id="amountValue6" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue17">String 17</label>
+                <div id="stringValue17" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue19">String 19</label>
+                <div id="stringValue19" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue20">String 20</label>
+                <div id="stringValue20" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue21">String 21</label>
+                <div id="stringValue21" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue22">String 22</label>
+                <div id="stringValue22" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue23">String 23</label>
+                <div id="stringValue23" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="dateValue3">Date 3</label>
+                <div id="dateValue3" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue24">String 24</label>
+                <div id="stringValue24" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue26">String 26</label>
+                <div id="stringValue26" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue27">String 27</label>
+                <div id="stringValue27" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue28">String 28</label>
+                <div id="stringValue28" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="dateValue5">Date 5</label>
+                <div id="dateValue5" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="amountValue7">Amount 7</label>
+                <div id="amountValue7" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="dateValue6">Date 6</label>
+                <div id="dateValue6" class="view-detail-value"></div>
+                </div>
             </div>
         </div>
-    </section>
+
+        <aside class="fc-detail-side">
+            <div class="view-detail-grid">
+                <div class="form-group view-detail-field">
+                <label for="stringValue2">String 2</label>
+                <div id="stringValue2" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue5">String 5</label>
+                <div id="stringValue5" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="dateValue1">Date 1</label>
+                <div id="dateValue1" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue10">String 10</label>
+                <div id="stringValue10" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue18">String 18</label>
+                <div id="stringValue18" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="dateValue4">Date 4</label>
+                <div id="dateValue4" class="view-detail-value"></div>
+                </div>
+
+                <div class="form-group view-detail-field">
+                <label for="stringValue25">String 25</label>
+                <div id="stringValue25" class="view-detail-value"></div>
+                </div>
+            </div>
+        </aside>
+    </div>
 
     <div id="viewButtonBar" class="button-bar">
         <div class="button-bar-nav">
