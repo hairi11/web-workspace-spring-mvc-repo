@@ -20,6 +20,67 @@
         <div class="fc-detail-layout">
             <div class="fc-detail-main">
             <section class="transaction-detail-panel">
+                <h2 class="transaction-detail-panel-title">Classification</h2>
+
+                <div class="transaction-detail-panel-body">
+                    <div class="transaction-detail-row" data-field-key="date_value_4">
+                        <label for="dateValue4">Date 4</label>
+                        <input id="dateValue4" name="date_value_4" class="form-control" type="text">
+                    </div>
+
+                    <div class="transaction-detail-row" data-field-key="string_value_31">
+                        <label for="stringValue31">String 31</label>
+                        <select
+                            id="stringValue31"
+                            name="string_value_31"
+                            class="form-control"
+                            data-field="string_value_31">
+                        </select>
+                    </div>
+
+                    <div class="transaction-detail-row" data-field-key="string_value_33">
+                        <label for="stringValue33">String 33</label>
+                        <select
+                            id="stringValue33"
+                            name="string_value_33"
+                            class="form-control"
+                            data-field="string_value_33">
+                        </select>
+                    </div>
+
+                    <div class="transaction-detail-row" data-field-key="string_value_35">
+                        <label for="stringValue35">String 35</label>
+                        <select
+                            id="stringValue35"
+                            name="string_value_35"
+                            class="form-control"
+                            data-field="string_value_35">
+                        </select>
+                    </div>
+
+                    <div class="transaction-detail-row" data-field-key="string_value_18">
+                        <label for="stringValue18">String 18</label>
+                        <select
+                            id="stringValue18"
+                            name="string_value_18"
+                            class="form-control"
+                            data-field="string_value_18">
+                        </select>
+                    </div>
+
+                    <div class="transaction-detail-row" data-field-key="string_value_2">
+                        <label for="stringValue2">String 2</label>
+                        <input id="stringValue2" name="string_value_2" class="form-control" type="text" maxlength="30">
+                    </div>
+
+                    <div class="transaction-detail-row" data-field-key="date_value_6">
+                        <label for="dateValue6">Date 6</label>
+                        <input id="dateValue6" name="date_value_6" class="form-control" type="text">
+                    </div>
+                </div>
+            </section>
+
+            <section class="transaction-detail-panel">
                 <h2 class="transaction-detail-panel-title">Details</h2>
 
                 <div class="transaction-detail-panel-body">
@@ -168,16 +229,6 @@
                     <input id="stringValue17" name="string_value_17" class="form-control" type="text" maxlength="16">
                 </div>
 
-                <div class="form-group transaction-detail-field" data-field-key="string_value_18">
-                    <label for="stringValue18">String 18</label>
-                    <select
-                            id="stringValue18"
-                            name="string_value_18"
-                            class="form-control"
-                            data-field="string_value_18">
-                        </select>
-                </div>
-
                 <div class="form-group transaction-detail-field" data-field-key="string_value_22">
                     <label for="stringValue22">String 22</label>
                     <select
@@ -206,36 +257,6 @@
                 <div class="form-group transaction-detail-field" data-field-key="string_value_29">
                     <label for="stringValue29">String 29</label>
                     <input id="stringValue29" name="string_value_29" class="form-control" type="text" maxlength="2">
-                </div>
-
-                <div class="form-group transaction-detail-field" data-field-key="string_value_31">
-                    <label for="stringValue31">String 31</label>
-                    <select
-                            id="stringValue31"
-                            name="string_value_31"
-                            class="form-control"
-                            data-field="string_value_31">
-                        </select>
-                </div>
-
-                <div class="form-group transaction-detail-field" data-field-key="string_value_33">
-                    <label for="stringValue33">String 33</label>
-                    <select
-                            id="stringValue33"
-                            name="string_value_33"
-                            class="form-control"
-                            data-field="string_value_33">
-                        </select>
-                </div>
-
-                <div class="form-group transaction-detail-field" data-field-key="string_value_35">
-                    <label for="stringValue35">String 35</label>
-                    <select
-                            id="stringValue35"
-                            name="string_value_35"
-                            class="form-control"
-                            data-field="string_value_35">
-                        </select>
                 </div>
 
                 <div class="form-group transaction-detail-field" data-field-key="string_value_37">
@@ -281,11 +302,6 @@
                 <input id="stringValue6" name="string_value_6" class="form-control" type="text" maxlength="16">
             </div>
 
-            <div class="transaction-side-field" data-field-key="string_value_2">
-                <label for="stringValue2">String 2</label>
-                <input id="stringValue2" name="string_value_2" class="form-control" type="text" maxlength="30">
-            </div>
-
             <div class="transaction-side-separator"></div>
 
             <div class="transaction-side-field" data-field-key="string_value_14">
@@ -299,11 +315,6 @@
             </div>
 
             <div class="transaction-side-separator"></div>
-
-            <div class="transaction-side-field" data-field-key="date_value_4">
-                <label for="dateValue4">Date 4</label>
-                <input id="dateValue4" name="date_value_4" class="form-control" type="text">
-            </div>
 
             <div class="transaction-side-field" data-field-key="string_value_32">
                 <label for="stringValue32">String 32</label>
@@ -323,11 +334,6 @@
             <div class="transaction-side-field" data-field-key="string_value_19">
                 <label for="stringValue19">String 19</label>
                 <input id="stringValue19" name="string_value_19" class="form-control" type="text" maxlength="2000">
-            </div>
-
-            <div class="transaction-side-field" data-field-key="date_value_6">
-                <label for="dateValue6">Date 6</label>
-                <input id="dateValue6" name="date_value_6" class="form-control" type="text">
             </div>
 
             <div class="transaction-side-separator"></div>
