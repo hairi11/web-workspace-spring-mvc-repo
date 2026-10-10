@@ -399,3 +399,12 @@ textarea:disabled {
     width: 100%;
     max-width: 220px;
 }
+
+#transactionForm .transaction-detail-row > .form-control,
+#transactionForm .transaction-detail-field > .form-control,
+#transactionForm .transaction-side-field > .form-control,
+#transactionForm .transaction-detail-row > .select2-container,
+#transactionForm .transaction-detail-field > .select2-container,
+#transactionForm .transaction-side-field > .select2-container {
+    width: 75% !important;
+}
