@@ -47,6 +47,7 @@ textarea:disabled {
 }
 
 .select2-container .select2-selection--single {
+    position: relative;
     display: flex;
     align-items: center;
     height: var(--form-control-height);
@@ -57,9 +58,23 @@ textarea:disabled {
 
 .select2-container .select2-selection--single .select2-selection__rendered {
     flex: 1 1 auto;
-    padding: 0 30px 0 9px;
+    padding: 0 52px 0 9px;
     line-height: normal;
     color: #222;
+}
+
+.select2-container .select2-selection--single .select2-selection__clear {
+    position: absolute;
+    top: 50%;
+    right: 28px;
+    z-index: 2;
+    float: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    transform: translateY(-50%);
+    line-height: 1;
 }
 
 .select2-container .select2-selection--single .select2-selection__arrow {
