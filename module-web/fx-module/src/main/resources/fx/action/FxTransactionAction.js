@@ -17,15 +17,17 @@ class FxTransactionAction {
 
     build() {
         const viewMode = TransactionMode.isView(this.mode);
-        const count = this.rows ? this.rows.transactions.length : 0;
-        const index = this.getNavigationIndex(count);
+        const transactions = this.rows
+            ? this.rows.transactions
+            : [];
+        const index = this.getNavigationIndex(transactions.length);
 
         this.buttonBar = new ButtonBar('#transactionButtonBar')
             .navigator({
                 previous: '#previousButton',
                 next: '#nextButton',
                 index: index,
-                count: count,
+                items: transactions,
                 hidden: viewMode,
                 beforeNavigate: () => this.beforeNavigate(),
                 onNavigate: (targetIndex) => this.openRow(targetIndex)
