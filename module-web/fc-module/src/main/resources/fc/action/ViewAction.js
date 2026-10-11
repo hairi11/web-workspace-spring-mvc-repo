@@ -1,5 +1,5 @@
 import Common from '@company/common-js-web';
-import FcFields from '../FcFields.js';
+import FcComponentConfig from '../FcComponentConfig.js';
 import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 
@@ -24,7 +24,7 @@ export async function initView(state) {
 
         const form = new FormControls(
             document,
-            FcFields.view
+            FcComponentConfig.view.fields
         )
             .build()
             .labels((key) => FieldTranslator.label(key));
@@ -34,7 +34,9 @@ export async function initView(state) {
             if (!row) return;
 
             form.populate(
-                Object.keys(FcFields.view).reduce((values, key) => {
+                Object.keys(
+                    FcComponentConfig.view.fields
+                ).reduce((values, key) => {
                     const field = FieldTranslator.field(key);
 
                     values[key] = row[field] !== undefined
@@ -49,10 +51,14 @@ export async function initView(state) {
 
         const count = FcRows.count(rowsKey);
 
-        new ButtonBar('#viewButtonBar')
+        new ButtonBar(
+            FcComponentConfig.view.buttonBar.selector
+        )
             .navigator({
-                previous: '#previousButton',
-                next: '#nextButton',
+                previous:
+                    FcComponentConfig.view.buttons.previous.selector,
+                next:
+                    FcComponentConfig.view.buttons.next.selector,
                 index: currentIndex,
                 count: count,
                 hidden: count <= 1,
@@ -61,11 +67,11 @@ export async function initView(state) {
                     populateCurrentRow();
                 }
             })
-            .secondary({
-                target: '#backButton',
-                text: 'Back',
-                placement: ButtonBar.Placement.END
-            })
+            .secondary(Object.assign(
+                {},
+                FcComponentConfig.view.buttons.back,
+                { placement: ButtonBar.Placement.END }
+            ))
             .build();
 
         populateCurrentRow();
