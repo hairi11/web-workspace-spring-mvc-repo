@@ -3,18 +3,22 @@ import { FormType } from '../FcConstants.js';
 import FcService from '../FcService.js';
 
 const {
+    Button,
     DataTableBuilder,
     FieldTranslator,
     FormControls,
     NavigationState,
+    PageControls,
     Renderers,
     Toast
 } = Common;
 
 let table = null;
 let criteria = null;
+let page = null;
 
 export function initEnquiry() {
+    page = new PageControls(document).build();
     criteria = new FormControls(document).build();
 
     table = prepareEnquiryTable();
@@ -165,21 +169,20 @@ function translateCriteria(values) {
 }
 
 function prepareEnquirySearch() {
-    const search = document.querySelector('#searchButton');
-    if (!search) return;
+    const search = new Button(page.requireAction('search'), {
+        onClick: () => {
+            search.setDisabled(true);
 
-    search.addEventListener('click', () => {
-        search.disabled = true;
-
-        try {
-            table.refresh(false);
-            Toast.success('FC records searched.');
-        } finally {
-            window.setTimeout(() => {
-                search.disabled = false;
-            }, 300);
+            try {
+                table.refresh(false);
+                Toast.success('FC records searched.');
+            } finally {
+                window.setTimeout(() => {
+                    search.setDisabled(false);
+                }, 300);
+            }
         }
-    });
+    }).build();
 }
 
 function viewRecord(row) {
