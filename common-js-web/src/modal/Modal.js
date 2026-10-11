@@ -21,7 +21,7 @@ class Modal {
         var content = node('div', 'modal-content');
         var header = node('div', 'modal-header');
         var title = node('h5', 'modal-title');
-        var close = node('button', 'btn-close ms-auto');
+        var close = node('button', 'btn-close');
         var body = node('div', 'modal-body');
         var sizeClass = {
             sm: 'modal-sm',
@@ -33,6 +33,12 @@ class Modal {
 
         root.tabIndex = -1;
         if (sizeClass) dialog.classList.add(sizeClass);
+
+        header.style.display = 'flex';
+        header.style.alignItems = 'center';
+        title.style.marginRight = 'auto';
+        close.style.marginLeft = 'auto';
+        close.style.marginRight = '0';
 
         title.id = 'common-modal-title-' + (++modalId);
         title.textContent = config.title || '';
