@@ -2,6 +2,79 @@ const ChoiceInput = require('../select/ChoiceInput');
 const CurrencyInput = require('../input/CurrencyInput');
 const DatePicker = require('../datepicker/DatePicker');
 const Select2 = require('../select/Select2');
+const Renderers = require('../datatable/Renderers');
+
+function dataBoolean(value) {
+    if (value === undefined) return undefined;
+    return value === '' || value === 'true';
+}
+
+function dataNumber(value) {
+    if (value === undefined || value === '') return undefined;
+
+    const number = Number(value);
+    return Number.isFinite(number) ? number : undefined;
+}
+
+function dataFormat(field) {
+    const format = field.dataset.format;
+
+    if (format === 'date') {
+        return Renderers.date(field.dataset.formatPattern);
+    }
+
+    if (format === 'amount') {
+        return Renderers.amount({
+            minimumFractionDigits: dataNumber(
+                field.dataset.minimumFractionDigits
+            ),
+            maximumFractionDigits: dataNumber(
+                field.dataset.maximumFractionDigits
+            )
+        });
+    }
+
+    if (format === 'number') {
+        return Renderers.number({
+            minimumFractionDigits: dataNumber(
+                field.dataset.minimumFractionDigits
+            ),
+            maximumFractionDigits: dataNumber(
+                field.dataset.maximumFractionDigits
+            )
+        });
+    }
+
+    return undefined;
+}
+
+function fieldFromElement(field) {
+    const controlOptions = {
+        placeholder: field.dataset.placeholder,
+        allowClear: dataBoolean(field.dataset.allowClear),
+        precision: dataNumber(field.dataset.precision),
+        decimalScale: dataNumber(field.dataset.decimalScale),
+        padFractionOnBlur: dataBoolean(
+            field.dataset.padFractionOnBlur
+        )
+    };
+
+    Object.keys(controlOptions).forEach((key) => {
+        if (controlOptions[key] === undefined) {
+            delete controlOptions[key];
+        }
+    });
+
+    return {
+        element: field,
+        property: field.dataset.property || 'value',
+        defaultValue: field.dataset.defaultValue || '',
+        control: field.dataset.control,
+        parameter: field.dataset.parameter,
+        controlOptions: controlOptions,
+        format: dataFormat(field)
+    };
+}
 
 function fieldConfig(value) {
     if (typeof value === 'string') {
@@ -14,6 +87,7 @@ function fieldConfig(value) {
 
     return Object.assign({
         selector: '',
+        element: null,
         property: 'value',
         defaultValue: ''
     }, value || {});
@@ -34,6 +108,10 @@ class FormControls {
 
         if (!this.root) {
             throw new Error('FormControls root not found.');
+        }
+
+        if (!Object.keys(this.fields).length) {
+            this.discover();
         }
 
         return this;
@@ -186,6 +264,25 @@ class FormControls {
         return this.components[key] || null;
     }
 
+    keys() {
+        return Object.keys(this.fields);
+    }
+
+    discover() {
+        const fields = this.root.querySelectorAll(
+            '[name], [data-field]'
+        );
+
+        Array.prototype.forEach.call(fields, (field) => {
+            const key = field.dataset.field || field.name;
+            if (!key) return;
+
+            this.fields[key] = fieldFromElement(field);
+        });
+
+        return this;
+    }
+
     eachControl(control, callback) {
         this.each((key, config, field) => {
             if (config.control === control) {
@@ -199,7 +296,8 @@ class FormControls {
     each(callback) {
         Object.keys(this.fields).forEach((key) => {
             const config = fieldConfig(this.fields[key]);
-            const field = this.root.querySelector(config.selector);
+            const field = config.element
+                || this.root.querySelector(config.selector);
 
             if (field) callback(key, config, field);
         });
