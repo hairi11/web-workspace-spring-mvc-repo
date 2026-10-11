@@ -25,7 +25,7 @@
                 <div class="transaction-detail-panel-body">
                     <div class="transaction-detail-row" data-field-key="date_value_4">
                         <label for="dateValue4">Date 4</label>
-                        <input id="dateValue4" name="date_value_4" class="form-control" type="text">
+                        <input id="dateValue4" name="date_value_4" class="form-control" type="text" data-control="date">
                     </div>
 
                     <div class="transaction-detail-row" data-field-key="string_value_31">
@@ -34,7 +34,7 @@
                             id="stringValue31"
                             name="string_value_31"
                             class="form-control"
-                            data-field="string_value_31">
+                            data-field="string_value_31" data-control="choice">
                         </select>
                     </div>
 
@@ -44,7 +44,7 @@
                             id="stringValue33"
                             name="string_value_33"
                             class="form-control"
-                            data-field="string_value_33">
+                            data-field="string_value_33" data-control="choice">
                         </select>
                     </div>
 
@@ -54,7 +54,7 @@
                             id="stringValue35"
                             name="string_value_35"
                             class="form-control"
-                            data-field="string_value_35">
+                            data-field="string_value_35" data-control="choice">
                         </select>
                     </div>
 
@@ -64,7 +64,7 @@
                             id="stringValue18"
                             name="string_value_18"
                             class="form-control"
-                            data-field="string_value_18">
+                            data-field="string_value_18" data-control="choice">
                         </select>
                     </div>
 
@@ -75,7 +75,7 @@
 
                     <div class="transaction-detail-row" data-field-key="date_value_6">
                         <label for="dateValue6">Date 6</label>
-                        <input id="dateValue6" name="date_value_6" class="form-control" type="text">
+                        <input id="dateValue6" name="date_value_6" class="form-control" type="text" data-control="date">
                     </div>
                 </div>
             </section>
@@ -86,7 +86,7 @@
                 <div class="transaction-detail-panel-body">
                     <div class="transaction-detail-row" data-field-key="date_value_2">
                         <label for="dateValue2">Date 2</label>
-                        <input id="dateValue2" name="date_value_2" class="form-control" type="text">
+                        <input id="dateValue2" name="date_value_2" class="form-control" type="text" data-control="date">
                     </div>
 
                     <div class="transaction-detail-pair">
@@ -96,19 +96,19 @@
                                 id="stringValue11"
                                 name="string_value_11"
                                 class="form-control"
-                                data-field="string_value_11">
+                                data-field="string_value_11" data-control="choice">
                             </select>
                         </div>
 
                         <div class="transaction-detail-row" data-field-key="amount_value_2">
                             <label for="amountValue2">Amount 2</label>
-                            <input id="amountValue2" name="amount_value_2" class="form-control" type="text">
+                            <input id="amountValue2" name="amount_value_2" class="form-control" type="text" data-control="currency" data-precision="20" data-decimal-scale="4" data-pad-fraction-on-blur="true" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4">
                         </div>
                     </div>
 
                     <div class="transaction-detail-row" data-field-key="amount_value">
                         <label for="amountValue">Amount</label>
-                        <input id="amountValue" name="amount_value" class="form-control" type="text">
+                        <input id="amountValue" name="amount_value" class="form-control" type="text" data-control="currency" data-precision="14" data-decimal-scale="6" data-pad-fraction-on-blur="true" data-format="amount" data-minimum-fraction-digits="6" data-maximum-fraction-digits="6">
                     </div>
                 </div>
             </section>
@@ -160,27 +160,27 @@
 
                     <div class="transaction-detail-row" data-field-key="amount_value_3">
                         <label for="amountValue3">Amount 3</label>
-                        <input id="amountValue3" name="amount_value_3" class="form-control" type="text">
+                        <input id="amountValue3" name="amount_value_3" class="form-control" type="text" data-control="currency" data-precision="20" data-decimal-scale="4" data-pad-fraction-on-blur="true" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4">
                     </div>
 
                     <div class="transaction-detail-row" data-field-key="amount_value_6">
                         <label for="amountValue6">Amount 6</label>
-                        <input id="amountValue6" name="amount_value_6" class="form-control" type="text">
+                        <input id="amountValue6" name="amount_value_6" class="form-control" type="text" data-control="currency" data-precision="20" data-decimal-scale="4" data-pad-fraction-on-blur="true" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4">
                     </div>
 
                     <div class="transaction-detail-row" data-field-key="amount_value_5">
                         <label for="amountValue5">Amount 5</label>
-                        <input id="amountValue5" name="amount_value_5" class="form-control" type="text">
+                        <input id="amountValue5" name="amount_value_5" class="form-control" type="text" data-control="currency" data-precision="20" data-decimal-scale="4" data-pad-fraction-on-blur="true" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4">
                     </div>
 
                     <div class="transaction-detail-row" data-field-key="amount_value_7">
                         <label for="amountValue7">Amount 7</label>
-                        <input id="amountValue7" name="amount_value_7" class="form-control" type="text">
+                        <input id="amountValue7" name="amount_value_7" class="form-control" type="text" data-control="currency" data-precision="20" data-decimal-scale="4" data-pad-fraction-on-blur="true" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4">
                     </div>
 
                     <div class="transaction-detail-row" data-field-key="amount_value_4">
                         <label for="amountValue4">Amount 4</label>
-                        <input id="amountValue4" name="amount_value_4" class="form-control" type="text">
+                        <input id="amountValue4" name="amount_value_4" class="form-control" type="text" data-control="currency" data-precision="20" data-decimal-scale="4" data-pad-fraction-on-blur="true" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4">
                     </div>
                 </div>
             </section>
@@ -197,7 +197,7 @@
                             id="stringValue3"
                             name="string_value_3"
                             class="form-control"
-                            data-field="string_value_3">
+                            data-field="string_value_3" data-control="choice">
                         </select>
                 </div>
 
@@ -242,7 +242,7 @@
                             id="stringValue22"
                             name="string_value_22"
                             class="form-control"
-                            data-field="string_value_22">
+                            data-field="string_value_22" data-control="choice">
                         </select>
                 </div>
 
@@ -252,7 +252,7 @@
                             id="stringValue25"
                             name="string_value_25"
                             class="form-control"
-                            data-field="string_value_25">
+                            data-field="string_value_25" data-control="choice">
                         </select>
                 </div>
 
@@ -278,17 +278,17 @@
 
                 <div class="form-group transaction-detail-field" data-field-key="date_value_1">
                     <label for="dateValue1">Date 1</label>
-                    <input id="dateValue1" name="date_value_1" class="form-control" type="text">
+                    <input id="dateValue1" name="date_value_1" class="form-control" type="text" data-control="date">
                 </div>
 
                 <div class="form-group transaction-detail-field" data-field-key="date_value_3">
                     <label for="dateValue3">Date 3</label>
-                    <input id="dateValue3" name="date_value_3" class="form-control" type="text">
+                    <input id="dateValue3" name="date_value_3" class="form-control" type="text" data-control="date">
                 </div>
 
                 <div class="form-group transaction-detail-field" data-field-key="date_value_5">
                     <label for="dateValue5">Date 5</label>
-                    <input id="dateValue5" name="date_value_5" class="form-control" type="text">
+                    <input id="dateValue5" name="date_value_5" class="form-control" type="text" data-control="date">
                 </div>
 
                 <div class="form-group transaction-detail-field" data-field-key="integer_value">
