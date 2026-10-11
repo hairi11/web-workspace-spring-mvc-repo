@@ -349,7 +349,20 @@
             </aside>
         </div>
 
-        <div id="transactionButtonBar" class="button-bar" data-component="button-bar"></div>
+        <div id="transactionButtonBar" class="button-bar" data-component="button-bar">
+            <div class="button-bar-nav">
+                <a href="#" class="navigator-link" data-action="previous"
+                   aria-label="Previous" title="Previous">
+                    <span aria-hidden="true">&lt;&lt;</span>
+                    <span>Previous</span>
+                </a>
+                <a href="#" class="navigator-link" data-action="next"
+                   aria-label="Next" title="Next">
+                    <span>Next</span>
+                    <span aria-hidden="true">&gt;&gt;</span>
+                </a>
+            </div>
+        </div>
     </form>
 </main>
 <script src="${pageContext.request.contextPath}/fc/FieldTranslator.local.js"></script>
