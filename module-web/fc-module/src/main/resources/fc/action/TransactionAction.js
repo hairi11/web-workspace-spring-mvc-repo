@@ -7,28 +7,33 @@ const {
     ButtonBar,
     FieldTranslator,
     FormControls,
+    PageControls,
     Toast
 } = Common;
 
 export async function initTransaction(state) {
-    new ButtonBar('#transactionButtonBar')
+    const page = new PageControls(document).build();
+
+    new ButtonBar(page.requireComponent('button-bar'))
         .primary({
-            target: '#saveButton',
+            target: page.requireAction('save'),
             text: 'Save'
         })
         .secondary([
             {
-                target: '#addButton',
+                target: page.requireAction('add'),
                 text: 'Add'
             },
             {
-                target: '#cancelButton',
+                target: page.requireAction('cancel'),
                 text: 'Cancel'
             }
         ])
         .build();
 
-    const form = new FormControls('#transactionForm')
+    const form = new FormControls(
+        page.requireComponent('transaction-form')
+    )
         .build()
         .labels((key) => FieldTranslator.label(key));
 
