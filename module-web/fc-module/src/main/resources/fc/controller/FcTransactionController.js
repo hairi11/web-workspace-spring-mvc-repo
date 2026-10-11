@@ -6,92 +6,146 @@ import FcTransactionForm from '../form/FcTransactionForm.js';
 
 const {
     NavigationState,
-    PageControls,
     Toast
 } = Common;
 
 class FcTransactionController {
     async init() {
-        const state = NavigationState.get() || {};
-        const page = new PageControls(document).build();
+        const context = this.loadContext();
 
         try {
-            const context = await this.load(state);
+            const data = await this.load(context);
+            if (!data) return;
 
             const form = new FcTransactionForm(
-                page.component('transaction-form'),
+                '#transactionForm',
                 {
+                    key: context.key,
                     rowsKey: context.rowsKey
                 }
             );
 
             await form.loadParameters();
             form.build();
-            form.populate(context.row);
 
-            new FcTransactionAction({
+            const action = new FcTransactionAction({
                 form: form,
-                state: state,
-                rowsKey: context.rowsKey,
+                mode: context.mode,
                 key: context.key,
-                seed: context.seed,
-                returnTo: state.returnTo,
-                page: page
-            })
-                .build()
-                .saveState();
+                rowsKey: context.rowsKey,
+                rows: data.rows,
+                returnTo: context.returnTo,
+                pageConfig: data.pageConfig
+            }).build();
+
+            form.populate(data.transaction);
+            action.configure();
+
+            NavigationState.set({
+                page: 'form',
+                action: context.mode,
+                key: context.key,
+                rowsKey: context.rowsKey,
+                values: context.values,
+                returnTo: context.returnTo
+            });
         } catch (error) {
-            Toast.error(
-                state.action === 'edit'
-                    ? 'Failed to load FC transaction.'
-                    : 'Failed to load transaction parameters.'
-            );
+            Toast.error('Failed to load FC transaction.');
             console.error(error);
         }
     }
 
-    async load(state) {
-        if (state.rowsKey) {
-            const rows = FcRows.get(state.rowsKey);
-
-            if (rows) {
-                const key = Number.isInteger(state.key)
-                    ? state.key
-                    : 0;
-
-                return {
-                    rowsKey: state.rowsKey,
-                    key: key,
-                    row: rows.rows[key] || {},
-                    seed: state.values || {}
-                };
-            }
-        }
-
-        if (state.action === 'edit') {
-            return this.loadEdit(state);
-        }
-
-        const seed = state.values || {};
-        const rows = FcRows.create(seed);
+    loadContext() {
+        const state = NavigationState.get() || {};
 
         return {
-            rowsKey: rows.rowsKey,
-            key: 0,
-            row: rows.rows[0] || {},
-            seed: seed
+            mode: state.action || 'create',
+            key: Number.isInteger(state.key) ? state.key : null,
+            rowsKey: state.rowsKey || null,
+            values: state.values || {},
+            path: state.path || null,
+            id: state.id || null,
+            returnTo: state.returnTo || {page: 'enquiry'}
         };
     }
 
-    async loadEdit(state) {
+    async load(context) {
+        let rows = context.rowsKey
+            ? FcRows.get(context.rowsKey)
+            : null;
+
+        if (context.mode === 'edit' && !rows) {
+            rows = await this.loadEdit(context);
+        }
+
+        if (context.mode === 'create') {
+            rows = this.loadCreate(context, rows);
+        }
+
+        if (!rows) {
+            window.location.href = '../enquiry';
+            return null;
+        }
+
+        if (!Number.isInteger(context.key)) {
+            context.key = 0;
+        }
+
+        const transaction = rows.rows[context.key];
+
+        if (!transaction) {
+            throw new Error('FC transaction not found.');
+        }
+
+        context.rowsKey = rows.rowsKey;
+
+        return {
+            rows: rows,
+            transaction: transaction,
+            pageConfig: {
+                title: context.mode === 'create'
+                    ? 'Create FC Transaction'
+                    : 'Edit FC Transaction',
+                seed: context.values
+            }
+        };
+    }
+
+    loadCreate(context, rows) {
+        if (!rows) {
+            const created = FcRows.create(context.values);
+            context.rowsKey = created.rowsKey;
+            context.key = 0;
+            return created;
+        }
+
+        if (
+            Number.isInteger(context.key)
+            && context.key >= rows.rows.length
+        ) {
+            rows = FcRows.upsertRow(
+                rows.rowsKey,
+                null,
+                context.values
+            );
+        }
+
+        return rows;
+    }
+
+    async loadEdit(context) {
+        if (context.path == null || context.id == null) {
+            return null;
+        }
+
         const loaded = FcRows.load(
-            await FcService.findDetail(state.path, state.id)
+            await FcService.findDetail(context.path, context.id)
         );
 
         const index = FcRows.findIndex(
             loaded.rowsKey,
-            state.path,
-            state.id
+            context.path,
+            context.id
         );
 
         const selected = FcRows.row(
@@ -103,12 +157,9 @@ class FcTransactionController {
 
         const rows = FcRows.create(selected);
 
-        return {
-            rowsKey: rows.rowsKey,
-            key: 0,
-            row: rows.rows[0] || {},
-            seed: {}
-        };
+        context.rowsKey = rows.rowsKey;
+        context.key = 0;
+        return rows;
     }
 }
 
