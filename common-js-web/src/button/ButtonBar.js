@@ -138,7 +138,19 @@ class ButtonBar {
     }
 
     buildDropdown(configs) {
-        var elements = configs.map((config) => this.require(config.target));
+        var dropdownButtons = configs.map((config) => {
+            var options = Object.assign({}, config.options);
+            delete options.onClick;
+
+            var button = new Button(config.target, options).build();
+
+            if (config.name) {
+                this.buttonMap[config.name] = button;
+            }
+
+            return button;
+        });
+        var elements = dropdownButtons.map((button) => button.element);
         var wrapper = document.createElement('div');
         var trigger = document.createElement('button');
         var menu = document.createElement('div');
@@ -158,6 +170,8 @@ class ButtonBar {
         wrapper.appendChild(trigger);
         wrapper.appendChild(menu);
         elements.forEach((element) => menu.appendChild(element));
+
+        this.buttons.push.apply(this.buttons, dropdownButtons);
 
         this.group = {
             wrapper: wrapper,
