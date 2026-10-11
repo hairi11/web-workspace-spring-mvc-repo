@@ -169,7 +169,7 @@ function translateCriteria(values) {
 }
 
 function prepareEnquirySearch() {
-    const search = new Button(page.requireAction('search'), {
+    const search = new Button(page.action('search'), {
         onClick: () => {
             search.setDisabled(true);
 
