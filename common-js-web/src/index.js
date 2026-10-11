@@ -32,7 +32,7 @@ module.exports = {
     Navigator: require('./button/Navigator'),
     NumberUtil: require('./util/NumberUtil'),
     Router: require('./router/Router'),
-    Renderers: require('./datatable/Renderers'),
+    Renderers: require('./form/Renderers'),
     RowStore: require('./storage/RowStore'),
     SafeDom: require('./util/SafeDom'),
     SecurityUtil: require('./util/SecurityUtil'),
