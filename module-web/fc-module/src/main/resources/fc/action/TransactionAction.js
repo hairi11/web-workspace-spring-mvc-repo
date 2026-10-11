@@ -1,6 +1,5 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
-import FcFields from '../FcFields.js';
 import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 
@@ -29,16 +28,13 @@ export async function initTransaction(state) {
         ])
         .build();
 
-    const form = new FormControls(
-        '#transactionForm',
-        FcFields.transaction
-    )
+    const form = new FormControls('#transactionForm')
         .build()
         .labels((key) => FieldTranslator.label(key));
 
     try {
         const values = state.action === 'edit'
-            ? await loadEditValues(state)
+            ? await loadEditValues(form, state)
             : {};
 
         const parameters = await FcService.findParameters(
@@ -65,7 +61,7 @@ export async function initTransaction(state) {
     }
 }
 
-async function loadEditValues(state) {
+async function loadEditValues(form, state) {
     const rowsKey = FcRows.load(
         await FcService.findDetail(state.path, state.id)
     ).rowsKey;
@@ -77,7 +73,7 @@ async function loadEditValues(state) {
 
     if (!row) return {};
 
-    return Object.keys(FcFields.transaction).reduce((values, key) => {
+    return form.keys().reduce((values, key) => {
         const field = FieldTranslator.field(key);
 
         values[key] = row[field] !== undefined
