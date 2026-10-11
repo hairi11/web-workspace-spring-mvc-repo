@@ -21,6 +21,7 @@ module.exports = {
     FileValidator: require('./form/FileValidator'),
     FormAction: require('./form/FormAction'),
     FormControls: require('./form/FormControls'),
+    FormDialog: require('./form/dialog/FormDialog'),
     FormDataConverter: require('./form/FormDataConverter'),
     FormRenderers: require('./form/FormRenderers'),
     FormValues: require('./form/FormValues'),
