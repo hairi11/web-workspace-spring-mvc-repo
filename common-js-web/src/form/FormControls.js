@@ -117,17 +117,10 @@ class FormControls {
     }
 
     read() {
-        const values = {};
-
-        this.each((key, config, field) => {
-            const value = field[config.property];
-
-            values[key] = value === null || value === undefined
-                ? config.defaultValue
-                : value;
-        });
-
-        return values;
+        return this.keys().reduce((values, key) => {
+            values[key] = this.value(key);
+            return values;
+        }, {});
     }
 
     populate(values, options) {
@@ -145,7 +138,7 @@ class FormControls {
             if (options.target === 'text') {
                 field.textContent = formatted;
             } else {
-                field.value = formatted;
+                this.value(key, formatted);
             }
         });
 
@@ -337,10 +330,9 @@ class FormControls {
     }
 
     each(callback) {
-        Object.keys(this.fields).forEach((key) => {
+        this.keys().forEach((key) => {
             const config = fieldConfig(this.fields[key]);
-            const field = config.element
-                || this.root.querySelector(config.selector);
+            const field = this.field(key);
 
             if (field) callback(key, config, field);
         });
