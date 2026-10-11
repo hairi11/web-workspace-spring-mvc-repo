@@ -196,10 +196,8 @@ class FormControls {
     }
 
     dateRange(fromKey, toKey, options) {
-        const fromConfig = fieldConfig(this.fields[fromKey]);
-        const toConfig = fieldConfig(this.fields[toKey]);
-        const fromField = this.root.querySelector(fromConfig.selector);
-        const toField = this.root.querySelector(toConfig.selector);
+        const fromField = this.field(fromKey);
+        const toField = this.field(toKey);
 
         if (!fromField || !toField) return this;
 
@@ -261,6 +259,52 @@ class FormControls {
 
     component(key) {
         return this.components[key] || null;
+    }
+
+    field(key) {
+        const config = fieldConfig(this.fields[key]);
+
+        return config.element
+            || (config.selector
+                ? this.root.querySelector(config.selector)
+                : null);
+    }
+
+    value(key, value) {
+        const component = this.component(key);
+        const field = this.field(key);
+        const config = fieldConfig(this.fields[key]);
+
+        if (arguments.length === 1) {
+            if (component && typeof component.value === 'function') {
+                return component.value();
+            }
+
+            if (!field) return null;
+
+            const current = field[config.property];
+            return current === null || current === undefined
+                ? config.defaultValue
+                : current;
+        }
+
+        if (component) {
+            if (typeof component.setValue === 'function') {
+                component.setValue(value);
+                return value;
+            }
+
+            if (typeof component.setDate === 'function') {
+                component.setDate(value);
+                return value;
+            }
+        }
+
+        if (field) {
+            field[config.property] = value;
+        }
+
+        return value;
     }
 
     keys() {
