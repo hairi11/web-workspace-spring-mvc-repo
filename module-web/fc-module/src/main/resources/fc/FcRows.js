@@ -1,11 +1,17 @@
 import Common from '@company/common-js-web';
 
-const { RowStore } = Common;
+const { DateUtil, RowStore } = Common;
 
 const ROWS_KEY_PREFIX = 'fc.rows.';
 
 function newRowsKey() {
     return 'new-' + crypto.randomUUID();
+}
+
+function rowsKeyForMaster(masterId) {
+    return masterId === null || masterId === undefined
+        ? newRowsKey()
+        : 'master-' + String(masterId);
 }
 
 function cloneTransaction(transaction) {
@@ -33,15 +39,19 @@ const store = new RowStore({
 const FcRows = {
     create: function () {
         return this.save({
-            rowsKey: newRowsKey(),
-            master: {},
+            rowsKey: rowsKeyForMaster(null),
+            master: {
+                id: null,
+                status: 'DRAFT',
+                reportDate: DateUtil.toApiDate(new Date())
+            },
             transactions: []
         });
     },
 
     load: function (master, transactions) {
         return this.save({
-            rowsKey: newRowsKey(),
+            rowsKey: rowsKeyForMaster(master && master.id),
             master: master || {},
             transactions: transactions || []
         });
@@ -67,11 +77,7 @@ const FcRows = {
         const rows = this.get(rowsKey);
         if (!rows) return null;
 
-        if (
-            Number.isInteger(index)
-            && index >= 0
-            && index < rows.transactions.length
-        ) {
+        if (Number.isInteger(index) && index >= 0 && index < rows.transactions.length) {
             rows.transactions[index] = cloneTransaction(transaction);
         } else {
             rows.transactions.push(cloneTransaction(transaction));
@@ -84,11 +90,7 @@ const FcRows = {
         const rows = this.get(rowsKey);
         if (!rows) return null;
 
-        if (
-            Number.isInteger(index)
-            && index >= 0
-            && index < rows.transactions.length
-        ) {
+        if (Number.isInteger(index) && index >= 0 && index < rows.transactions.length) {
             rows.transactions.splice(index, 1);
         }
 
