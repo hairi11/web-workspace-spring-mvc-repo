@@ -1,5 +1,6 @@
 import Common from '@company/common-js-web';
-import { FormType } from '../FcConstants.js';
+import { FormType, TransactionMode } from '../FcConstants.js';
+import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 
 const {
@@ -229,18 +230,34 @@ function viewRecord(row) {
     window.location.href = './transaction/view';
 }
 
-function editRecord(row) {
-    NavigationState.set({
-        page: 'form',
-        action: 'edit',
-        path: row.path,
-        id: row.id,
-        returnTo: {
-            page: 'enquiry'
-        }
-    });
+async function editRecord(row) {
+    try {
+        const detail = await FcService.findDetail(
+            row.path,
+            row.id
+        );
+        const transactions = resolveTransactions(detail);
+        const index = transactions.findIndex(
+            (transaction) => transaction
+                && transaction.path === row.path
+                && transaction.id === row.id
+        );
 
-    window.location.href = './transaction/edit';
+        if (index < 0) {
+            throw new Error('FC transaction not found.');
+        }
+
+        const rows = FcRows.load({}, transactions);
+
+        openTransaction(
+            TransactionMode.EDIT,
+            index,
+            rows.rowsKey
+        );
+    } catch (error) {
+        Toast.error('Failed to load FC record.');
+        console.error(error);
+    }
 }
 
 async function createRecord() {
@@ -282,18 +299,51 @@ async function createRecord() {
 
         if (!result.submitted) return;
 
-        NavigationState.set({
-            page: 'form',
-            action: 'create',
-            values: result.value,
-            returnTo: {
-                page: 'enquiry'
-            }
-        });
+        const rows = FcRows.create();
 
-        window.location.href = './transaction/create';
+        FcRows.upsertTransaction(
+            rows.rowsKey,
+            null,
+            result.value
+        );
+
+        openTransaction(
+            TransactionMode.EDIT,
+            0,
+            rows.rowsKey
+        );
     } catch (error) {
         Toast.error('Failed to open create transaction.');
         console.error(error);
     }
+}
+
+
+function openTransaction(mode, key, rowsKey) {
+    NavigationState.set({
+        page: 'form',
+        action: mode,
+        key: key,
+        rowsKey: rowsKey,
+        returnTo: {
+            page: 'enquiry'
+        }
+    });
+
+    window.location.href = mode === TransactionMode.CREATE
+        ? './transaction/create'
+        : './transaction/edit';
+}
+
+function resolveTransactions(response) {
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.data)) return response.data;
+    if (Array.isArray(response?.rows)) return response.rows;
+    if (Array.isArray(response?.data?.rows)) return response.data.rows;
+
+    const detail = response && response.data
+        ? response.data
+        : response;
+
+    return detail ? [detail] : [];
 }
