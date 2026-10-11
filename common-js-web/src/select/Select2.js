@@ -52,6 +52,7 @@ class Select2 {
         this.options = Object.assign({}, DEFAULT_OPTIONS, options || {});
         this.element = null;
         this.instance = null;
+        this.openHandler = null;
     }
 
     option(name, value) {
@@ -85,6 +86,25 @@ class Select2 {
 
         this.element.select2(this.options);
         this.instance = this.element.data('select2') || null;
+        this.bindModalDropdown();
+        return this;
+    }
+
+    bindModalDropdown() {
+        if (!this.element || !this.element.length) return this;
+
+        if (this.openHandler) {
+            this.element.off('select2:open.commonJsModal', this.openHandler);
+        }
+
+        var modal = this.element.closest('.modal');
+        if (!modal.length) return this;
+
+        this.openHandler = function () {
+            window.jQuery('.select2-container--open').css('z-index', 1070);
+        };
+
+        this.element.on('select2:open.commonJsModal', this.openHandler);
         return this;
     }
 
@@ -119,6 +139,7 @@ class Select2 {
 
         element.select2(this.options);
         this.instance = element.data('select2') || null;
+        this.bindModalDropdown();
         return this;
     }
 
@@ -175,10 +196,15 @@ class Select2 {
     }
 
     destroy() {
-        if (this.element && this.element.length && this.element.hasClass('select2-hidden-accessible')) {
-            this.element.select2('destroy');
+        if (this.element && this.element.length) {
+            this.element.off('select2:open.commonJsModal');
+
+            if (this.element.hasClass('select2-hidden-accessible')) {
+                this.element.select2('destroy');
+            }
         }
 
+        this.openHandler = null;
         this.instance = null;
         this.element = null;
         return this;
