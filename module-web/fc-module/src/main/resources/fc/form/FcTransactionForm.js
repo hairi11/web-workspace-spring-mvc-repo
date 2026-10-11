@@ -5,15 +5,16 @@ import FcService from '../FcService.js';
 
 const {
     FieldTranslator,
+    FormAction,
     FormControls
 } = Common;
 
-class FcTransactionForm {
-    constructor(target, options) {
-        this.target = target;
+class FcTransactionForm extends FormAction {
+    constructor(selector, options) {
+        super(selector);
         this.options = options || {};
-        this.form = null;
         this.parameters = {};
+        this.controls = null;
     }
 
     async loadParameters() {
@@ -24,8 +25,8 @@ class FcTransactionForm {
         return this.parameters;
     }
 
-    build() {
-        this.form = new FormControls(this.target)
+    onBuild() {
+        this.controls = new FormControls(this.form)
             .build()
             .labels((key) => FieldTranslator.label(key))
             .dates()
@@ -40,33 +41,61 @@ class FcTransactionForm {
                 }
             );
 
-        return this;
+        if (this.formState) {
+            this.formState.resetBaseline();
+        }
     }
 
     populate(values) {
-        if (!this.form || !values) return this;
+        if (!this.controls || !values) return this;
 
-        this.form.populate(this.toFormValues(values));
+        this.controls.populate(this.toFormValues(values));
+
+        if (this.formState) {
+            this.formState.resetBaseline();
+        }
+
         return this;
     }
 
-    saveWorkingRow() {
+    buildRequestData(values) {
+        return this.toStorageValues(values);
+    }
+
+    beforeSubmit(context) {
+        this.saveWorkingRow(context.data);
+        return false;
+    }
+
+    saveWorkingRow(data) {
         const rows = FcRows.get(this.options.rowsKey);
         if (!rows) return null;
 
-        const existing = Number.isInteger(this.options.key)
-            ? rows.rows[this.options.key] || {}
+        const index = Number.isInteger(this.options.key)
+            ? this.options.key
+            : null;
+        const existing = Number.isInteger(index)
+            ? rows.rows[index] || {}
             : {};
-
-        return FcRows.upsertRow(
-            this.options.rowsKey,
-            this.options.key,
-            Object.assign(
-                {},
-                existing,
-                this.toStorageValues(this.form.read())
-            )
+        const values = data || this.buildRequestData(
+            this.serializeForm()
         );
+
+        const saved = FcRows.upsertRow(
+            this.options.rowsKey,
+            index,
+            Object.assign({}, existing, values)
+        );
+
+        if (saved && this.formState) {
+            this.formState.resetBaseline();
+        }
+
+        return saved;
+    }
+
+    shouldTrackDirty() {
+        return true;
     }
 
     toStorageValues(values) {
@@ -81,7 +110,7 @@ class FcTransactionForm {
     toFormValues(source) {
         source = source || {};
 
-        return this.form.keys().reduce((values, key) => {
+        return this.controls.keys().reduce((values, key) => {
             const field = FieldTranslator.field(key);
 
             values[key] = source[field] !== undefined
