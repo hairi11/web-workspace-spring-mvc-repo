@@ -31,6 +31,7 @@ module.exports = {
     NavigationState: require('./navigation/NavigationState'),
     Navigator: require('./button/Navigator'),
     NumberUtil: require('./util/NumberUtil'),
+    PageControls: require('./page/PageControls'),
     Router: require('./router/Router'),
     Renderers: require('./form/Renderers'),
     RowStore: require('./storage/RowStore'),
