@@ -1,6 +1,6 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
-import FcFields from '../FcFields.js';
+import FcComponentConfig from '../FcComponentConfig.js';
 import FcService from '../FcService.js';
 
 const {
@@ -18,7 +18,7 @@ let criteria = null;
 export function initEnquiry() {
     criteria = new FormControls(
         document,
-        FcFields.enquiry
+        FcComponentConfig.enquiry.fields
     ).build();
 
     table = prepareEnquiryTable();
@@ -47,8 +47,9 @@ async function prepareEnquiryCriteria() {
 }
 
 function prepareEnquiryTable() {
-
-    return new DataTableBuilder('#fcTable')
+    return new DataTableBuilder(
+        FcComponentConfig.enquiry.table.selector
+    )
         .serverPage((page, size, options) => FcService.enquiry(
             page,
             size,
@@ -159,7 +160,9 @@ function prepareEnquiryTable() {
 }
 
 function prepareEnquirySearch() {
-    const search = document.querySelector('#searchButton');
+    const search = document.querySelector(
+        FcComponentConfig.enquiry.buttons.search.selector
+    );
     if (!search) return;
 
     search.addEventListener('click', () => {
