@@ -1,6 +1,5 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
-import FcFields from '../FcFields.js';
 import FcService from '../FcService.js';
 
 const {
@@ -16,10 +15,7 @@ let table = null;
 let criteria = null;
 
 export function initEnquiry() {
-    criteria = new FormControls(
-        document,
-        FcFields.enquiry
-    ).build();
+    criteria = new FormControls(document).build();
 
     table = prepareEnquiryTable();
     prepareEnquiryCriteria();
