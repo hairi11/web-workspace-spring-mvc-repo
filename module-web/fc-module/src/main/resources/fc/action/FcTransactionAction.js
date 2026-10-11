@@ -19,14 +19,16 @@ class FcTransactionAction {
     }
 
     build() {
-        const count = this.rows ? this.rows.transactions.length : 0;
+        const transactions = this.rows
+            ? this.rows.transactions
+            : [];
 
         this.buttonBar = new ButtonBar('#transactionButtonBar')
             .navigator({
                 previous: '[data-action="previous"]',
                 next: '[data-action="next"]',
                 index: this.key,
-                count: count,
+                items: transactions,
                 beforeNavigate: () => this.form.saveDirtyRow(),
                 onNavigate: (targetIndex) => this.openRow(targetIndex)
             })
@@ -42,7 +44,7 @@ class FcTransactionAction {
                     onClick: async () => {
                         if (!await this.form.saveDirtyRow()) return;
 
-                        this.openCreate(count);
+                        this.openCreate(transactions.length);
                     }
                 },
                 {
