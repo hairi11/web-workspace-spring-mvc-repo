@@ -1,4 +1,5 @@
 const Modal = require('../../modal/Modal');
+const FormControls = require('../FormControls');
 
 function button(text, className, type) {
     var element = document.createElement('button');
@@ -8,16 +9,94 @@ function button(text, className, type) {
     return element;
 }
 
+function createField(config, index) {
+    config = config || {};
+
+    var group = document.createElement('div');
+    var label = document.createElement('label');
+    var field = document.createElement(
+        config.multiline ? 'textarea'
+            : (config.control === 'select' ? 'select' : 'input')
+    );
+    var name = config.name || ('field_' + index);
+    var id = config.id || ('form-dialog-' + name + '-' + index);
+
+    group.className = config.groupClassName || 'mb-3';
+
+    label.className = config.labelClassName || 'form-label';
+    label.htmlFor = id;
+    label.textContent = config.label || name;
+
+    field.id = id;
+    field.name = name;
+    field.className = config.className
+        || (config.control === 'select' ? 'form-select' : 'form-control');
+
+    if (field.tagName === 'INPUT') {
+        field.type = config.type || 'text';
+    }
+
+    if (field.tagName === 'TEXTAREA') {
+        field.rows = config.rows || 5;
+    }
+
+    if (config.control) {
+        field.dataset.control = config.control;
+    }
+
+    if (config.placeholder !== undefined) {
+        field.dataset.placeholder = config.placeholder;
+    }
+
+    if (config.allowClear !== undefined) {
+        field.dataset.allowClear = String(Boolean(config.allowClear));
+    }
+
+    if (config.required) {
+        field.required = true;
+    }
+
+    group.append(label, field);
+
+    return {
+        group: group,
+        field: field,
+        config: config
+    };
+}
+
+function createContent(fields) {
+    var content = document.createElement('div');
+    var entries = (fields || []).map(function (config, index) {
+        return createField(config, index);
+    });
+
+    entries.forEach(function (entry) {
+        content.appendChild(entry.group);
+    });
+
+    return {
+        content: content,
+        entries: entries
+    };
+}
+
 class FormDialog {
     static open(config) {
         config = config || {};
 
+        var generated = config.content
+            ? {content: config.content, entries: []}
+            : createContent(config.fields);
+
+        var content = generated.content;
+
         if (
-            !config.content
+            !content
             || typeof Node === 'undefined'
-            || !(config.content instanceof Node)
+            || !(content instanceof Node)
         ) {
-            throw new Error('FormDialog requires DOM node content.');
+            throw new Error('FormDialog requires content or fields.');
         }
 
         var actions = document.createElement('div');
@@ -36,10 +115,11 @@ class FormDialog {
         return new Promise(function (resolve, reject) {
             var submitting = false;
             var result = null;
+            var form = null;
 
             var modal = Modal.open({
                 title: config.title || '',
-                content: config.content,
+                content: content,
                 footer: actions,
                 size: config.size || 'md',
                 closable: config.closable,
@@ -52,8 +132,25 @@ class FormDialog {
                 }
             });
 
+            form = new FormControls(content).build();
+
+            generated.entries.forEach(function (entry) {
+                if (entry.config.control === 'select') {
+                    form.select(
+                        entry.field.name,
+                        entry.config.data || []
+                    );
+                }
+            });
+
+            form.dates().currencies();
+
+            if (config.values) {
+                form.populate(config.values);
+            }
+
             if (typeof config.onOpen === 'function') {
-                config.onOpen(config.content, modal);
+                config.onOpen(form, content, modal);
             }
 
             cancel.addEventListener('click', function () {
@@ -70,13 +167,19 @@ class FormDialog {
                     submit.disabled = true;
                     cancel.disabled = true;
 
+                    var values = form.read();
+
                     result = typeof config.onSubmit === 'function'
-                        ? await config.onSubmit(config.content, modal)
-                        : config.content;
+                        ? await config.onSubmit(values, form, modal)
+                        : values;
 
                     if (result === false) {
                         result = null;
                         return;
+                    }
+
+                    if (result === undefined) {
+                        result = values;
                     }
 
                     modal.close('submit');
@@ -96,7 +199,7 @@ class FormDialog {
             });
 
             modal.element.addEventListener('shown.bs.modal', function () {
-                var first = config.content.querySelector(
+                var first = content.querySelector(
                     'input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled])'
                 );
 
