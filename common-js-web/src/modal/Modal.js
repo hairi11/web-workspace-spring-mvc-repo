@@ -34,11 +34,6 @@ class Modal {
         root.tabIndex = -1;
         if (sizeClass) dialog.classList.add(sizeClass);
 
-        header.style.display = 'flex';
-        header.style.alignItems = 'center';
-        title.style.marginRight = 'auto';
-        close.style.marginLeft = 'auto';
-        close.style.marginRight = '0';
 
         title.id = 'common-modal-title-' + (++modalId);
         title.textContent = config.title || '';
