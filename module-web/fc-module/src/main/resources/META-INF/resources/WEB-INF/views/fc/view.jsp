@@ -259,13 +259,13 @@
         </aside>
     </div>
 
-    <div id="viewButtonBar" class="button-bar">
+    <div id="viewButtonBar" class="button-bar" data-component="button-bar">
         <div class="button-bar-nav">
-            <a id="previousButton" class="navigator-link" href="#" aria-label="Previous" title="Previous">
+            <a id="previousButton" data-action="previous" class="navigator-link" href="#" aria-label="Previous" title="Previous">
                 <span aria-hidden="true">&lt;&lt;</span>
                 <span>Previous</span>
             </a>
-            <a id="nextButton" class="navigator-link" href="#" aria-label="Next" title="Next">
+            <a id="nextButton" data-action="next" class="navigator-link" href="#" aria-label="Next" title="Next">
                 <span>Next</span>
                 <span aria-hidden="true">&gt;&gt;</span>
             </a>
@@ -273,6 +273,7 @@
 
         <a
             id="backButton"
+            data-action="back"
             class="btn btn-outline-secondary"
             href="${pageContext.request.contextPath}/fc/enquiry">
             Back
