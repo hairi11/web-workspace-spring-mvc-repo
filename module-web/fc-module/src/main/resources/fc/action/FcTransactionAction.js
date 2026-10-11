@@ -1,4 +1,5 @@
 import Common from '@company/common-js-web';
+import { TransactionMode } from '../FcConstants.js';
 
 const {
     ButtonBar,
@@ -69,7 +70,7 @@ class FcTransactionAction {
     openRow(targetIndex) {
         NavigationState.set({
             page: 'form',
-            action: 'edit',
+            action: TransactionMode.EDIT,
             key: targetIndex,
             rowsKey: this.rowsKey,
             returnTo: this.returnTo
@@ -81,7 +82,7 @@ class FcTransactionAction {
     openCreate(targetIndex) {
         NavigationState.set({
             page: 'form',
-            action: 'create',
+            action: TransactionMode.CREATE,
             key: targetIndex,
             rowsKey: this.rowsKey,
             values: this.pageConfig.seed,
