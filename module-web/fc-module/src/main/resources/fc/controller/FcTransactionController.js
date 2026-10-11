@@ -1,4 +1,5 @@
 import Common from '@company/common-js-web';
+import { TransactionMode } from '../FcConstants.js';
 import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 import FcTransactionAction from '../action/FcTransactionAction.js';
@@ -59,7 +60,7 @@ class FcTransactionController {
         const state = NavigationState.get() || {};
 
         return {
-            mode: state.action || 'create',
+            mode: state.action || TransactionMode.CREATE,
             key: Number.isInteger(state.key) ? state.key : null,
             rowsKey: state.rowsKey || null,
             values: state.values || {},
@@ -74,11 +75,11 @@ class FcTransactionController {
             ? FcRows.get(context.rowsKey)
             : null;
 
-        if (context.mode === 'edit' && !rows) {
+        if (TransactionMode.isEdit(context.mode) && !rows) {
             rows = await this.loadEdit(context);
         }
 
-        if (context.mode === 'create') {
+        if (TransactionMode.isCreate(context.mode)) {
             rows = this.loadCreate(context, rows);
         }
 
@@ -103,7 +104,7 @@ class FcTransactionController {
             rows: rows,
             transaction: transaction,
             pageConfig: {
-                title: context.mode === 'create'
+                title: TransactionMode.isCreate(context.mode)
                     ? 'Create FC Transaction'
                     : 'Edit FC Transaction',
                 seed: context.values
