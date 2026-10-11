@@ -21,7 +21,7 @@ class Modal {
         var content = node('div', 'modal-content');
         var header = node('div', 'modal-header');
         var title = node('h5', 'modal-title');
-        var close = node('button', 'btn-close');
+        var close = node('button', 'btn-close ms-auto');
         var body = node('div', 'modal-body');
         var sizeClass = {
             sm: 'modal-sm',
