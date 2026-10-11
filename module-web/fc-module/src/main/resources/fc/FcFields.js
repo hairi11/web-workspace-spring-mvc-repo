@@ -224,15 +224,15 @@ function dimension(name) {
 
 const FcFields = {
     enquiry: {
-        [FieldTranslator.field('date_value_6') + '_from']: {
+        date_value_6_from: {
             selector: '#date_value_6_from',
             control: 'date'
         },
-        [FieldTranslator.field('date_value_6') + '_to']: {
+        date_value_6_to: {
             selector: '#date_value_6_to',
             control: 'date'
         },
-        [FieldTranslator.field('string_value_33')]: {
+        string_value_33: {
             selector: '#string_value_33',
             control: 'select',
             parameter: 'string_value_33',
@@ -241,7 +241,7 @@ const FcFields = {
                 allowClear: true
             }
         },
-        [FieldTranslator.field('string_value_35')]: {
+        string_value_35: {
             selector: '#string_value_35',
             control: 'select',
             parameter: 'string_value_35',
