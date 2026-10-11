@@ -35,13 +35,9 @@ async function prepareEnquiryCriteria() {
     try {
         const parameters = await FcService.findParameters(FormType.PARAMETER);
 
-        criteria.selects((key, config) => {
-            const parameter = key === 'string_value_11'
-                ? 'string_value_11_iso'
-                : config.parameter;
-
-            return parameters[parameter] || [];
-        });
+        criteria.selects(
+            (key, config) => parameters[config.parameter] || []
+        );
     } catch (error) {
         Toast.error('Failed to load parameter list.');
         console.error(error);
