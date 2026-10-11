@@ -26,14 +26,22 @@
             <input id="dateTo" name="dateTo" type="text" autocomplete="off">
         </div>
         <div class="form-group">
-            <label for="fcCodeSelect">FC Code</label>
-            <select id="fcCodeSelect" aria-label="FC code" disabled>
+            <label for="string_value_33">FC Code</label>
+            <select
+                id="string_value_33"
+                name="string_value_33"
+                aria-label="FC code"
+                disabled>
                 <option value="">Loading FC codes...</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="fxCodeSelect">FX Code</label>
-            <select id="fxCodeSelect" aria-label="FX code" disabled>
+            <label for="string_value_35">FX Code</label>
+            <select
+                id="string_value_35"
+                name="string_value_35"
+                aria-label="FX code"
+                disabled>
                 <option value="">Loading FX codes...</option>
             </select>
         </div>
