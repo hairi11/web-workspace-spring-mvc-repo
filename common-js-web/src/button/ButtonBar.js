@@ -16,6 +16,8 @@ class ButtonBar {
         this.secondaryConfigs = [];
         this.navigatorConfig = null;
         this.buttons = [];
+        this.buttonMap = {};
+        this.createdElements = [];
         this.navigatorComponent = null;
         this.dropdown = null;
         this.group = null;
@@ -36,9 +38,13 @@ class ButtonBar {
 
     add(destination, config, variant) {
         asArray(config).filter(Boolean).forEach(function (item) {
-            if (!item.target) throw new Error('Button target is required.');
+            if (!item.target && !item.name) {
+                throw new Error('Button target or name is required.');
+            }
+
             destination.push({
-                target: item.target,
+                name: item.name || null,
+                target: item.target || null,
                 options: Object.assign({}, item, {variant: variant})
             });
         });
@@ -57,6 +63,8 @@ class ButtonBar {
             'flex-wrap', 'gap-2', 'mt-4', 'pt-3', 'border-top'
         );
 
+        this.prepareConfigs(this.primaryConfigs);
+        this.prepareConfigs(this.secondaryConfigs);
         this.buttons = this.buildButtons(this.primaryConfigs);
         this.buildSecondaries();
 
@@ -92,12 +100,41 @@ class ButtonBar {
         this.buildDropdown(visible);
     }
 
+    prepareConfigs(configs) {
+        configs.forEach((config) => {
+            if (config.target) return;
+
+            var element = document.createElement('button');
+            element.type = 'button';
+
+            if (config.name) {
+                element.dataset.action = config.name;
+            }
+
+            this.element.appendChild(element);
+            this.createdElements.push(element);
+            config.target = element;
+        });
+    }
+
     buildButtons(configs) {
         return configs.map((config) => {
             var button = new Button(config.target, config.options).build();
-            if (button.element) button.element.style.minWidth = '140px';
+
+            if (button.element) {
+                button.element.style.minWidth = '140px';
+            }
+
+            if (config.name) {
+                this.buttonMap[config.name] = button;
+            }
+
             return button;
         });
+    }
+
+    button(name) {
+        return this.buttonMap[name] || null;
     }
 
     buildDropdown(configs) {
@@ -143,6 +180,7 @@ class ButtonBar {
     destroy() {
         this.buttons.forEach((button) => button.destroy());
         this.buttons = [];
+        this.buttonMap = {};
 
         if (this.navigatorComponent) this.navigatorComponent.destroy();
         if (this.dropdown) this.dropdown.destroy();
@@ -150,6 +188,12 @@ class ButtonBar {
         this.navigatorComponent = null;
         this.dropdown = null;
         this.restoreGroup();
+
+        this.createdElements.forEach(function (element) {
+            if (element.parentNode) element.remove();
+        });
+        this.createdElements = [];
+
         this.element = null;
         return this;
     }
