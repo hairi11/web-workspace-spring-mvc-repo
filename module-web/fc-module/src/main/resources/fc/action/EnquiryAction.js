@@ -24,8 +24,12 @@ export function initEnquiry() {
 
 async function prepareEnquiryCriteria() {
     DatePicker.range(
-        FcFields.enquiry.dateFrom.selector,
-        FcFields.enquiry.dateTo.selector
+        FcFields.enquiry[
+            FieldTranslator.field('date_value_6') + '_from'
+        ].selector,
+        FcFields.enquiry[
+            FieldTranslator.field('date_value_6') + '_to'
+        ].selector
     );
 
     try {
