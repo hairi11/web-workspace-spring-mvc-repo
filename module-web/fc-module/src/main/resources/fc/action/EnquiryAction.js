@@ -5,46 +5,41 @@ import FcService from '../FcService.js';
 
 const {
     DataTableBuilder,
-    DatePicker,
     FieldTranslator,
     FormControls,
     NavigationState,
     Renderers,
-    Select2,
     Toast
 } = Common;
 
 let table = null;
+let criteria = null;
 
 export function initEnquiry() {
+    criteria = new FormControls(
+        document,
+        FcFields.enquiry
+    ).build();
+
     table = prepareEnquiryTable();
     prepareEnquiryCriteria();
     prepareEnquirySearch();
 }
 
 async function prepareEnquiryCriteria() {
-    DatePicker.range(
-        FcFields.enquiry[
-            FieldTranslator.field('date_value_6') + '_from'
-        ].selector,
-        FcFields.enquiry[
-            FieldTranslator.field('date_value_6') + '_to'
-        ].selector
+    const dateField = FieldTranslator.field('date_value_6');
+
+    criteria.dateRange(
+        dateField + '_from',
+        dateField + '_to'
     );
 
     try {
         const parameters = await FcService.findParameters(FormType.PARAMETER);
 
-        Object.values(FcFields.enquiry)
-            .filter((config) => config.parameter)
-            .forEach((config) => {
-                new Select2(config.selector, {
-                    placeholder: config.placeholder,
-                    allowClear: true
-                })
-                    .build()
-                    .load(parameters[config.parameter] || []);
-            });
+        criteria.selects(
+            (key, config) => parameters[config.parameter] || []
+        );
     } catch (error) {
         Toast.error('Failed to load parameter list.');
         console.error(error);
@@ -52,10 +47,6 @@ async function prepareEnquiryCriteria() {
 }
 
 function prepareEnquiryTable() {
-    const criteria = new FormControls(
-        document,
-        FcFields.enquiry
-    ).build();
 
     return new DataTableBuilder('#fcTable')
         .serverPage((page, size, options) => FcService.enquiry(
