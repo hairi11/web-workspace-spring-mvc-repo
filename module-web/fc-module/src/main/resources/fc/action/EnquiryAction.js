@@ -7,6 +7,7 @@ const {
     DataTableBuilder,
     FieldTranslator,
     FormControls,
+    FormDialog,
     NavigationState,
     PageControls,
     Renderers,
@@ -242,14 +243,83 @@ function editRecord(row) {
     window.location.href = './transaction/edit';
 }
 
-function createRecord() {
-    NavigationState.set({
-        page: 'form',
-        action: 'create',
-        returnTo: {
-            page: 'enquiry'
-        }
-    });
+async function createRecord() {
+    try {
+        const parameters = await FcService.findParameters(
+            FormType.PARAMETER
+        );
+        const content = createCreateDialogContent();
 
-    window.location.href = './transaction/create';
+        const form = new FormControls(content)
+            .build()
+            .select(
+                'string_value_13',
+                parameters[
+                    FieldTranslator.field('string_value_13')
+                ] || []
+            );
+
+        const result = await FormDialog.open({
+            title: 'Create Transaction',
+            content: content,
+            submitLabel: 'Create',
+            cancelLabel: 'Cancel',
+            onSubmit: () => {
+                const values = form.read();
+
+                if (!values.string_value_13) {
+                    Toast.warning(
+                        FieldTranslator.label('string_value_13')
+                        + ' is required.'
+                    );
+                    return false;
+                }
+
+                return values;
+            }
+        });
+
+        if (!result.submitted) return;
+
+        NavigationState.set({
+            page: 'form',
+            action: 'create',
+            values: result.value,
+            returnTo: {
+                page: 'enquiry'
+            }
+        });
+
+        window.location.href = './transaction/create';
+    } catch (error) {
+        Toast.error('Failed to open create transaction.');
+        console.error(error);
+    }
+}
+
+function createCreateDialogContent() {
+    const content = document.createElement('div');
+    const group = document.createElement('div');
+    const label = document.createElement('label');
+    const select = document.createElement('select');
+
+    const field = 'string_value_13';
+    const id = 'create-' + field;
+
+    group.className = 'mb-3';
+
+    label.className = 'form-label';
+    label.htmlFor = id;
+    label.textContent = FieldTranslator.label(field);
+
+    select.id = id;
+    select.name = field;
+    select.className = 'form-select';
+    select.dataset.control = 'select';
+    select.dataset.allowClear = 'true';
+
+    group.append(label, select);
+    content.appendChild(group);
+
+    return content;
 }
