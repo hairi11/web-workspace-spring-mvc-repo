@@ -135,8 +135,15 @@ class Select2 {
 
         element.empty();
 
-        if (placeholder || this.options.allowClear) {
-            element.append(new Option('', ''));
+        if (this.options.allowClear && !placeholder) {
+            placeholder = 'Select...';
+            this.options.placeholder = placeholder;
+        }
+
+        if (placeholder) {
+            var placeholderOption = new Option('', '', true, true);
+            placeholderOption.hidden = true;
+            element.append(placeholderOption);
         }
 
         items.forEach(function (item) {
