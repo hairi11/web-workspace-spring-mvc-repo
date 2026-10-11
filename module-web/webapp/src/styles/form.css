@@ -424,6 +424,10 @@ textarea:disabled {
 }
 
 
-.modal-body .select2-container--open {
-    z-index: 1080;
+.modal > .select2-container {
+    z-index: 1080 !important;
+}
+
+.modal .select2-dropdown {
+    z-index: 1080 !important;
 }
