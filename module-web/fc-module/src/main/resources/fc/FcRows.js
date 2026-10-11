@@ -73,6 +73,21 @@ const FcRows = {
         return this.save(value);
     },
 
+    removeRow(rowsKey, index) {
+        const value = this.get(rowsKey);
+        if (!value) return null;
+
+        if (
+            Number.isInteger(index)
+            && index >= 0
+            && index < value.rows.length
+        ) {
+            value.rows.splice(index, 1);
+        }
+
+        return this.save(value);
+    },
+
     get(rowsKey) {
         return store.get(rowsKey);
     },
