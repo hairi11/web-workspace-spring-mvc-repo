@@ -349,17 +349,7 @@
             </aside>
         </div>
 
-        <div id="transactionButtonBar" class="button-bar" data-component="button-bar">
-            <button id="saveButton" data-action="save" type="button" class="btn btn-primary">Save</button>
-            <button id="addButton" data-action="add" type="button" class="btn btn-outline-secondary">Add</button>
-            <a
-                id="cancelButton"
-                data-action="cancel"
-                class="btn btn-outline-secondary"
-                href="${pageContext.request.contextPath}/fc/enquiry">
-                Cancel
-            </a>
-        </div>
+        <div id="transactionButtonBar" class="button-bar" data-component="button-bar"></div>
     </form>
 </main>
 <script src="${pageContext.request.contextPath}/fc/FieldTranslator.local.js"></script>
