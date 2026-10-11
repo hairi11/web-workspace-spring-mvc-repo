@@ -160,6 +160,16 @@ function prepareEnquiryTable() {
             icon: 'fa fa-pen',
             onClick: editRecord
         })
+        .addAction({
+            text: 'Amend',
+            icon: 'fa fa-file-pen',
+            onClick: () => {}
+        })
+        .addAction({
+            text: 'Roll',
+            icon: 'fa fa-rotate',
+            onClick: () => {}
+        })
         .addAction({ divider: true })
         .addAction({
             text: 'Delete',
