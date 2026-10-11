@@ -1,6 +1,7 @@
 const ChoiceInput = require('../select/ChoiceInput');
 const CurrencyInput = require('../input/CurrencyInput');
 const DatePicker = require('../datepicker/DatePicker');
+const Select2 = require('../select/Select2');
 
 function fieldConfig(value) {
     if (typeof value === 'string') {
@@ -117,12 +118,45 @@ class FormControls {
         return this;
     }
 
+    dateRange(fromKey, toKey, options) {
+        const fromConfig = fieldConfig(this.fields[fromKey]);
+        const toConfig = fieldConfig(this.fields[toKey]);
+        const fromField = this.root.querySelector(fromConfig.selector);
+        const toField = this.root.querySelector(toConfig.selector);
+
+        if (!fromField || !toField) return this;
+
+        const range = DatePicker.range(fromField, toField, options);
+
+        this.components[fromKey] = range.from;
+        this.components[toKey] = range.to;
+        return this;
+    }
+
     currencies() {
         this.eachControl('currency', (key, config, field) => {
             this.components[key] = new CurrencyInput(
                 field,
                 config.controlOptions
             ).build();
+        });
+
+        return this;
+    }
+
+    selects(dataResolver) {
+        this.eachControl('select', (key, config, field) => {
+            const data = typeof dataResolver === 'function'
+                ? dataResolver(key, config, field)
+                : [];
+
+            this.components[key] = new Select2(
+                field,
+                config.controlOptions
+            )
+                .build()
+                .setData(data)
+                .enable();
         });
 
         return this;
