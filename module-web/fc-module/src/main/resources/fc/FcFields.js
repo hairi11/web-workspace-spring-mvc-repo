@@ -224,12 +224,12 @@ function dimension(name) {
 
 const FcFields = {
     enquiry: {
-        dateFrom: {
-            selector: '#dateFrom',
+        [FieldTranslator.field('date_value_6') + '_from']: {
+            selector: '#date_value_6_from',
             control: 'date'
         },
-        dateTo: {
-            selector: '#dateTo',
+        [FieldTranslator.field('date_value_6') + '_to']: {
+            selector: '#date_value_6_to',
             control: 'date'
         },
         [FieldTranslator.field('string_value_33')]: {
