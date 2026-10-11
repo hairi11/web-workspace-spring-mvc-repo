@@ -285,9 +285,7 @@ async function createRecord() {
         NavigationState.set({
             page: 'form',
             action: 'create',
-            values: {
-                [field]: result.value[translatedField]
-            },
+            values: result.value,
             returnTo: {
                 page: 'enquiry'
             }
