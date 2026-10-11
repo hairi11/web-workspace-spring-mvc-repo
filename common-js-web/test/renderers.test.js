@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const Renderers = require('../src/datatable/Renderers');
+const Renderers = require('../src/form/Renderers');
 
 test('amount renderer preserves large decimal precision', function () {
     const render = Renderers.amount();
