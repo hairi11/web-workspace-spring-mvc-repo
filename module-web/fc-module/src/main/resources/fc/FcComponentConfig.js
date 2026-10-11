@@ -17,9 +17,13 @@ const amountFormat4 = Renderers.amount({
 
 const fields = {
     string_value_1: {
-        dimensions: ['transaction', 'view'], dimensions: ['transaction', 'view'], selector: '#stringValue1' },
+        dimensions: ['transaction', 'view'],
+        selector: '#stringValue1'
+    },
     string_value_2: {
-        dimensions: ['transaction', 'view'], dimensions: ['transaction', 'view'], selector: '#stringValue2' },
+        dimensions: ['transaction', 'view'],
+        selector: '#stringValue2'
+    },
     string_value_3: {
         dimensions: ['transaction', 'view'],
         selector: '#stringValue3',
