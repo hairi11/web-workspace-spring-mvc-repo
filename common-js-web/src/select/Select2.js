@@ -75,6 +75,14 @@ class Select2 {
             return this;
         }
 
+        if (!this.options.dropdownParent) {
+            var modal = this.element.closest('.modal');
+
+            if (modal.length) {
+                this.options.dropdownParent = modal;
+            }
+        }
+
         this.element.select2(this.options);
         this.instance = this.element.data('select2') || null;
         return this;
