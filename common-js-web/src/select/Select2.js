@@ -77,10 +77,10 @@ class Select2 {
         }
 
         if (!this.options.dropdownParent) {
-            var modal = this.element.closest('.modal');
+            var modalBody = this.element.closest('.modal-body');
 
-            if (modal.length) {
-                this.options.dropdownParent = modal;
+            if (modalBody.length) {
+                this.options.dropdownParent = modalBody;
             }
         }
 
@@ -97,11 +97,13 @@ class Select2 {
             this.element.off('select2:open.commonJsModal', this.openHandler);
         }
 
-        var modal = this.element.closest('.modal');
-        if (!modal.length) return this;
+        var modalBody = this.element.closest('.modal-body');
+        if (!modalBody.length) return this;
 
         this.openHandler = function () {
-            window.jQuery('.select2-container--open').css('z-index', 1070);
+            modalBody
+                .find('.select2-container--open')
+                .css('z-index', 1080);
         };
 
         this.element.on('select2:open.commonJsModal', this.openHandler);
