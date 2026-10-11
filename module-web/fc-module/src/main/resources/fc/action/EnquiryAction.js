@@ -137,7 +137,7 @@ function prepareEnquiryTable() {
         .addAction({
             text: 'Delete',
             icon: 'fa fa-trash',
-            selection: 'multi',
+            selection: 'any',
             variant: 'danger',
             onClick: () => {}
         })
