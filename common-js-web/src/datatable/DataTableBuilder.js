@@ -132,10 +132,22 @@ class DataTableBuilder {
     }
 
     column(data, title, config) {
-        this.options.columns.push(Object.assign({
+        var options = Object.assign({
             data: data,
             title: title
-        }, config || {}));
+        }, config || {});
+
+        if (typeof options.render !== 'function') {
+            options.render = function (value, type) {
+                if (type && type !== 'display' && type !== 'filter') {
+                    return value;
+                }
+
+                return SecurityUtil.escapeHtml(value);
+            };
+        }
+
+        this.options.columns.push(options);
         return this;
     }
 
