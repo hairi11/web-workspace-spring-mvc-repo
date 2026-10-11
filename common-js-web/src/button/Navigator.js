@@ -5,7 +5,10 @@ class Navigator {
         this.nextElement = null;
         this.bindings = [];
         this.index = Number.isInteger(this.options.index) ? this.options.index : 0;
-        this.count = Navigator.count(this.options.count);
+        this.count = Navigator.resolveCount(
+            this.options.items,
+            this.options.count
+        );
         this.navigating = false;
     }
 
@@ -130,6 +133,12 @@ class Navigator {
         return typeof target === 'string'
             ? document.querySelector(target)
             : target || null;
+    }
+
+    static resolveCount(items, count) {
+        return Array.isArray(items)
+            ? items.length
+            : Navigator.count(count);
     }
 
     static count(value) {
