@@ -137,6 +137,14 @@ class ButtonBar {
         return this.buttonMap[name] || null;
     }
 
+    updateNavigator(index, count) {
+        if (this.navigatorComponent) {
+            this.navigatorComponent.update(index, count);
+        }
+
+        return this;
+    }
+
     buildDropdown(configs) {
         var dropdownButtons = configs.map((config) => {
             var options = Object.assign({}, config.options);
