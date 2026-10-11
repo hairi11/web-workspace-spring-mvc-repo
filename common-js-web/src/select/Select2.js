@@ -77,10 +77,10 @@ class Select2 {
         }
 
         if (!this.options.dropdownParent) {
-            var modalBody = this.element.closest('.modal-body');
+            var modal = this.element.closest('.modal');
 
-            if (modalBody.length) {
-                this.options.dropdownParent = modalBody;
+            if (modal.length) {
+                this.options.dropdownParent = modal;
             }
         }
 
@@ -97,12 +97,16 @@ class Select2 {
             this.element.off('select2:open.commonJsModal', this.openHandler);
         }
 
-        var modalBody = this.element.closest('.modal-body');
-        if (!modalBody.length) return this;
+        var modal = this.element.closest('.modal');
+        if (!modal.length) return this;
 
         this.openHandler = function () {
-            modalBody
-                .find('.select2-container--open')
+            modal
+                .children('.select2-container')
+                .css('z-index', 1080);
+
+            modal
+                .find('.select2-dropdown')
                 .css('z-index', 1080);
         };
 
