@@ -59,17 +59,17 @@ class FcTransactionForm extends FormAction {
     }
 
     buildRequestData(values) {
-        return this.toStorageValues(values);
+        return Object.fromEntries(
+            Object.entries(values || {}).map(([key, value]) => [
+                FieldTranslator.field(key),
+                value
+            ])
+        );
     }
 
     beforeSubmit(context) {
-        this.saveWorkingRow(context.data);
-        return false;
-    }
-
-    saveWorkingRow(data) {
         const rows = FcRows.get(this.options.rowsKey);
-        if (!rows) return null;
+        if (!rows) return false;
 
         const index = Number.isInteger(this.options.key)
             ? this.options.key
@@ -77,34 +77,53 @@ class FcTransactionForm extends FormAction {
         const existing = Number.isInteger(index)
             ? rows.rows[index] || {}
             : {};
-        const values = data || this.buildRequestData(
-            this.serializeForm()
+
+        FcRows.upsertRow(
+            this.options.rowsKey,
+            index,
+            Object.assign({}, existing, context.data)
         );
+
+        return false;
+    }
+
+    async saveDirtyRow() {
+        const values = this.serializeForm();
+        const validation = await this.validateForm(values);
+
+        if (!validation.valid) {
+            this.showValidationErrors(validation.errors);
+            return false;
+        }
+
+        this.clearValidationErrors();
+
+        const rows = FcRows.get(this.options.rowsKey);
+        if (!rows) return false;
+
+        const index = Number.isInteger(this.options.key)
+            ? this.options.key
+            : null;
+        const existing = Number.isInteger(index)
+            ? rows.rows[index] || {}
+            : {};
+        const data = this.buildRequestData(values);
 
         const saved = FcRows.upsertRow(
             this.options.rowsKey,
             index,
-            Object.assign({}, existing, values)
+            Object.assign({}, existing, data)
         );
 
         if (saved && this.formState) {
             this.formState.resetBaseline();
         }
 
-        return saved;
+        return Boolean(saved);
     }
 
     shouldTrackDirty() {
         return true;
-    }
-
-    toStorageValues(values) {
-        return Object.fromEntries(
-            Object.entries(values || {}).map(([key, value]) => [
-                FieldTranslator.field(key),
-                value
-            ])
-        );
     }
 
     toFormValues(source) {
