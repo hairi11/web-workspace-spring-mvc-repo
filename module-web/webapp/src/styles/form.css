@@ -422,3 +422,8 @@ textarea:disabled {
 #transactionButtonBar .dropdown-toggle.show::after {
     transform: rotate(180deg);
 }
+
+
+.modal-body .select2-container--open {
+    z-index: 1080;
+}
