@@ -1,5 +1,4 @@
 import Common from '@company/common-js-web';
-import FcFields from '../FcFields.js';
 import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 
@@ -22,10 +21,7 @@ export async function initView(state) {
             state.id
         );
 
-        const form = new FormControls(
-            document,
-            FcFields.view
-        )
+        const form = new FormControls(document)
             .build()
             .labels((key) => FieldTranslator.label(key));
 
@@ -34,7 +30,7 @@ export async function initView(state) {
             if (!row) return;
 
             form.populate(
-                Object.keys(FcFields.view).reduce((values, key) => {
+                form.keys().reduce((values, key) => {
                     const field = FieldTranslator.field(key);
 
                     values[key] = row[field] !== undefined
