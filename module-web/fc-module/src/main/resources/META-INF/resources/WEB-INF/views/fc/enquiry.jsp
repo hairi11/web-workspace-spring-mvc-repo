@@ -18,12 +18,20 @@
 
     <div class="form-row enquiry-criteria-row">
         <div class="form-group">
-            <label for="dateFrom">Date From</label>
-            <input id="dateFrom" name="dateFrom" type="text" autocomplete="off">
+            <label for="date_value_6_from">Date From</label>
+            <input
+                id="date_value_6_from"
+                name="date_value_6_from"
+                type="text"
+                autocomplete="off">
         </div>
         <div class="form-group">
-            <label for="dateTo">Date To</label>
-            <input id="dateTo" name="dateTo" type="text" autocomplete="off">
+            <label for="date_value_6_to">Date To</label>
+            <input
+                id="date_value_6_to"
+                name="date_value_6_to"
+                type="text"
+                autocomplete="off">
         </div>
         <div class="form-group">
             <label for="string_value_33">FC Code</label>
