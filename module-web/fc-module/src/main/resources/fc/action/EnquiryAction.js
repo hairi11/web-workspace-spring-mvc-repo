@@ -249,21 +249,23 @@ async function createRecord() {
             FormType.PARAMETER
         );
         const content = createCreateDialogContent();
-
-        const form = new FormControls(content)
-            .build()
-            .select(
-                'string_value_13',
-                parameters[
-                    FieldTranslator.field('string_value_13')
-                ] || []
-            );
+        let form = null;
 
         const result = await FormDialog.open({
             title: 'Create Transaction',
             content: content,
             submitLabel: 'Create',
             cancelLabel: 'Cancel',
+            onOpen: () => {
+                form = new FormControls(content)
+                    .build()
+                    .select(
+                        'string_value_13',
+                        parameters[
+                            FieldTranslator.field('string_value_13')
+                        ] || []
+                    );
+            },
             onSubmit: () => {
                 const values = form.read();
 
