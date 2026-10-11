@@ -33,8 +33,7 @@
                         <select
                             id="stringValue31"
                             name="string_value_31"
-                            class="form-control"
-                            data-field="string_value_31" data-control="choice">
+                            class="form-control" data-control="choice">
                         </select>
                     </div>
 
@@ -43,8 +42,7 @@
                         <select
                             id="stringValue33"
                             name="string_value_33"
-                            class="form-control"
-                            data-field="string_value_33" data-control="choice">
+                            class="form-control" data-control="choice">
                         </select>
                     </div>
 
@@ -53,8 +51,7 @@
                         <select
                             id="stringValue35"
                             name="string_value_35"
-                            class="form-control"
-                            data-field="string_value_35" data-control="choice">
+                            class="form-control" data-control="choice">
                         </select>
                     </div>
 
@@ -63,8 +60,7 @@
                         <select
                             id="stringValue18"
                             name="string_value_18"
-                            class="form-control"
-                            data-field="string_value_18" data-control="choice">
+                            class="form-control" data-control="choice">
                         </select>
                     </div>
 
@@ -95,8 +91,7 @@
                             <select
                                 id="stringValue11"
                                 name="string_value_11"
-                                class="form-control"
-                                data-field="string_value_11" data-control="choice">
+                                class="form-control" data-control="choice">
                             </select>
                         </div>
 
@@ -196,8 +191,7 @@
                     <select
                             id="stringValue3"
                             name="string_value_3"
-                            class="form-control"
-                            data-field="string_value_3" data-control="choice">
+                            class="form-control" data-control="choice">
                         </select>
                 </div>
 
@@ -241,8 +235,7 @@
                     <select
                             id="stringValue22"
                             name="string_value_22"
-                            class="form-control"
-                            data-field="string_value_22" data-control="choice">
+                            class="form-control" data-control="choice">
                         </select>
                 </div>
 
@@ -251,8 +244,7 @@
                     <select
                             id="stringValue25"
                             name="string_value_25"
-                            class="form-control"
-                            data-field="string_value_25" data-control="choice">
+                            class="form-control" data-control="choice">
                         </select>
                 </div>
 
