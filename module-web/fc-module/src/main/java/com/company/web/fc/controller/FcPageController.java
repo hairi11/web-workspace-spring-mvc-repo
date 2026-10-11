@@ -11,6 +11,11 @@ public class FcPageController {
         return "fc/enquiry";
     }
 
+    @GetMapping("/fc/master")
+    public String master() {
+        return "fc/master";
+    }
+
     @GetMapping("/fc/transaction/view")
     public String view() {
         return "fc/view";
