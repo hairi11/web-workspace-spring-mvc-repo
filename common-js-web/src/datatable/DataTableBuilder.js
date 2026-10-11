@@ -512,7 +512,7 @@ class DataTableBuilder {
                 name: self.toolbarButtonName(index),
                 text: self.renderActionLabel(action),
                 className: self.toolbarActionClass(action),
-                enabled: self.toolbarActionEnabled(action, 0),
+                enabled: self.actionEnabled(action, 0),
                 action: function (_event, dt) {
                     return self.runToolbarAction(action, dt);
                 }
@@ -568,7 +568,7 @@ class DataTableBuilder {
         this.options.layout = layout;
     }
 
-    toolbarActionEnabled(action, count) {
+    actionEnabled(action, count) {
         var selection = action.selection || 'none';
 
         if (selection === 'single') return count === 1;
@@ -584,7 +584,7 @@ class DataTableBuilder {
         var data = rows.data().toArray();
         var selection = action.selection || 'none';
 
-        if (!this.toolbarActionEnabled(action, data.length)) return;
+        if (!this.actionEnabled(action, data.length)) return;
 
         if (selection === 'single') {
             var row = dt.row({selected: true});
@@ -608,7 +608,7 @@ class DataTableBuilder {
             self.toolbarActions.forEach(function (action, index) {
                 self.table
                     .buttons(self.toolbarButtonName(index) + ':name')
-                    .enable(self.toolbarActionEnabled(action, count));
+                    .enable(self.actionEnabled(action, count));
             });
         };
 
@@ -636,10 +636,24 @@ class DataTableBuilder {
                 name: self.renderActionLabel(action),
                 isHtmlName: true,
                 className: className,
+                disabled: function () {
+                    var count = self.table
+                        ? self.table.rows({selected: true}).count()
+                        : 0;
+
+                    return !self.actionEnabled(action, count);
+                },
                 callback: function (_key, options) {
                     var row = self.table.row(options.$trigger);
 
-                    if (row && row.data() && typeof action.onClick === 'function') {
+                    var count = self.table.rows({selected: true}).count();
+
+                    if (
+                        self.actionEnabled(action, count)
+                        && row
+                        && row.data()
+                        && typeof action.onClick === 'function'
+                    ) {
                         return action.onClick(row.data(), row, self.table);
                     }
                 }
