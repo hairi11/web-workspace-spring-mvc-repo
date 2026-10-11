@@ -15,22 +15,27 @@ export async function initView(state) {
     const page = new PageControls(document).build();
 
     try {
-        const rowsKey = FcRows.load(
-            await FcService.findDetail(state.path, state.id)
-        ).rowsKey;
-
-        let currentIndex = FcRows.findIndex(
-            rowsKey,
+        const detail = await FcService.findDetail(
             state.path,
             state.id
         );
+        const transactions = resolveTransactions(detail);
+        const rows = FcRows.load({}, transactions);
+
+        let currentIndex = rows.transactions.findIndex(
+            (transaction) => transaction
+                && transaction.path === state.path
+                && transaction.id === state.id
+        );
+
+        if (currentIndex < 0) currentIndex = 0;
 
         const form = new FormControls(document)
             .build()
             .labels((key) => FieldTranslator.label(key));
 
         const populateCurrentRow = () => {
-            const row = FcRows.row(rowsKey, currentIndex);
+            const row = rows.transactions[currentIndex];
             if (!row) return;
 
             form.populate(
@@ -43,11 +48,11 @@ export async function initView(state) {
 
                     return values;
                 }, {}),
-                { target: 'text' }
+                {target: 'text'}
             );
         };
 
-        const count = FcRows.count(rowsKey);
+        const count = rows.transactions.length;
 
         new ButtonBar(page.component('button-bar'))
             .navigator({
@@ -65,7 +70,10 @@ export async function initView(state) {
                 target: page.action('back'),
                 text: 'Back',
                 placement: ButtonBar.Placement.END,
-                onClick: () => NavigationState.clear()
+                onClick: () => {
+                    FcRows.clear(rows.rowsKey);
+                    NavigationState.clear();
+                }
             })
             .build();
 
@@ -74,4 +82,17 @@ export async function initView(state) {
         Toast.error('Failed to load FC detail.');
         console.error(error);
     }
+}
+
+function resolveTransactions(response) {
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.data)) return response.data;
+    if (Array.isArray(response?.rows)) return response.rows;
+    if (Array.isArray(response?.data?.rows)) return response.data.rows;
+
+    const detail = response && response.data
+        ? response.data
+        : response;
+
+    return detail ? [detail] : [];
 }
