@@ -123,6 +123,18 @@ function prepareEnquiryTable() {
             onClick: editRecord
         })
         .addAction({
+            text: 'Amend',
+            icon: 'fa fa-file-pen',
+            selection: 'single',
+            onClick: () => {}
+        })
+        .addAction({
+            text: 'Roll',
+            icon: 'fa fa-rotate',
+            selection: 'single',
+            onClick: () => {}
+        })
+        .addAction({
             text: 'Delete',
             icon: 'fa fa-trash',
             selection: 'multi',
