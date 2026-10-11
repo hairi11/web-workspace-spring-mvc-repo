@@ -23,7 +23,7 @@
                 id="date_value_6_from"
                 name="date_value_6_from"
                 type="text"
-                autocomplete="off">
+                autocomplete="off" data-control="date">
         </div>
         <div class="form-group">
             <label for="date_value_6_to">Date To</label>
@@ -31,7 +31,7 @@
                 id="date_value_6_to"
                 name="date_value_6_to"
                 type="text"
-                autocomplete="off">
+                autocomplete="off" data-control="date">
         </div>
         <div class="form-group">
             <label for="string_value_33">FC Code</label>
@@ -39,7 +39,7 @@
                 id="string_value_33"
                 name="string_value_33"
                 aria-label="FC code"
-                disabled>
+                disabled data-control="select" data-parameter="string_value_33" data-placeholder="Select FC code" data-allow-clear="true">
                 <option value="">Loading FC codes...</option>
             </select>
         </div>
@@ -49,7 +49,7 @@
                 id="string_value_35"
                 name="string_value_35"
                 aria-label="FX code"
-                disabled>
+                disabled data-control="select" data-parameter="string_value_35" data-placeholder="Select FX code" data-allow-clear="true">
                 <option value="">Loading FX codes...</option>
             </select>
         </div>
