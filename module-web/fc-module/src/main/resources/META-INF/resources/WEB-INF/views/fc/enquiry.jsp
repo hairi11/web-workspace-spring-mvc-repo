@@ -57,6 +57,7 @@
             <button
                 class="btn btn-outline-secondary"
                 id="searchButton"
+                data-action="search"
                 type="button"
                 aria-label="Search"
                 title="Search">
