@@ -6,19 +6,23 @@ class FcMasterForm extends FormAction {
     constructor(selector, options) {
         super(selector);
         this.options = options || {};
-        this.rows = Array.isArray(this.options.rows)
-            ? this.options.rows
+        this.master = this.options.master || {};
+        this.transactions = Array.isArray(this.options.transactions)
+            ? this.options.transactions
             : [];
     }
 
-    setRows(rows) {
-        this.rows = Array.isArray(rows) ? rows : [];
+    setTransactions(transactions) {
+        this.transactions = Array.isArray(transactions)
+            ? transactions
+            : [];
         return this;
     }
 
     buildRequestData() {
         return {
-            rows: this.rows
+            master: this.master,
+            transactions: this.transactions
         };
     }
 
