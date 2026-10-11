@@ -6,6 +6,7 @@ const {
     ButtonBar,
     FieldTranslator,
     FormControls,
+    NavigationState,
     PageControls,
     Toast
 } = Common;
@@ -63,7 +64,8 @@ export async function initView(state) {
             .secondary({
                 target: page.action('back'),
                 text: 'Back',
-                placement: ButtonBar.Placement.END
+                placement: ButtonBar.Placement.END,
+                onClick: () => NavigationState.clear()
             })
             .build();
 
