@@ -7,6 +7,7 @@ const {
     ButtonBar,
     FieldTranslator,
     FormControls,
+    NavigationState,
     PageControls,
     Toast
 } = Common;
@@ -28,6 +29,7 @@ export async function initTransaction(state) {
                 name: 'cancel',
                 text: 'Cancel',
                 onClick: () => {
+                    NavigationState.clear();
                     window.location.href = '../enquiry';
                 }
             }
