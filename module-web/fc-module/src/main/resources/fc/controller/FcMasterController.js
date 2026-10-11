@@ -22,7 +22,8 @@ class FcMasterController {
             }
 
             const form = new FcMasterForm('#fcMasterForm', {
-                rows: data.rows,
+                master: data.master,
+                transactions: data.transactions,
                 rowsKey: context.rowsKey
             }).build();
 
@@ -30,7 +31,8 @@ class FcMasterController {
                 form: form,
                 mode: context.mode,
                 rowsKey: context.rowsKey,
-                rows: data.rows
+                master: data.master,
+                transactions: data.transactions
             })
                 .build()
                 .configure();
