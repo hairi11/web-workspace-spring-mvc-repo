@@ -114,7 +114,7 @@
                 <div class="transaction-detail-panel-body">
                     <div class="transaction-detail-row" data-field-key="string_value_12">
                         <label for="stringValue12">String 12</label>
-                        <input id="stringValue12" name="string_value_12" class="form-control" type="text" maxlength="1000">
+                        <textarea id="stringValue12" name="string_value_12" class="form-control" maxlength="1000"></textarea>
                     </div>
                 </div>
             </section>
@@ -140,12 +140,12 @@
 
                     <div class="transaction-detail-row" data-field-key="string_value_21">
                         <label for="stringValue21">String 21</label>
-                        <input id="stringValue21" name="string_value_21" class="form-control" type="text" maxlength="1000">
+                        <textarea id="stringValue21" name="string_value_21" class="form-control" maxlength="1000"></textarea>
                     </div>
 
                     <div class="transaction-detail-row" data-field-key="string_value_23">
                         <label for="stringValue23">String 23</label>
-                        <input id="stringValue23" name="string_value_23" class="form-control" type="text" maxlength="2000">
+                        <textarea id="stringValue23" name="string_value_23" class="form-control" maxlength="2000"></textarea>
                     </div>
 
                     <div class="transaction-detail-row" data-field-key="string_value_5">
@@ -197,7 +197,7 @@
 
                 <div class="form-group transaction-detail-field" data-field-key="string_value_4">
                     <label for="stringValue4">String 4</label>
-                    <input id="stringValue4" name="string_value_4" class="form-control" type="text" maxlength="2000">
+                    <textarea id="stringValue4" name="string_value_4" class="form-control" maxlength="2000"></textarea>
                 </div>
 
                 <div class="form-group transaction-detail-field" data-field-key="string_value_7">
@@ -305,46 +305,46 @@
 
             <div class="transaction-side-field" data-field-key="string_value_14">
                 <label for="stringValue14">String 14</label>
-                <input id="stringValue14" name="string_value_14" class="form-control" type="text" maxlength="2000">
+                <textarea id="stringValue14" name="string_value_14" class="form-control" maxlength="2000"></textarea>
             </div>
 
             <div class="transaction-side-field" data-field-key="string_value_30">
                 <label for="stringValue30">String 30</label>
-                <input id="stringValue30" name="string_value_30" class="form-control" type="text" maxlength="2000">
+                <textarea id="stringValue30" name="string_value_30" class="form-control" maxlength="2000"></textarea>
             </div>
 
             <div class="transaction-side-separator"></div>
 
             <div class="transaction-side-field" data-field-key="string_value_32">
                 <label for="stringValue32">String 32</label>
-                <input id="stringValue32" name="string_value_32" class="form-control" type="text" maxlength="2000">
+                <textarea id="stringValue32" name="string_value_32" class="form-control" maxlength="2000"></textarea>
             </div>
 
             <div class="transaction-side-field" data-field-key="string_value_34">
                 <label for="stringValue34">String 34</label>
-                <input id="stringValue34" name="string_value_34" class="form-control" type="text" maxlength="2000">
+                <textarea id="stringValue34" name="string_value_34" class="form-control" maxlength="2000"></textarea>
             </div>
 
             <div class="transaction-side-field" data-field-key="string_value_36">
                 <label for="stringValue36">String 36</label>
-                <input id="stringValue36" name="string_value_36" class="form-control" type="text" maxlength="2000">
+                <textarea id="stringValue36" name="string_value_36" class="form-control" maxlength="2000"></textarea>
             </div>
 
             <div class="transaction-side-field" data-field-key="string_value_19">
                 <label for="stringValue19">String 19</label>
-                <input id="stringValue19" name="string_value_19" class="form-control" type="text" maxlength="2000">
+                <textarea id="stringValue19" name="string_value_19" class="form-control" maxlength="2000"></textarea>
             </div>
 
             <div class="transaction-side-separator"></div>
 
             <div class="transaction-side-field" data-field-key="string_value_8">
                 <label for="stringValue8">String 8</label>
-                <input id="stringValue8" name="string_value_8" class="form-control" type="text" maxlength="2000">
+                <textarea id="stringValue8" name="string_value_8" class="form-control" maxlength="2000"></textarea>
             </div>
 
             <div class="transaction-side-field" data-field-key="string_value_26">
                 <label for="stringValue26">String 26</label>
-                <input id="stringValue26" name="string_value_26" class="form-control" type="text" maxlength="2000">
+                <textarea id="stringValue26" name="string_value_26" class="form-control" maxlength="2000"></textarea>
             </div>
             </aside>
         </div>
