@@ -19,7 +19,7 @@ class FcTransactionAction {
     }
 
     build() {
-        const count = this.rows ? this.rows.rows.length : 0;
+        const count = this.rows ? this.rows.transactions.length : 0;
 
         this.buttonBar = new ButtonBar('#transactionButtonBar')
             .navigator({
