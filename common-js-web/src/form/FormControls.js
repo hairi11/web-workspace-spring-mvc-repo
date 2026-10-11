@@ -212,19 +212,32 @@ class FormControls {
         return this;
     }
 
+    select(key, data) {
+        const config = fieldConfig(this.fields[key]);
+        const field = this.field(key);
+
+        if (!field || config.control !== 'select') {
+            return this;
+        }
+
+        this.components[key] = new Select2(
+            field,
+            config.controlOptions
+        )
+            .build()
+            .setData(data || [])
+            .enable();
+
+        return this;
+    }
+
     selects(dataResolver) {
         this.eachControl('select', (key, config, field) => {
             const data = typeof dataResolver === 'function'
                 ? dataResolver(key, config, field)
                 : [];
 
-            this.components[key] = new Select2(
-                field,
-                config.controlOptions
-            )
-                .build()
-                .setData(data)
-                .enable();
+            this.select(key, data);
         });
 
         return this;
