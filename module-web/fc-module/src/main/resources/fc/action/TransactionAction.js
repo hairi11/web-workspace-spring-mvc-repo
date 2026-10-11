@@ -16,17 +16,20 @@ export async function initTransaction(state) {
 
     new ButtonBar(page.component('button-bar'))
         .primary({
-            target: page.action('save'),
+            name: 'save',
             text: 'Save'
         })
         .secondary([
             {
-                target: page.action('add'),
+                name: 'add',
                 text: 'Add'
             },
             {
-                target: page.action('cancel'),
-                text: 'Cancel'
+                name: 'cancel',
+                text: 'Cancel',
+                onClick: () => {
+                    window.location.href = '../enquiry';
+                }
             }
         ])
         .build();
