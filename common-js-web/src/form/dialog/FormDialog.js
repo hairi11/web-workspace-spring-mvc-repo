@@ -52,6 +52,10 @@ class FormDialog {
                 }
             });
 
+            if (typeof config.onOpen === 'function') {
+                config.onOpen(config.content, modal);
+            }
+
             cancel.addEventListener('click', function () {
                 if (!submitting) {
                     modal.close('cancel');
