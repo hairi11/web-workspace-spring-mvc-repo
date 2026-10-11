@@ -43,44 +43,29 @@ class FcTransactionForm {
         return this;
     }
 
-    populate(row) {
-        if (!this.form) return this;
+    populate(values) {
+        if (!this.form || !values) return this;
 
-        this.form.populate(
-            this.toFormValues(row || {})
-        );
-
+        this.form.populate(this.toFormValues(values));
         return this;
     }
 
-    values() {
-        return this.form ? this.form.read() : {};
-    }
+    saveWorkingRow() {
+        const rows = FcRows.get(this.options.rowsKey);
+        if (!rows) return null;
 
-    saveWorkingRow(index) {
-        const current = FcRows.row(
-            this.options.rowsKey,
-            index
-        ) || {};
-
-        const row = Object.assign(
-            {},
-            current,
-            this.toStorageValues(this.values())
-        );
+        const existing = Number.isInteger(this.options.key)
+            ? rows.rows[this.options.key] || {}
+            : {};
 
         return FcRows.upsertRow(
             this.options.rowsKey,
-            index,
-            row
-        );
-    }
-
-    addWorkingRow(seed) {
-        return FcRows.upsertRow(
-            this.options.rowsKey,
-            null,
-            seed || {}
+            this.options.key,
+            Object.assign(
+                {},
+                existing,
+                this.toStorageValues(this.form.read())
+            )
         );
     }
 
