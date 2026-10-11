@@ -14,25 +14,25 @@ const {
 export async function initTransaction(state) {
     const page = new PageControls(document).build();
 
-    new ButtonBar(page.requireComponent('button-bar'))
+    new ButtonBar(page.component('button-bar'))
         .primary({
-            target: page.requireAction('save'),
+            target: page.action('save'),
             text: 'Save'
         })
         .secondary([
             {
-                target: page.requireAction('add'),
+                target: page.action('add'),
                 text: 'Add'
             },
             {
-                target: page.requireAction('cancel'),
+                target: page.action('cancel'),
                 text: 'Cancel'
             }
         ])
         .build();
 
     const form = new FormControls(
-        page.requireComponent('transaction-form')
+        page.component('transaction-form')
     )
         .build()
         .labels((key) => FieldTranslator.label(key));
