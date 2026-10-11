@@ -6,10 +6,13 @@ const {
     ButtonBar,
     FieldTranslator,
     FormControls,
+    PageControls,
     Toast
 } = Common;
 
 export async function initView(state) {
+    const page = new PageControls(document).build();
+
     try {
         const rowsKey = FcRows.load(
             await FcService.findDetail(state.path, state.id)
@@ -45,10 +48,10 @@ export async function initView(state) {
 
         const count = FcRows.count(rowsKey);
 
-        new ButtonBar('#viewButtonBar')
+        new ButtonBar(page.requireComponent('button-bar'))
             .navigator({
-                previous: '#previousButton',
-                next: '#nextButton',
+                previous: page.requireAction('previous'),
+                next: page.requireAction('next'),
                 index: currentIndex,
                 count: count,
                 hidden: count <= 1,
@@ -58,7 +61,7 @@ export async function initView(state) {
                 }
             })
             .secondary({
-                target: '#backButton',
+                target: page.requireAction('back'),
                 text: 'Back',
                 placement: ButtonBar.Placement.END
             })
