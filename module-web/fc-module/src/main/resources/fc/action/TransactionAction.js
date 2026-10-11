@@ -21,7 +21,7 @@ export async function initTransaction(state) {
         .labels((key) => FieldTranslator.label(key));
 
     let rowsKey = null;
-    let currentIndex = 0;
+    let key = 0;
     const seedValues = state.action === 'create'
         ? (state.values || {})
         : {};
@@ -29,13 +29,13 @@ export async function initTransaction(state) {
     try {
         const working = await prepareWorkingRows(state);
         rowsKey = working.rowsKey;
-        currentIndex = working.currentIndex;
+        key = working.key;
 
-        saveNavigationState(state, rowsKey, currentIndex);
+        saveNavigationState(state, rowsKey, key);
 
         const values = mapValues(
             form,
-            FcRows.row(rowsKey, currentIndex) || {}
+            FcRows.row(rowsKey, key) || {}
         );
 
         const parameters = await FcService.findParameters(
@@ -57,12 +57,33 @@ export async function initTransaction(state) {
                 values
             );
 
-        new ButtonBar(page.component('button-bar'))
+        const buttonBar = new ButtonBar(page.component('button-bar'))
+            .navigator({
+                previous: page.action('previous'),
+                next: page.action('next'),
+                index: key,
+                count: FcRows.count(rowsKey),
+                beforeNavigate: () => {
+                    saveCurrentRow(form, rowsKey, key);
+                    return true;
+                },
+                onNavigate: (targetIndex) => {
+                    key = targetIndex;
+
+                    saveNavigationState(
+                        state,
+                        rowsKey,
+                        key
+                    );
+
+                    populateRow(form, rowsKey, key);
+                }
+            })
             .primary({
                 name: 'save',
                 text: 'Save',
                 onClick: () => {
-                    saveCurrentRow(form, rowsKey, currentIndex);
+                    saveCurrentRow(form, rowsKey, key);
                     Toast.success('Transaction saved.');
                 }
             })
@@ -71,23 +92,26 @@ export async function initTransaction(state) {
                     name: 'add',
                     text: 'Add',
                     onClick: () => {
-                        saveCurrentRow(form, rowsKey, currentIndex);
+                        saveCurrentRow(form, rowsKey, key);
 
                         const added = FcRows.add(
                             rowsKey,
                             seedValues
                         );
 
-                        currentIndex = added.index;
+                        key = added.index;
 
                         saveNavigationState(
                             state,
                             rowsKey,
-                            currentIndex
+                            key
                         );
 
-                        form.populate(
-                            mapValues(form, seedValues)
+                        populateRow(form, rowsKey, key);
+
+                        buttonBar.updateNavigator(
+                            key,
+                            FcRows.count(rowsKey)
                         );
                     }
                 },
@@ -116,9 +140,11 @@ async function prepareWorkingRows(state) {
     if (state.rowsKey && FcRows.get(state.rowsKey)) {
         return {
             rowsKey: state.rowsKey,
-            currentIndex: Number.isInteger(state.currentIndex)
-                ? state.currentIndex
-                : 0
+            key: Number.isInteger(state.key)
+                ? state.key
+                : (Number.isInteger(state.currentIndex)
+                    ? state.currentIndex
+                    : 0)
         };
     }
 
@@ -143,7 +169,7 @@ async function prepareWorkingRows(state) {
 
         return {
             rowsKey: working.rowsKey,
-            currentIndex: 0
+            key: 0
         };
     }
 
@@ -151,17 +177,26 @@ async function prepareWorkingRows(state) {
 
     return {
         rowsKey: working.rowsKey,
-        currentIndex: 0
+        key: 0
     };
 }
 
-function saveCurrentRow(form, rowsKey, currentIndex) {
-    const current = FcRows.row(rowsKey, currentIndex) || {};
+function populateRow(form, rowsKey, key) {
+    form.populate(
+        mapValues(
+            form,
+            FcRows.row(rowsKey, key) || {}
+        )
+    );
+}
+
+function saveCurrentRow(form, rowsKey, key) {
+    const current = FcRows.row(rowsKey, key) || {};
     const values = translateValues(form.read());
 
     FcRows.update(
         rowsKey,
-        currentIndex,
+        key,
         Object.assign({}, current, values)
     );
 }
@@ -175,11 +210,14 @@ function translateValues(values) {
     );
 }
 
-function saveNavigationState(state, rowsKey, currentIndex) {
-    NavigationState.set(Object.assign({}, state, {
+function saveNavigationState(state, rowsKey, key) {
+    const next = Object.assign({}, state, {
         rowsKey: rowsKey,
-        currentIndex: currentIndex
-    }));
+        key: key
+    });
+
+    delete next.currentIndex;
+    NavigationState.set(next);
 }
 
 function mapValues(form, source) {
