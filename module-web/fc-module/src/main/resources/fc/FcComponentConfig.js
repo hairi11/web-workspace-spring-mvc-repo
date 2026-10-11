@@ -222,37 +222,88 @@ function dimension(name) {
     );
 }
 
-const FcFields = {
+const FcComponentConfig = {
     enquiry: {
-        [FieldTranslator.field('date_value_6') + '_from']: {
-            selector: '#date_value_6_from',
-            control: 'date'
-        },
-        [FieldTranslator.field('date_value_6') + '_to']: {
-            selector: '#date_value_6_to',
-            control: 'date'
-        },
-        [FieldTranslator.field('string_value_33')]: {
-            selector: '#string_value_33',
-            control: 'select',
-            parameter: 'string_value_33',
-            controlOptions: {
-                placeholder: 'Select FC code',
-                allowClear: true
+        fields: {
+            [FieldTranslator.field('date_value_6') + '_from']: {
+                selector: '#date_value_6_from',
+                control: 'date'
+            },
+            [FieldTranslator.field('date_value_6') + '_to']: {
+                selector: '#date_value_6_to',
+                control: 'date'
+            },
+            [FieldTranslator.field('string_value_33')]: {
+                selector: '#string_value_33',
+                control: 'select',
+                parameter: 'string_value_33',
+                controlOptions: {
+                    placeholder: 'Select FC code',
+                    allowClear: true
+                }
+            },
+            [FieldTranslator.field('string_value_35')]: {
+                selector: '#string_value_35',
+                control: 'select',
+                parameter: 'string_value_35',
+                controlOptions: {
+                    placeholder: 'Select FX code',
+                    allowClear: true
+                }
             }
         },
-        [FieldTranslator.field('string_value_35')]: {
-            selector: '#string_value_35',
-            control: 'select',
-            parameter: 'string_value_35',
-            controlOptions: {
-                placeholder: 'Select FX code',
-                allowClear: true
+        table: {
+            selector: '#fcTable'
+        },
+        buttons: {
+            search: {
+                selector: '#searchButton'
             }
         }
     },
-    transaction: dimension('transaction'),
-    view: dimension('view')
+
+    transaction: {
+        fields: dimension('transaction'),
+        form: {
+            selector: '#transactionForm'
+        },
+        buttonBar: {
+            selector: '#transactionButtonBar'
+        },
+        buttons: {
+            save: {
+                target: '#saveButton',
+                text: 'Save'
+            },
+            add: {
+                target: '#addButton',
+                text: 'Add'
+            },
+            cancel: {
+                target: '#cancelButton',
+                text: 'Cancel'
+            }
+        }
+    },
+
+    view: {
+        fields: dimension('view'),
+        buttonBar: {
+            selector: '#viewButtonBar'
+        },
+        buttons: {
+            previous: {
+                selector: '#previousButton'
+            },
+            next: {
+                selector: '#nextButton'
+            },
+            back: {
+                target: '#backButton',
+                text: 'Back'
+            }
+        }
+    }
 };
 
-export default FcFields;
+export default FcComponentConfig;
