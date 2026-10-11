@@ -9,23 +9,7 @@ new Router({
     resolveRoute: () => document.body?.dataset?.page
 })
     .route('enquiry', initEnquiry)
-    .route('transaction', () => new FcTransactionController().init(), {
-        context: () => NavigationState.get(),
-        guard: (state) => state != null
-            && (
-                state.action === 'create'
-                || (
-                    state.action === 'edit'
-                    && state.path != null
-                    && state.id != null
-                )
-            ),
-        warning: 'Invalid FC transaction navigation state.',
-        onGuardFail: (state, warning) => {
-            console.error(warning, state);
-            return false;
-        }
-    })
+    .route('transaction', () => new FcTransactionController().init())
     .route('view', initView, {
         context: () => NavigationState.get(),
         guard: (state) => state != null
