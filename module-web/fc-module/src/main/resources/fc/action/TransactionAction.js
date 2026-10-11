@@ -14,38 +14,29 @@ const {
 
 export async function initTransaction(state) {
     const page = new PageControls(document).build();
-
-    new ButtonBar(page.component('button-bar'))
-        .primary({
-            name: 'save',
-            text: 'Save'
-        })
-        .secondary([
-            {
-                name: 'add',
-                text: 'Add'
-            },
-            {
-                name: 'cancel',
-                text: 'Cancel',
-                onClick: () => {
-                    NavigationState.clear();
-                    window.location.href = '../enquiry';
-                }
-            }
-        ])
-        .build();
-
     const form = new FormControls(
         page.component('transaction-form')
     )
         .build()
         .labels((key) => FieldTranslator.label(key));
 
+    let rowsKey = null;
+    let currentIndex = 0;
+    const seedValues = state.action === 'create'
+        ? (state.values || {})
+        : {};
+
     try {
-        const values = state.action === 'edit'
-            ? await loadEditValues(form, state)
-            : mapValues(form, state.values || {});
+        const working = await prepareWorkingRows(state);
+        rowsKey = working.rowsKey;
+        currentIndex = working.currentIndex;
+
+        saveNavigationState(state, rowsKey, currentIndex);
+
+        const values = mapValues(
+            form,
+            FcRows.row(rowsKey, currentIndex) || {}
+        );
 
         const parameters = await FcService.findParameters(
             FormType.PARAMETER
@@ -65,6 +56,52 @@ export async function initTransaction(state) {
                 },
                 values
             );
+
+        new ButtonBar(page.component('button-bar'))
+            .primary({
+                name: 'save',
+                text: 'Save',
+                onClick: () => {
+                    saveCurrentRow(form, rowsKey, currentIndex);
+                    Toast.success('Transaction saved.');
+                }
+            })
+            .secondary([
+                {
+                    name: 'add',
+                    text: 'Add',
+                    onClick: () => {
+                        saveCurrentRow(form, rowsKey, currentIndex);
+
+                        const added = FcRows.add(
+                            rowsKey,
+                            seedValues
+                        );
+
+                        currentIndex = added.index;
+
+                        saveNavigationState(
+                            state,
+                            rowsKey,
+                            currentIndex
+                        );
+
+                        form.populate(
+                            mapValues(form, seedValues)
+                        );
+                    }
+                },
+                {
+                    name: 'cancel',
+                    text: 'Cancel',
+                    onClick: () => {
+                        FcRows.clear(rowsKey);
+                        NavigationState.clear();
+                        window.location.href = '../enquiry';
+                    }
+                }
+            ])
+            .build();
     } catch (error) {
         Toast.error(
             state.action === 'edit'
@@ -75,19 +112,74 @@ export async function initTransaction(state) {
     }
 }
 
-async function loadEditValues(form, state) {
-    const rowsKey = FcRows.load(
-        await FcService.findDetail(state.path, state.id)
-    ).rowsKey;
+async function prepareWorkingRows(state) {
+    if (state.rowsKey && FcRows.get(state.rowsKey)) {
+        return {
+            rowsKey: state.rowsKey,
+            currentIndex: Number.isInteger(state.currentIndex)
+                ? state.currentIndex
+                : 0
+        };
+    }
 
-    const row = FcRows.row(
+    if (state.action === 'edit') {
+        const loaded = FcRows.load(
+            await FcService.findDetail(state.path, state.id)
+        );
+
+        const selectedIndex = FcRows.findIndex(
+            loaded.rowsKey,
+            state.path,
+            state.id
+        );
+        const selected = FcRows.row(
+            loaded.rowsKey,
+            selectedIndex
+        ) || {};
+
+        FcRows.clear(loaded.rowsKey);
+
+        const working = FcRows.create(selected);
+
+        return {
+            rowsKey: working.rowsKey,
+            currentIndex: 0
+        };
+    }
+
+    const working = FcRows.create(state.values || {});
+
+    return {
+        rowsKey: working.rowsKey,
+        currentIndex: 0
+    };
+}
+
+function saveCurrentRow(form, rowsKey, currentIndex) {
+    const current = FcRows.row(rowsKey, currentIndex) || {};
+    const values = translateValues(form.read());
+
+    FcRows.update(
         rowsKey,
-        FcRows.findIndex(rowsKey, state.path, state.id)
+        currentIndex,
+        Object.assign({}, current, values)
     );
+}
 
-    if (!row) return {};
+function translateValues(values) {
+    return Object.fromEntries(
+        Object.entries(values || {}).map(([key, value]) => [
+            FieldTranslator.field(key),
+            value
+        ])
+    );
+}
 
-    return mapValues(form, row);
+function saveNavigationState(state, rowsKey, currentIndex) {
+    NavigationState.set(Object.assign({}, state, {
+        rowsKey: rowsKey,
+        currentIndex: currentIndex
+    }));
 }
 
 function mapValues(form, source) {
