@@ -153,27 +153,32 @@ function prepareEnquiryTable() {
         .addAction({
             text: 'View',
             icon: 'fa fa-eye',
+            selection: 'single',
             onClick: viewRecord
         })
         .addAction({
             text: 'Edit',
             icon: 'fa fa-pen',
+            selection: 'single',
             onClick: editRecord
         })
         .addAction({
             text: 'Amend',
             icon: 'fa fa-file-pen',
+            selection: 'single',
             onClick: () => {}
         })
         .addAction({
             text: 'Roll',
             icon: 'fa fa-rotate',
+            selection: 'single',
             onClick: () => {}
         })
         .addAction({ divider: true })
         .addAction({
             text: 'Delete',
             icon: 'fa fa-trash',
+            selection: 'any',
             onClick: () => {}
         })
         .build();
