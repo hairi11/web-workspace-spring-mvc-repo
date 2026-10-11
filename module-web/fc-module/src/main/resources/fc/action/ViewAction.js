@@ -48,10 +48,10 @@ export async function initView(state) {
 
         const count = FcRows.count(rowsKey);
 
-        new ButtonBar(page.requireComponent('button-bar'))
+        new ButtonBar(page.component('button-bar'))
             .navigator({
-                previous: page.requireAction('previous'),
-                next: page.requireAction('next'),
+                previous: page.action('previous'),
+                next: page.action('next'),
                 index: currentIndex,
                 count: count,
                 hidden: count <= 1,
@@ -61,7 +61,7 @@ export async function initView(state) {
                 }
             })
             .secondary({
-                target: page.requireAction('back'),
+                target: page.action('back'),
                 text: 'Back',
                 placement: ButtonBar.Placement.END
             })
