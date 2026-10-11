@@ -16,7 +16,7 @@
 
     <h1>FC Transaction</h1>
 
-    <form id="transactionForm" novalidate>
+    <form id="transactionForm" data-component="transaction-form" novalidate>
         <div class="fc-detail-layout">
             <div class="fc-detail-main">
             <section class="transaction-detail-panel">
@@ -349,11 +349,12 @@
             </aside>
         </div>
 
-        <div id="transactionButtonBar" class="button-bar">
-            <button id="saveButton" type="button" class="btn btn-primary">Save</button>
-            <button id="addButton" type="button" class="btn btn-outline-secondary">Add</button>
+        <div id="transactionButtonBar" class="button-bar" data-component="button-bar">
+            <button id="saveButton" data-action="save" type="button" class="btn btn-primary">Save</button>
+            <button id="addButton" data-action="add" type="button" class="btn btn-outline-secondary">Add</button>
             <a
                 id="cancelButton"
+                data-action="cancel"
                 class="btn btn-outline-secondary"
                 href="${pageContext.request.contextPath}/fc/enquiry">
                 Cancel
