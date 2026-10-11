@@ -56,37 +56,21 @@ const FcRows = {
         });
     },
 
-    update(rowsKey, index, row) {
+    upsertRow(rowsKey, index, row) {
         const value = this.get(rowsKey);
+        if (!value) return null;
 
         if (
-            !value
-            || !Number.isInteger(index)
-            || index < 0
-            || index >= value.rows.length
+            Number.isInteger(index)
+            && index >= 0
+            && index < value.rows.length
         ) {
-            throw new Error('Invalid FC row index.');
+            value.rows[index] = cloneRow(row);
+        } else {
+            value.rows.push(cloneRow(row));
         }
 
-        value.rows[index] = cloneRow(row);
         return this.save(value);
-    },
-
-    add(rowsKey, row) {
-        const value = this.get(rowsKey);
-
-        if (!value) {
-            throw new Error('FC rows not found: ' + rowsKey);
-        }
-
-        value.rows.push(cloneRow(row));
-        const saved = this.save(value);
-
-        return {
-            rowsKey: rowsKey,
-            index: saved.rows.length - 1,
-            rows: saved.rows
-        };
     },
 
     get(rowsKey) {
