@@ -2,7 +2,7 @@ const ChoiceInput = require('../select/ChoiceInput');
 const CurrencyInput = require('../input/CurrencyInput');
 const DatePicker = require('../datepicker/DatePicker');
 const Select2 = require('../select/Select2');
-const Renderers = require('../datatable/Renderers');
+const Renderers = require('./Renderers');
 
 function dataBoolean(value) {
     if (value === undefined) return undefined;
