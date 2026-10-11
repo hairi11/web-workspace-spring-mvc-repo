@@ -248,30 +248,30 @@ async function createRecord() {
         const parameters = await FcService.findParameters(
             FormType.PARAMETER
         );
-        const content = createCreateDialogContent();
-        let form = null;
+
+        const field = 'string_value_13';
 
         const result = await FormDialog.open({
             title: 'Create Transaction',
-            content: content,
             submitLabel: 'Create',
             cancelLabel: 'Cancel',
-            onOpen: () => {
-                form = new FormControls(content)
-                    .build()
-                    .select(
-                        'string_value_13',
-                        parameters[
-                            FieldTranslator.field('string_value_13')
-                        ] || []
-                    );
-            },
-            onSubmit: () => {
-                const values = form.read();
-
-                if (!values.string_value_13) {
+            fields: [
+                {
+                    name: field,
+                    label: FieldTranslator.label(field),
+                    control: 'select',
+                    data: parameters[
+                        FieldTranslator.field(field)
+                    ] || [],
+                    placeholder: 'Select ' + FieldTranslator.label(field),
+                    allowClear: true,
+                    required: true
+                }
+            ],
+            onSubmit: (values) => {
+                if (!values[field]) {
                     Toast.warning(
-                        FieldTranslator.label('string_value_13')
+                        FieldTranslator.label(field)
                         + ' is required.'
                     );
                     return false;
@@ -297,31 +297,4 @@ async function createRecord() {
         Toast.error('Failed to open create transaction.');
         console.error(error);
     }
-}
-
-function createCreateDialogContent() {
-    const content = document.createElement('div');
-    const group = document.createElement('div');
-    const label = document.createElement('label');
-    const select = document.createElement('select');
-
-    const field = 'string_value_13';
-    const id = 'create-' + field;
-
-    group.className = 'mb-3';
-
-    label.className = 'form-label';
-    label.htmlFor = id;
-    label.textContent = FieldTranslator.label(field);
-
-    select.id = id;
-    select.name = field;
-    select.className = 'form-select';
-    select.dataset.control = 'select';
-    select.dataset.allowClear = 'true';
-
-    group.append(label, select);
-    content.appendChild(group);
-
-    return content;
 }
