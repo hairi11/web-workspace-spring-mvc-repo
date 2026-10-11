@@ -1,5 +1,6 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
+import FcParameters from '../FcParameters.js';
 import FcService from '../FcService.js';
 
 const {
@@ -35,15 +36,13 @@ async function prepareEnquiryCriteria() {
     try {
         const parameters = await FcService.findParameters(FormType.PARAMETER);
 
-        criteria
-            .select(
-                'string_value_33',
-                parameters.string_value_33 || []
+        criteria.selects(
+            (key, config) => FcParameters.list(
+                parameters,
+                key,
+                config.parameter
             )
-            .select(
-                'string_value_35',
-                parameters.string_value_35 || []
-            );
+        );
     } catch (error) {
         Toast.error('Failed to load parameter list.');
         console.error(error);
