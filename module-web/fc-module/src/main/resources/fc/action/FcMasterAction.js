@@ -16,8 +16,8 @@ class FcMasterAction {
         this.form = options.form;
         this.mode = options.mode;
         this.rowsKey = options.rowsKey;
-        this.rows = Array.isArray(options.rows)
-            ? options.rows
+        this.transactions = Array.isArray(options.transactions)
+            ? options.transactions
             : [];
         this.table = null;
         this.addButton = null;
@@ -103,7 +103,7 @@ class FcMasterAction {
     }
 
     getRows() {
-        return this.rows.map((row, index) => Object.assign({}, row, {
+        return this.transactions.map((row, index) => Object.assign({}, row, {
             rowIndex: index,
             recordNo: row.recordNo || index + 1
         }));
@@ -137,14 +137,14 @@ class FcMasterAction {
 
         if (!confirmed) return;
 
-        const rows = FcRows.removeRow(
+        const rows = FcRows.removeTransaction(
             this.rowsKey,
             row.rowIndex
         );
         if (!rows) return;
 
-        this.rows = rows.rows;
-        this.form.setRows(this.rows);
+        this.transactions = rows.transactions;
+        this.form.setTransactions(this.transactions);
         this.table.replaceData(this.getRows(), false);
     }
 }
