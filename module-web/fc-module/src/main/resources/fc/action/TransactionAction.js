@@ -45,7 +45,7 @@ export async function initTransaction(state) {
     try {
         const values = state.action === 'edit'
             ? await loadEditValues(form, state)
-            : {};
+            : (state.values || {});
 
         const parameters = await FcService.findParameters(
             FormType.PARAMETER
