@@ -45,7 +45,7 @@ export async function initTransaction(state) {
     try {
         const values = state.action === 'edit'
             ? await loadEditValues(form, state)
-            : (state.values || {});
+            : mapValues(form, state.values || {});
 
         const parameters = await FcService.findParameters(
             FormType.PARAMETER
@@ -87,12 +87,18 @@ async function loadEditValues(form, state) {
 
     if (!row) return {};
 
+    return mapValues(form, row);
+}
+
+function mapValues(form, source) {
+    source = source || {};
+
     return form.keys().reduce((values, key) => {
         const field = FieldTranslator.field(key);
 
-        values[key] = row[field] !== undefined
-            ? row[field]
-            : row[key];
+        values[key] = source[field] !== undefined
+            ? source[field]
+            : source[key];
 
         return values;
     }, {});
