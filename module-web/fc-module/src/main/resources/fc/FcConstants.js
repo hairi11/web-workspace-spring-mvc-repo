@@ -1,3 +1,8 @@
+export const MasterMode = Object.freeze({
+    EDIT: 'edit',
+    VIEW: 'view'
+});
+
 export const FormType = Object.freeze({
     PARAMETER: 'FC_PARAMETER'
 });
