@@ -1,6 +1,6 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
-import FcFields from '../FcFields.js';
+import FcComponentConfig from '../FcComponentConfig.js';
 import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 
@@ -12,26 +12,19 @@ const {
 } = Common;
 
 export async function initTransaction(state) {
-    new ButtonBar('#transactionButtonBar')
-        .primary({
-            target: '#saveButton',
-            text: 'Save'
-        })
+    new ButtonBar(
+        FcComponentConfig.transaction.buttonBar.selector
+    )
+        .primary(FcComponentConfig.transaction.buttons.save)
         .secondary([
-            {
-                target: '#addButton',
-                text: 'Add'
-            },
-            {
-                target: '#cancelButton',
-                text: 'Cancel'
-            }
+            FcComponentConfig.transaction.buttons.add,
+            FcComponentConfig.transaction.buttons.cancel
         ])
         .build();
 
     const form = new FormControls(
-        '#transactionForm',
-        FcFields.transaction
+        FcComponentConfig.transaction.form.selector,
+        FcComponentConfig.transaction.fields
     )
         .build()
         .labels((key) => FieldTranslator.label(key));
@@ -77,7 +70,9 @@ async function loadEditValues(state) {
 
     if (!row) return {};
 
-    return Object.keys(FcFields.transaction).reduce((values, key) => {
+    return Object.keys(
+        FcComponentConfig.transaction.fields
+    ).reduce((values, key) => {
         const field = FieldTranslator.field(key);
 
         values[key] = row[field] !== undefined
