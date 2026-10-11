@@ -5,31 +5,19 @@ const { RowStore } = Common;
 const ROWS_KEY_PREFIX = 'fc.rows.';
 
 function newRowsKey() {
-    return 'view-' + crypto.randomUUID();
+    return 'new-' + crypto.randomUUID();
 }
 
-function cloneRow(row) {
-    return Object.assign({}, row || {});
-}
-
-function resolveRows(response) {
-    if (Array.isArray(response)) return response;
-    if (Array.isArray(response?.data)) return response.data;
-    if (Array.isArray(response?.rows)) return response.rows;
-    if (Array.isArray(response?.data?.rows)) return response.data.rows;
-
-    const detail = response && response.data
-        ? response.data
-        : response;
-
-    return detail ? [detail] : [];
+function cloneTransaction(transaction) {
+    return Object.assign({}, transaction || {});
 }
 
 function cloneRows(rows) {
     return {
         rowsKey: rows.rowsKey,
-        rows: Array.isArray(rows.rows)
-            ? rows.rows.map(cloneRow)
+        master: Object.assign({}, rows.master || {}),
+        transactions: Array.isArray(rows.transactions)
+            ? rows.transactions.map(cloneTransaction)
             : []
     };
 }
@@ -38,61 +26,32 @@ const store = new RowStore({
     prefix: ROWS_KEY_PREFIX,
     clone: cloneRows,
     validate: (rows, rowsKey) => rows.rowsKey === rowsKey
-        && Array.isArray(rows.rows)
+        && rows.master
+        && Array.isArray(rows.transactions)
 });
 
 const FcRows = {
-    load(response) {
+    create: function () {
         return this.save({
             rowsKey: newRowsKey(),
-            rows: resolveRows(response)
+            master: {},
+            transactions: []
         });
     },
 
-    create(row) {
+    load: function (master, transactions) {
         return this.save({
             rowsKey: newRowsKey(),
-            rows: [cloneRow(row)]
+            master: master || {},
+            transactions: transactions || []
         });
     },
 
-    upsertRow(rowsKey, index, row) {
-        const value = this.get(rowsKey);
-        if (!value) return null;
-
-        if (
-            Number.isInteger(index)
-            && index >= 0
-            && index < value.rows.length
-        ) {
-            value.rows[index] = cloneRow(row);
-        } else {
-            value.rows.push(cloneRow(row));
-        }
-
-        return this.save(value);
-    },
-
-    removeRow(rowsKey, index) {
-        const value = this.get(rowsKey);
-        if (!value) return null;
-
-        if (
-            Number.isInteger(index)
-            && index >= 0
-            && index < value.rows.length
-        ) {
-            value.rows.splice(index, 1);
-        }
-
-        return this.save(value);
-    },
-
-    get(rowsKey) {
+    get: function (rowsKey) {
         return store.get(rowsKey);
     },
 
-    save(rows) {
+    save: function (rows) {
         if (!rows || !rows.rowsKey) {
             throw new Error('FC rows key is required.');
         }
@@ -100,41 +59,40 @@ const FcRows = {
         return store.save(rows.rowsKey, rows);
     },
 
-    clear(rowsKey) {
+    clear: function (rowsKey) {
         store.clear(rowsKey);
     },
 
-    findIndex(rowsKey, path, id) {
-        const value = this.get(rowsKey);
-        if (!value) return 0;
-
-        const index = value.rows.findIndex(
-            (row) => row
-                && row.path === path
-                && row.id === id
-        );
-
-        return index < 0 ? 0 : index;
-    },
-
-    row(rowsKey, index) {
-        const value = this.get(rowsKey);
+    upsertTransaction: function (rowsKey, index, transaction) {
+        const rows = this.get(rowsKey);
+        if (!rows) return null;
 
         if (
-            !value
-            || !Number.isInteger(index)
-            || index < 0
-            || index >= value.rows.length
+            Number.isInteger(index)
+            && index >= 0
+            && index < rows.transactions.length
         ) {
-            return null;
+            rows.transactions[index] = cloneTransaction(transaction);
+        } else {
+            rows.transactions.push(cloneTransaction(transaction));
         }
 
-        return cloneRow(value.rows[index]);
+        return this.save(rows);
     },
 
-    count(rowsKey) {
-        const value = this.get(rowsKey);
-        return value ? value.rows.length : 0;
+    removeTransaction: function (rowsKey, index) {
+        const rows = this.get(rowsKey);
+        if (!rows) return null;
+
+        if (
+            Number.isInteger(index)
+            && index >= 0
+            && index < rows.transactions.length
+        ) {
+            rows.transactions.splice(index, 1);
+        }
+
+        return this.save(rows);
     }
 };
 
