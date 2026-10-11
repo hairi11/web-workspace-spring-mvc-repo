@@ -23,26 +23,25 @@ function dataFormat(field) {
         return Renderers.date(field.dataset.formatPattern);
     }
 
-    if (format === 'amount') {
-        return Renderers.amount({
-            minimumFractionDigits: dataNumber(
-                field.dataset.minimumFractionDigits
-            ),
-            maximumFractionDigits: dataNumber(
-                field.dataset.maximumFractionDigits
-            )
-        });
-    }
+    if (format === 'amount' || format === 'number') {
+        const options = {};
+        const minimumFractionDigits = dataNumber(
+            field.dataset.minimumFractionDigits
+        );
+        const maximumFractionDigits = dataNumber(
+            field.dataset.maximumFractionDigits
+        );
 
-    if (format === 'number') {
-        return Renderers.number({
-            minimumFractionDigits: dataNumber(
-                field.dataset.minimumFractionDigits
-            ),
-            maximumFractionDigits: dataNumber(
-                field.dataset.maximumFractionDigits
-            )
-        });
+        if (minimumFractionDigits !== undefined) {
+            options.minimumFractionDigits = minimumFractionDigits;
+        }
+        if (maximumFractionDigits !== undefined) {
+            options.maximumFractionDigits = maximumFractionDigits;
+        }
+
+        return format === 'amount'
+            ? Renderers.amount(options)
+            : Renderers.number(options);
     }
 
     return undefined;
