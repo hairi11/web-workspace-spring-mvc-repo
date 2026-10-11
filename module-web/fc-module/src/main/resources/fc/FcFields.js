@@ -234,13 +234,21 @@ const FcFields = {
         },
         [FieldTranslator.field('string_value_33')]: {
             selector: '#string_value_33',
+            control: 'select',
             parameter: 'string_value_33',
-            placeholder: 'Select FC code'
+            controlOptions: {
+                placeholder: 'Select FC code',
+                allowClear: true
+            }
         },
         [FieldTranslator.field('string_value_35')]: {
             selector: '#string_value_35',
+            control: 'select',
             parameter: 'string_value_35',
-            placeholder: 'Select FX code'
+            controlOptions: {
+                placeholder: 'Select FX code',
+                allowClear: true
+            }
         }
     },
     transaction: dimension('transaction'),
