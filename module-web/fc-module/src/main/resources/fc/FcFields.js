@@ -234,12 +234,12 @@ const FcFields = {
         },
         [FieldTranslator.field('string_value_33')]: {
             selector: '#string_value_33',
-            parameter: 'fcCode',
+            parameter: 'string_value_33',
             placeholder: 'Select FC code'
         },
         [FieldTranslator.field('string_value_35')]: {
             selector: '#string_value_35',
-            parameter: 'fxCode',
+            parameter: 'string_value_35',
             placeholder: 'Select FX code'
         }
     },
