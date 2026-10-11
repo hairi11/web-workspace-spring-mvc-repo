@@ -75,10 +75,10 @@ class FcTransactionForm extends FormAction {
             ? this.options.key
             : null;
         const existing = Number.isInteger(index)
-            ? rows.rows[index] || {}
+            ? rows.transactions[index] || {}
             : {};
 
-        FcRows.upsertRow(
+        FcRows.upsertTransaction(
             this.options.rowsKey,
             index,
             Object.assign({}, existing, context.data)
@@ -105,11 +105,11 @@ class FcTransactionForm extends FormAction {
             ? this.options.key
             : null;
         const existing = Number.isInteger(index)
-            ? rows.rows[index] || {}
+            ? rows.transactions[index] || {}
             : {};
         const data = this.buildRequestData(values);
 
-        const saved = FcRows.upsertRow(
+        const saved = FcRows.upsertTransaction(
             this.options.rowsKey,
             index,
             Object.assign({}, existing, data)
