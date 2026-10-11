@@ -24,22 +24,22 @@
                 <div class="view-detail-panel-body">
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>Date 2</div>
-                        <div id="dateValue2" class="view-detail-value"></div>
+                        <div id="dateValue2" class="view-detail-value" data-field="date_value_2" data-format="date"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>String 11</div>
-                        <div id="stringValue11" class="view-detail-value"></div>
+                        <div id="stringValue11" class="view-detail-value" data-field="string_value_11"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>Amount 2</div>
-                        <div id="amountValue2" class="view-detail-value"></div>
+                        <div id="amountValue2" class="view-detail-value" data-field="amount_value_2" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>Amount</div>
-                        <div id="amountValue" class="view-detail-value"></div>
+                        <div id="amountValue" class="view-detail-value" data-field="amount_value" data-format="amount" data-minimum-fraction-digits="6" data-maximum-fraction-digits="6"></div>
                     </div>
                 </div>
             </section>
@@ -50,7 +50,7 @@
                 <div class="view-detail-panel-body">
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>String 12</div>
-                        <div id="stringValue12" class="view-detail-value"></div>
+                        <div id="stringValue12" class="view-detail-value" data-field="string_value_12"></div>
                     </div>
                 </div>
             </section>
@@ -61,57 +61,57 @@
                 <div class="view-detail-panel-body">
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>String 20</div>
-                        <div id="stringValue20" class="view-detail-value"></div>
+                        <div id="stringValue20" class="view-detail-value" data-field="string_value_20"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>String 24</div>
-                        <div id="stringValue24" class="view-detail-value"></div>
+                        <div id="stringValue24" class="view-detail-value" data-field="string_value_24"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>String 28</div>
-                        <div id="stringValue28" class="view-detail-value"></div>
+                        <div id="stringValue28" class="view-detail-value" data-field="string_value_28"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>String 21</div>
-                        <div id="stringValue21" class="view-detail-value"></div>
+                        <div id="stringValue21" class="view-detail-value" data-field="string_value_21"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>String 23</div>
-                        <div id="stringValue23" class="view-detail-value"></div>
+                        <div id="stringValue23" class="view-detail-value" data-field="string_value_23"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>String 5</div>
-                        <div id="stringValue5" class="view-detail-value"></div>
+                        <div id="stringValue5" class="view-detail-value" data-field="string_value_5"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>Amount 3</div>
-                        <div id="amountValue3" class="view-detail-value"></div>
+                        <div id="amountValue3" class="view-detail-value" data-field="amount_value_3" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>Amount 6</div>
-                        <div id="amountValue6" class="view-detail-value"></div>
+                        <div id="amountValue6" class="view-detail-value" data-field="amount_value_6" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>Amount 5</div>
-                        <div id="amountValue5" class="view-detail-value"></div>
+                        <div id="amountValue5" class="view-detail-value" data-field="amount_value_5" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>Amount 7</div>
-                        <div id="amountValue7" class="view-detail-value"></div>
+                        <div id="amountValue7" class="view-detail-value" data-field="amount_value_7" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4"></div>
                     </div>
 
                     <div class="view-detail-panel-row">
                         <div class="view-detail-panel-label" data-form-label>Amount 4</div>
-                        <div id="amountValue4" class="view-detail-value"></div>
+                        <div id="amountValue4" class="view-detail-value" data-field="amount_value_4" data-format="amount" data-minimum-fraction-digits="4" data-maximum-fraction-digits="4"></div>
                     </div>
                 </div>
             </section>
@@ -120,67 +120,67 @@
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue1">String 1</label>
-                <div id="stringValue1" class="view-detail-value"></div>
+                <div id="stringValue1" class="view-detail-value" data-field="string_value_1"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue3">String 3</label>
-                <div id="stringValue3" class="view-detail-value"></div>
+                <div id="stringValue3" class="view-detail-value" data-field="string_value_3"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue4">String 4</label>
-                <div id="stringValue4" class="view-detail-value"></div>
+                <div id="stringValue4" class="view-detail-value" data-field="string_value_4"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue7">String 7</label>
-                <div id="stringValue7" class="view-detail-value"></div>
+                <div id="stringValue7" class="view-detail-value" data-field="string_value_7"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue9">String 9</label>
-                <div id="stringValue9" class="view-detail-value"></div>
+                <div id="stringValue9" class="view-detail-value" data-field="string_value_9"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue13">String 13</label>
-                <div id="stringValue13" class="view-detail-value"></div>
+                <div id="stringValue13" class="view-detail-value" data-field="string_value_13"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="integerValue">Integer</label>
-                <div id="integerValue" class="view-detail-value"></div>
+                <div id="integerValue" class="view-detail-value" data-field="integer_value" data-format="number" data-maximum-fraction-digits="0"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue16">String 16</label>
-                <div id="stringValue16" class="view-detail-value"></div>
+                <div id="stringValue16" class="view-detail-value" data-field="string_value_16"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue17">String 17</label>
-                <div id="stringValue17" class="view-detail-value"></div>
+                <div id="stringValue17" class="view-detail-value" data-field="string_value_17"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue22">String 22</label>
-                <div id="stringValue22" class="view-detail-value"></div>
+                <div id="stringValue22" class="view-detail-value" data-field="string_value_22"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="dateValue3">Date 3</label>
-                <div id="dateValue3" class="view-detail-value"></div>
+                <div id="dateValue3" class="view-detail-value" data-field="date_value_3" data-format="date"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="stringValue27">String 27</label>
-                <div id="stringValue27" class="view-detail-value"></div>
+                <div id="stringValue27" class="view-detail-value" data-field="string_value_27"></div>
                 </div>
 
                 <div class="form-group view-detail-field">
                 <label for="dateValue5">Date 5</label>
-                <div id="dateValue5" class="view-detail-value"></div>
+                <div id="dateValue5" class="view-detail-value" data-field="date_value_5" data-format="date"></div>
                 </div>
             </div>
         </div>
@@ -188,73 +188,73 @@
         <aside class="fc-detail-side">
             <div class="view-detail-side-field">
                 <label for="stringValue15">String 15</label>
-                <div id="stringValue15" class="view-detail-value"></div>
+                <div id="stringValue15" class="view-detail-value" data-field="string_value_15"></div>
             </div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue6">String 6</label>
-                <div id="stringValue6" class="view-detail-value"></div>
+                <div id="stringValue6" class="view-detail-value" data-field="string_value_6"></div>
             </div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue2">String 2</label>
-                <div id="stringValue2" class="view-detail-value"></div>
+                <div id="stringValue2" class="view-detail-value" data-field="string_value_2"></div>
             </div>
 
             <div class="view-detail-side-separator"></div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue14">String 14</label>
-                <div id="stringValue14" class="view-detail-value"></div>
+                <div id="stringValue14" class="view-detail-value" data-field="string_value_14"></div>
             </div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue30">String 30</label>
-                <div id="stringValue30" class="view-detail-value"></div>
+                <div id="stringValue30" class="view-detail-value" data-field="string_value_30"></div>
             </div>
 
             <div class="view-detail-side-separator"></div>
 
             <div class="view-detail-side-field">
                 <label for="dateValue4">Date 4</label>
-                <div id="dateValue4" class="view-detail-value"></div>
+                <div id="dateValue4" class="view-detail-value" data-field="date_value_4" data-format="date"></div>
             </div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue32">String 32</label>
-                <div id="stringValue32" class="view-detail-value"></div>
+                <div id="stringValue32" class="view-detail-value" data-field="string_value_32"></div>
             </div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue34">String 34</label>
-                <div id="stringValue34" class="view-detail-value"></div>
+                <div id="stringValue34" class="view-detail-value" data-field="string_value_34"></div>
             </div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue36">String 36</label>
-                <div id="stringValue36" class="view-detail-value"></div>
+                <div id="stringValue36" class="view-detail-value" data-field="string_value_36"></div>
             </div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue19">String 19</label>
-                <div id="stringValue19" class="view-detail-value"></div>
+                <div id="stringValue19" class="view-detail-value" data-field="string_value_19"></div>
             </div>
 
             <div class="view-detail-side-field">
                 <label for="dateValue6">Date 6</label>
-                <div id="dateValue6" class="view-detail-value"></div>
+                <div id="dateValue6" class="view-detail-value" data-field="date_value_6" data-format="date"></div>
             </div>
 
             <div class="view-detail-side-separator"></div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue8">String 8</label>
-                <div id="stringValue8" class="view-detail-value"></div>
+                <div id="stringValue8" class="view-detail-value" data-field="string_value_8"></div>
             </div>
 
             <div class="view-detail-side-field">
                 <label for="stringValue26">String 26</label>
-                <div id="stringValue26" class="view-detail-value"></div>
+                <div id="stringValue26" class="view-detail-value" data-field="string_value_26"></div>
             </div>
         </aside>
     </div>
