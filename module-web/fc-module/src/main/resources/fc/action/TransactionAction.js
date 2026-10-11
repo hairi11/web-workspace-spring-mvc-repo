@@ -1,6 +1,5 @@
 import Common from '@company/common-js-web';
 import { FormType } from '../FcConstants.js';
-import FcParameters from '../FcParameters.js';
 import FcRows from '../FcRows.js';
 import FcService from '../FcService.js';
 
@@ -55,11 +54,13 @@ export async function initTransaction(state) {
             .dates()
             .currencies()
             .choices(
-                (key) => FcParameters.list(
-                    parameters,
-                    key,
-                    FieldTranslator.field(key)
-                ),
+                (key) => {
+                    const parameter = key === 'string_value_11'
+                        ? 'string_value_11_iso'
+                        : FieldTranslator.field(key);
+
+                    return parameters[parameter] || [];
+                },
                 values
             );
     } catch (error) {
