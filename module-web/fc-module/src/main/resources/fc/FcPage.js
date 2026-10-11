@@ -1,6 +1,6 @@
 import Common from '@company/common-js-web';
 import { initEnquiry } from './action/EnquiryAction.js';
-import { initTransaction } from './action/TransactionAction.js';
+import FcTransactionController from './controller/FcTransactionController.js';
 import { initView } from './action/ViewAction.js';
 
 const { NavigationState, Router } = Common;
@@ -9,7 +9,7 @@ new Router({
     resolveRoute: () => document.body?.dataset?.page
 })
     .route('enquiry', initEnquiry)
-    .route('transaction', initTransaction, {
+    .route('transaction', () => new FcTransactionController().init(), {
         context: () => NavigationState.get(),
         guard: (state) => state != null
             && (
