@@ -10,7 +10,7 @@ new Router({
 })
     .route('enquiry', initEnquiry)
     .route('transaction', initTransaction, {
-        context: () => NavigationState.consume(),
+        context: () => NavigationState.get(),
         guard: (state) => state != null
             && (
                 state.action === 'create'
@@ -27,7 +27,7 @@ new Router({
         }
     })
     .route('view', initView, {
-        context: () => NavigationState.consume(),
+        context: () => NavigationState.get(),
         guard: (state) => state != null
             && state.action === 'view'
             && state.path != null
