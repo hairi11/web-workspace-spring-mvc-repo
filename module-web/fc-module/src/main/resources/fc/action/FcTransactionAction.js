@@ -26,20 +26,20 @@ class FcTransactionAction {
                 next: '[data-action="next"]',
                 index: this.key,
                 count: count,
-                beforeNavigate: () => this.form.saveWorkingRow(),
+                beforeNavigate: () => this.form.saveDirtyRow(),
                 onNavigate: (targetIndex) => this.openRow(targetIndex)
             })
             .primary({
                 name: 'save',
                 text: 'Save',
-                onClick: () => this.form.saveWorkingRow()
+                onClick: () => this.form.execute()
             })
             .secondary([
                 {
                     name: 'add',
                     text: 'Add',
-                    onClick: () => {
-                        if (!this.form.saveWorkingRow()) return;
+                    onClick: async () => {
+                        if (!await this.form.saveDirtyRow()) return;
 
                         this.openCreate(count);
                     }
