@@ -27,11 +27,9 @@ export function initEnquiry() {
 }
 
 async function prepareEnquiryCriteria() {
-    const dateField = FieldTranslator.field('date_value_6');
-
     criteria.dateRange(
-        dateField + '_from',
-        dateField + '_to'
+        'date_value_6_from',
+        'date_value_6_to'
     );
 
     try {
@@ -52,7 +50,7 @@ function prepareEnquiryTable() {
             page,
             size,
             options.sort,
-            criteria.read()
+            translateCriteria(criteria.read())
         ), {
             pageLength: 20,
             onError: (error) => {
@@ -155,6 +153,19 @@ function prepareEnquiryTable() {
             onClick: () => {}
         })
         .build();
+}
+
+function translateCriteria(values) {
+    return Object.fromEntries(
+        Object.entries(values).map(([key, value]) => {
+            const match = key.match(/^(.*?)(_from|_to)$/);
+            const field = match
+                ? FieldTranslator.field(match[1]) + match[2]
+                : FieldTranslator.field(key);
+
+            return [field, value];
+        })
+    );
 }
 
 function prepareEnquirySearch() {
