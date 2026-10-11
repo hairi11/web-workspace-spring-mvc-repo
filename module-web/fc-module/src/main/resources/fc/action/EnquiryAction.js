@@ -250,6 +250,7 @@ async function createRecord() {
         );
 
         const field = 'string_value_13';
+        const translatedField = FieldTranslator.field(field);
 
         const result = await FormDialog.open({
             title: 'Create Transaction',
@@ -257,19 +258,17 @@ async function createRecord() {
             cancelLabel: 'Cancel',
             fields: [
                 {
-                    name: field,
+                    name: translatedField,
                     label: FieldTranslator.label(field),
                     control: 'select',
-                    data: parameters[
-                        FieldTranslator.field(field)
-                    ] || [],
+                    data: parameters[translatedField] || [],
                     placeholder: 'Select ' + FieldTranslator.label(field),
                     allowClear: true,
                     required: true
                 }
             ],
             onSubmit: (values) => {
-                if (!values[field]) {
+                if (!values[translatedField]) {
                     Toast.warning(
                         FieldTranslator.label(field)
                         + ' is required.'
@@ -286,7 +285,9 @@ async function createRecord() {
         NavigationState.set({
             page: 'form',
             action: 'create',
-            values: result.value,
+            values: {
+                [field]: result.value[translatedField]
+            },
             returnTo: {
                 page: 'enquiry'
             }
